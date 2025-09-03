@@ -17,16 +17,10 @@ public class MainActivity extends AppCompatActivity {
     ImageView imgBidon;
     ImageView imgBouteille;
     ImageView imgVerre;
-
     TextView textmL;
-
     ProgressBar progressBar;
 
-
     int quantity;
-
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
