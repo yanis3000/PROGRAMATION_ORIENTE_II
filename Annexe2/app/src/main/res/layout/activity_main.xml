@@ -44,7 +44,7 @@
         android:id="@+id/textView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="36dp"
+        android:layout_marginStart="44dp"
         android:layout_marginTop="320dp"
         android:text="Solde:"
         android:textSize="16sp"
@@ -64,10 +64,10 @@
 
     <EditText
         android:id="@+id/textDe"
-        android:layout_width="253dp"
-        android:layout_height="67dp"
-        android:layout_marginTop="156dp"
-        android:layout_marginEnd="68dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="176dp"
+        android:layout_marginEnd="56dp"
         android:ems="10"
         android:inputType="text"
         app:layout_constraintEnd_toEndOf="parent"
@@ -75,10 +75,10 @@
 
     <EditText
         android:id="@+id/textTransfert"
-        android:layout_width="230dp"
-        android:layout_height="78dp"
-        android:layout_marginTop="532dp"
-        android:layout_marginEnd="44dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="576dp"
+        android:layout_marginEnd="68dp"
         android:ems="10"
         android:inputType="text"
         app:layout_constraintEnd_toEndOf="parent"
@@ -86,10 +86,10 @@
 
     <EditText
         android:id="@+id/textA"
-        android:layout_width="240dp"
-        android:layout_height="95dp"
-        android:layout_marginTop="420dp"
-        android:layout_marginEnd="88dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="476dp"
+        android:layout_marginEnd="68dp"
         android:ems="10"
         android:inputType="text"
         app:layout_constraintEnd_toEndOf="parent"
@@ -97,32 +97,31 @@
 
     <TextView
         android:id="@+id/textSolde"
-        android:layout_width="172dp"
-        android:layout_height="40dp"
+        android:layout_width="60dp"
+        android:layout_height="15dp"
         android:layout_marginTop="320dp"
-        android:layout_marginEnd="28dp"
+        android:layout_marginEnd="88dp"
         android:text="TextView"
         android:textColor="#8C8B8B"
-        android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/boutonValider"
-        android:layout_width="293dp"
-        android:layout_height="68dp"
-        android:layout_marginStart="72dp"
-        android:layout_marginTop="240dp"
+        android:layout_width="263dp"
+        android:layout_height="41dp"
+        android:layout_marginStart="60dp"
+        android:layout_marginTop="244dp"
         android:text="Valider"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/boutonEnvoyer"
-        android:layout_width="339dp"
-        android:layout_height="82dp"
-        android:layout_marginStart="44dp"
-        android:layout_marginTop="632dp"
+        android:layout_width="263dp"
+        android:layout_height="41dp"
+        android:layout_marginStart="56dp"
+        android:layout_marginTop="676dp"
         android:text="Envoyer"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

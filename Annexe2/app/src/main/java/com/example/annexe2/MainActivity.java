@@ -34,12 +34,13 @@ public class MainActivity extends AppCompatActivity {
         });
 
         // Initialisation des composants
-        boutonEnvoyer = findViewById(R.id.boutonEnvoyer);
-        boutonValider = findViewById(R.id.boutonValider);
-        textDe = findViewById(R.id.textDe);
-        textA = findViewById(R.id.textA);
-        textTransfert = findViewById(R.id.textTransfert);
-        textSolde = findViewById(R.id.textSolde);
+
+        boutonEnvoyer.findViewById(R.id.boutonEnvoyer);
+        boutonValider.findViewById(R.id.boutonValider);
+        textDe.findViewById(R.id.textDe);
+        textA.findViewById(R.id.textA);
+        textTransfert.findViewById(R.id.textTransfert);
+        textSolde.findViewById(R.id.textSolde);
 
         Ecouteur ec = new Ecouteur();
 
@@ -53,9 +54,7 @@ public class MainActivity extends AppCompatActivity {
         public void onClick(View source) {
 
             if (source == boutonValider) {
-                if (textDe.getText().toString().equals("Epargne")) {
-                    textSolde.setText("Je suis trop beau !");
-                }
+                if (textDe.getText().toString().equals("Epargne"));
 
             }
 
