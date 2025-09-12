@@ -7,6 +7,7 @@
 
 import random
 import readchar
+import os
 
 class Daleks():
     def __init__(self, liste_pos, docteur):
@@ -32,8 +33,8 @@ class Partie():
         self.taille_x = x
         self.taille_y = y
         self.docteur = Docteur(self)
-        self.daleks = Daleks(self)
-        self.ferraile = Ferraille(self) # Est-ce utile ?
+        # self.dalek = Daleks(self)
+        # self.ferraile = Ferraille(self) # Est-ce utile ?
         self.daleks = []
         self.nivo = 0
         self.nb_daleks_par_nivo = 5
@@ -56,6 +57,84 @@ class Partie():
             dalek = Daleks(i, self.docteur)
             self.daleks.append(dalek)
 
+    def move_doc (self) : 
+        x = self.docteur.pos_x
+        y = self.docteur.pos_y
+    
+        dict_mouv = {
+            "1": [x - 1, y + 1],
+            "2": [x,     y + 1],
+            "3": [x + 1, y + 1],
+            "4": [x - 1, y],
+            "5": [x,     y],
+            "6": [x + 1, y],
+            "7": [x - 1, y - 1],
+            "8": [x,     y - 1],
+            "9": [x + 1, y - 1],
+            #"t": self.teleport(x, y),
+            #"z": self.zapper(self.partie.daleks)
+        }
+        print('Appuyez sur une touche :')
+        char = readchar.readchar()
+        if char in dict_mouv:
+            x, y = dict_mouv[char]
+            x, y = self.collision(x,y)
+            self.docteur.pos_x = x
+            self.docteur.pos_y = y
+        else:
+            print("Touche invalide")
+
+    def move_dalek(self, daleks) :
+
+        mort = []
+
+        for i in daleks:
+            for j in daleks:
+                if (i != j) and (i.pos_x == j.pos_x) and (i.pos_y == j.pos_y) :
+                    if i not in mort :
+                        mort.append(i)
+                        mort.append(j)
+        
+        for d in mort :
+            mort.remove(d)
+
+
+
+        for dalek in daleks:
+            if dalek.pos_x < self.docteur.pos_x:
+                dalek.pos_x += 1
+            elif dalek.pos_x > self.docteur.pos_x:
+                dalek.pos_x -= 1
+
+            if dalek.pos_y < self.docteur.pos_y:
+                dalek.pos_y += 1
+            elif dalek.pos_y > self.docteur.pos_y:
+                dalek.pos_y -= 1
+    
+    def teleport(self, x, y) :
+        x = random.randint(x - 3, x + 3)
+        y = random.randint(y - 3, y + 3)
+
+        x, y = self.collision(x, y)
+
+        return x, y
+    
+    def collision(self, x, y) :
+        x = min(self.taille_x - 1, x)
+        x = max(0, x)
+
+        y = min(self.taille_y - 1, y)
+        y = max(0, y)
+        
+        
+        return x, y
+
+    def zapper(self, daleks) :
+        for dalek in daleks :
+            if abs(dalek.pos_x - self.docteur.pos_x) and abs(dalek.pos_y - self.docteur.pos_y)  :
+                daleks.remove(dalek)
+    
+
 
 class Vue():
     def __init__(self, partie):
@@ -65,7 +144,6 @@ class Vue():
         print(info)
 
     def afficher_partie(self) :
-        print("\n\n\n\n")
         grille = self.creer_grille()
         self.peupler_grille(grille)
         self.afficher_grille(grille)
@@ -75,8 +153,8 @@ DOCTOR WHO : JEU DES DALEKS
 `z` : Permet de zapper tous les daleks se trouvant à deux cases à côté de vous
 Déplacer vous à l'aide des touches fléchées
         """)
-        self.move_dalek()
-        self.move_doc()
+        # self.move_dalek(self.partie.daleks)
+        # self.move_doc()
 
 
     def creer_grille(self):
@@ -93,61 +171,82 @@ Déplacer vous à l'aide des touches fléchées
     def peupler_grille(self, grille) :
         grille[self.partie.docteur.pos_y][self.partie.docteur.pos_x] = "D"
         for i in self.partie.daleks : 
-            if (len(grille[i.pos_y][i.pos_x]) > 1) :
-                self.partie.daleks.pop(i)
-                grille[i.pos_y][i.pos_x] = "X"
+            # Collision de daleks
+            # if (len(grille[i.pos_y][i.pos_x]) > 1) :
+            #     self.partie.daleks.pop(i)
+            #     grille[i.pos_y][i.pos_x] = "X"
             grille[i.pos_y][i.pos_x] = "*"
 
-    def teleportation(self)
+    # def teleportation(self)
 
-    def move_doc (self) : 
-        x = self.partie.docteur.pos_x
-        y = self.partie.docteur.pos_y
+    # def move_doc (self) : 
+    #     x = self.partie.docteur.pos_x
+    #     y = self.partie.docteur.pos_y
     
-        dict_mouv = {
-            "1": [x - 1, y + 1],
-            "2": [x,     y + 1],
-            "3": [x + 1, y + 1],
-            "4": [x - 1, y],
-            "5": [x,     y],
-            "6": [x + 1, y],
-            "7": [x - 1, y - 1],
-            "8": [x,     y - 1],
-            "9": [x + 1, y - 1]
-            "t": 
-        }
-        print('Appuyez sur une touche :')
-        char = readchar.readchar()
-        if char in dict_mouv:
-            x, y = dict_mouv[char]
-            self.partie.docteur.pos_x = x
-            self.partie.docteur.pos_y = y
-        else:
-            print("Touche invalide")
+    #     dict_mouv = {
+    #         "1": [x - 1, y + 1],
+    #         "2": [x,     y + 1],
+    #         "3": [x + 1, y + 1],
+    #         "4": [x - 1, y],
+    #         "5": [x,     y],
+    #         "6": [x + 1, y],
+    #         "7": [x - 1, y - 1],
+    #         "8": [x,     y - 1],
+    #         "9": [x + 1, y - 1],
+    #         "t": self.teleport(x, y),
+    #         #"z": self.zapper(self.partie.daleks)
+    #     }
+    #     print('Appuyez sur une touche :')
+    #     char = readchar.readchar()
+    #     if char in dict_mouv:
+    #         x, y = dict_mouv[char]
+    #         self.partie.docteur.pos_x = x
+    #         self.partie.docteur.pos_y = y
+    #     else:
+    #         print("Touche invalide")
         
-    def move_dalek(self) :
-        x = self.partie.daleks.pos_x
-        y = self.partie.daleks.pos_y
+    # def move_dalek(self, daleks) :
+    #     for dalek in daleks:
+    #         if dalek.pos_x < self.partie.docteur.pos_x:
+    #             dalek.pos_x += 1
+    #         elif dalek.pos_x > self.partie.docteur.pos_x:
+    #             dalek.pos_x -= 1
 
-        if ((x == self.partie.docteur.pos_x) && (y == self.partie.docteur.pos_y)) :
-            print("Game Over")
-            # Peut etre essayer de mettre une autre valeur ici pour que ca sorte du jeu
-        
-        x = x + 1 if self.partie.docteur.pos_x > x else x - 1
-        y = y + 1 if self.partie.docteur.pos_y > x else y - 1
-
+    #         if dalek.pos_y < self.partie.docteur.pos_y:
+    #             dalek.pos_y += 1
+    #         elif dalek.pos_y > self.partie.docteur.pos_y:
+    #             dalek.pos_y -= 1
 
     def afficher_grille(self, grille) :
         for i in grille :
             print(i)
 
+    # def teleport(self, x, y) :
+    #     x = random.randint(x - 3, x + 3)
+    #     y = random.randint(y - 3, y + 3)
 
+    #     return x, y
+    
+    # def collision(self, x, y) :
+
+    #     x = min(self.partie.taille_x, x)
+    #     y = min(self.partie.taille_y, y)
+    
+    # def zapper(self, daleks) :
+    #     for dalek in daleks :
+    #         if abs(dalek.pos_x - self.partie.docteur.pos_x) and abs(dalek.pos_y - self.partie.docteur.pos_y)  :
+    #             daleks.remove(dalek)
+    
 class Controleur():
     def __init__(self):
-        self.partie = Partie(12,8)
-        for _ in range(10) :
-            self.vue = Vue(self.partie)
+        self.partie = Partie(5,5)
+        self.vue = Vue(self.partie) 
+        for _ in range(10):
+            os.system('cls')
             self.vue.afficher_partie()
+            self.partie.move_doc()
+            self.partie.move_dalek(self.partie.daleks)
+            # self.partie.move_doc(self.daleks)
 
 
 if __name__ == "__main__":
