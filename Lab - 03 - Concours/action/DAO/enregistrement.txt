@@ -1,0 +1,3 @@
+dede;Simple;
+qdeqed;Double;
+qdeqed;Double;
