@@ -1,3 +1,10 @@
-dede;Simple;
-qdeqed;Double;
-qdeqed;Double;
+deed;Simple;
+deed;Simple;
+wedwed;Double;
+wdewd;Double;
+deed;Simple;
+;;
+;;
+;;
+;;
+yaya;Double;

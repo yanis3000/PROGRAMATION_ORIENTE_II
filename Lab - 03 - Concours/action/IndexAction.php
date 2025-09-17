@@ -11,7 +11,7 @@
         protected function executeAction() {
 
             if (!empty($_POST["name"]) && !empty($_POST["type"])) {
-                StatsDAO::save($_POST["name"], $_POST["type"]);            
+                StatsDAO::save($_SESSION["name"], $_SESSION["type"]);            
             }
 
             return [];

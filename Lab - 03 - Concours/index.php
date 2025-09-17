@@ -4,13 +4,13 @@ require_once("action/IndexAction.php");
 $action = new IndexAction();
 $data = $action->execute();
 
-// Si la session contient déjà un nom, empêcher la réinscription et afficher un message
-if (isset($_SESSION["name"])) {
+if ($_SESSION["name"] == $_POST["name"]) {
     $alreadyRegistered = true;
 } else {
     $alreadyRegistered = false;
     if (!empty($_POST["name"])) {
-        $_SESSION["name"] = $_POST["name"]; // Sauvegarde du nom dans la session
+        $_SESSION["name"] = $_POST["name"];
+        $_SESSION["type"] = $_POST["type"];
     }
 }
 
@@ -23,7 +23,7 @@ require_once("partial/header.php");
     if ($alreadyRegistered) {
         // Message d'erreur si l'utilisateur est déjà inscrit
         echo "<p>Vous êtes déjà inscrit au concours. Vous ne pouvez pas vous réinscrire.</p>";
-    } else {
+    }
         // Affichage du formulaire si l'utilisateur n'est pas inscrit
         ?>
         <form action="" method="post">
@@ -43,7 +43,7 @@ require_once("partial/header.php");
             </div>
         </form>
         <?php
-    }
+    
     ?>
 </div>
 
