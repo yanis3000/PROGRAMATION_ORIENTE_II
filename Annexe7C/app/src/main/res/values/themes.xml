@@ -1,0 +1,27 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.Annexe7C" parent="Theme.Material3.Dark">
+        <!-- Customize your light theme here. -->
+        <item name="colorPrimary">@color/rose</item>
+        <item name="colorSecondary">@color/vert</item>
+        <item name="colorOnPrimary">@color/texte</item>
+
+        <item name="strokeWidth">2dp</item>
+        <item name="strokeColor">@color/texte</item>
+
+        <item name="android:textViewStyle">@style/monStyle</item>
+        <item name="android:checkedTextViewStyle">@style/monStyle</item>
+
+
+    </style>
+
+    <style name="monStyle" parent="Widget.MaterialComponents.TextView">
+    <!-- ajouter des balises item pour modifier l’apparence des textViews -->
+        <item name="android:textAllCaps">true</item>
+        <item name="android:textColor">@color/rose</item>
+
+    </style>
+
+
+    <style name="Theme.Annexe7C" parent="Base.Theme.Annexe7C" />
+</resources>

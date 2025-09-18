@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.Surface;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import androidx.activity.EdgeToEdge;
@@ -22,8 +23,9 @@ import androidx.core.view.WindowInsetsCompat;
 
 public class MainActivity extends AppCompatActivity {
 
-    LinearLayout parent;
+    ConstraintLayout parent;
     TraceLibre traceLibre;
+    ImageView traceLibre2;
 
 
     @Override
@@ -37,17 +39,13 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
 
-        parent = findViewById(R.id.main);
+        parent = findViewById(R.id.parent);
+        traceLibre2 = findViewById(R.id.traceLibre);
 
-        traceLibre = new TraceLibre(this);
-        traceLibre.setLayoutParams(new LinearLayout.LayoutParams(-1, -1));
-        parent.addView(traceLibre);
 
-//        path = new Path();
 //
-//        Ecouteur ec = new Ecouteur();
-//
-//        s.setOnTouchListener(ec);
+           Ecouteur ec = new Ecouteur();
+           traceLibre2.setOnClickListener(ec);
 
     }
 
@@ -71,27 +69,17 @@ public class MainActivity extends AppCompatActivity {
 //
 //    }
 //
-//    private class Ecouteur implements View.OnTouchListener, View.OnClickListener {
-//        @Override
-//        public void onClick(View source) {
-//            // A mettre les boutons, mais faut faire les classes d'abord
-//        }
-//
-//        @Override
-//        public boolean onTouch(View source, MotionEvent event) {
-//            float x = event.getX();
-//            float y = event.getY();
-//
-//            if (event.getAction() == MotionEvent.ACTION_DOWN ) {
-//                path.moveTo(x, y);
-//                s.invalidate();
-//            }
-//            if (event.getAction() == MotionEvent.ACTION_MOVE) {
-//                path.lineTo(x, y);
-//                s.invalidate();
-//            }
-//
-//            return true;
-//        }
-//    }
+    private class Ecouteur extends MainActivity implements View.OnClickListener{
+
+        @Override
+        public void onClick(View source) {
+
+            if (source == traceLibre2) {
+                traceLibre = new TraceLibre(this);
+                traceLibre.setLayoutParams(new LinearLayout.LayoutParams(-1, -1));
+                parent.addView(traceLibre);
+            }
+
+        }
+    }
 }
