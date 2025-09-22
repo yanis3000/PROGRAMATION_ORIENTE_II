@@ -1,23 +1,20 @@
 package com.example.tp1_datherealone;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Path;
 import android.view.MotionEvent;
-import android.view.View;
 
 public class TraceLibre extends SuperPaint {
 
-    public TraceLibre(MainActivity context) {
+    public TraceLibre(Context context) {
         super(context);
     }
 
-//    public TraceLibre(Context context, int couleur, float epaisseur) {
-//        super(context);
-//        setCouleur(couleur);
-//        setEpaisseur(epaisseur);
-//    }
-
     @Override
     public boolean onTouchEvent(MotionEvent event) {
+
         float x = event.getX();
         float y = event.getY();
 

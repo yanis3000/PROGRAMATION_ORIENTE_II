@@ -1,31 +1,28 @@
 package com.example.tp1_datherealone;
 
-import android.content.Context;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.Path;
-import android.graphics.Point;
 import android.os.Bundle;
-import android.view.MotionEvent;
-import android.view.Surface;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import androidx.activity.EdgeToEdge;
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import java.util.ArrayList;
+
 public class MainActivity extends AppCompatActivity {
 
     ConstraintLayout parent;
     TraceLibre traceLibre;
-    ImageView traceLibre2;
+    Efface efface;
+    ImageView imgTraceLibre;
+    ImageView imgEfface;
+    ArrayList<TraceLibre> dessin = new ArrayList<TraceLibre>();
+
 
 
     @Override
@@ -40,12 +37,14 @@ public class MainActivity extends AppCompatActivity {
         });
 
         parent = findViewById(R.id.parent);
-        traceLibre2 = findViewById(R.id.traceLibre);
+
+        imgTraceLibre = findViewById(R.id.traceLibre);
+        imgEfface = findViewById(R.id.efface);
 
 
 //
-           Ecouteur ec = new Ecouteur();
-           traceLibre2.setOnClickListener(ec);
+           imgTraceLibre.setOnClickListener(new Ecouteur());
+           imgEfface.setOnClickListener(new Ecouteur());
 
     }
 
@@ -68,17 +67,27 @@ public class MainActivity extends AppCompatActivity {
 //        }
 //
 //    }
+
 //
-    private class Ecouteur extends MainActivity implements View.OnClickListener{
+    private class Ecouteur implements View.OnClickListener{
 
         @Override
         public void onClick(View source) {
 
-            if (source == traceLibre2) {
-                traceLibre = new TraceLibre(this);
+            if (source == imgTraceLibre) {
+                traceLibre = new TraceLibre(MainActivity.this);
                 traceLibre.setLayoutParams(new LinearLayout.LayoutParams(-1, -1));
+                dessin.add(traceLibre);
                 parent.addView(traceLibre);
+
             }
+
+            if (source == imgEfface) {
+                efface = new Efface(MainActivity.this);
+                traceLibre.setLayoutParams(new LinearLayout.LayoutParams(-1, -1));
+                parent.addView(efface);
+            }
+
 
         }
     }

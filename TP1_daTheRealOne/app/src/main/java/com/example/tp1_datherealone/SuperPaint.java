@@ -9,10 +9,13 @@ import android.view.MotionEvent;
 import android.view.View;
 
 public class SuperPaint extends View {
-    Paint crayon;
-    Path path;
-    int couleur = Color.RED;
-    float epaisseur = 15;
+
+    protected Paint crayon;
+    protected Path path;
+
+    protected float epaisseur = 15;
+    protected int couleur = Color.RED;
+
 
     public SuperPaint(Context context) {
         super(context);
@@ -27,6 +30,18 @@ public class SuperPaint extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         canvas.drawPath(path, crayon);
+    }
+
+    public void setCouleur(int newColor) {
+        couleur = newColor;
+        crayon.setColor(couleur);
+        invalidate();
+    }
+
+    public void setEpaisseur(float newWidth) {
+        epaisseur = newWidth;
+        crayon.setStrokeWidth(epaisseur);
+        invalidate();
     }
 
 }
