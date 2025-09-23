@@ -1,8 +1,10 @@
 package com.example.tp1_datherealone;
 
 import android.graphics.Color;
+import android.nfc.Tag;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
@@ -20,7 +22,12 @@ import com.google.android.material.chip.ChipGroup;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
+
+    ImageView bouton;
+
     ConstraintLayout parent;
+
+    int couleurCourante = Color.BLACK;
 
     Chip black;
     Chip gray;
@@ -35,10 +42,7 @@ public class MainActivity extends AppCompatActivity {
     ImageView imgTraceLibre;
     ImageView imgEfface;
     ChipGroup chipGroup;
-
-
     ArrayList<TraceLibre> dessin = new ArrayList<TraceLibre>();
-
 
 
     @Override
@@ -53,15 +57,28 @@ public class MainActivity extends AppCompatActivity {
         });
 
         parent = findViewById(R.id.parent);
+        chipGroup = findViewById(R.id.ChipGroup);
 
-        black = findViewById(R.id.black);
-        gray = findViewById(R.id.gray);
-        blue = findViewById(R.id.blue);
-        yellow = findViewById(R.id.yellow);
-        red = findViewById(R.id.red);
-        orange = findViewById(R.id.orange);
-        green = findViewById(R.id.green);
-        purple = findViewById(R.id.purple);
+        bouton = findViewById(R.id.bouton);
+        Ecouteur ec = new Ecouteur();
+        bouton.setOnClickListener(ec);
+
+//        black = findViewById(R.id.black);
+//        gray = findViewById(R.id.gray);
+//        blue = findViewById(R.id.blue);
+//        yellow = findViewById(R.id.yellow);
+//        red = findViewById(R.id.red);
+//        orange = findViewById(R.id.orange);
+//        green = findViewById(R.id.green);
+//        purple = findViewById(R.id.purple);
+//
+//        for (int i = 0; i < chipGroup.getChildCount(); i++) {
+//            (Tag)
+//        }
+
+        for (int i = 0; i < chipGroup.getChildCount(); i++) {
+            ((Chip) chipGroup.getChildAt(i)).setOnClickListener(new Ecouteur());
+        }
 
         imgTraceLibre = findViewById(R.id.traceLibre);
         imgEfface = findViewById(R.id.efface);
@@ -71,14 +88,14 @@ public class MainActivity extends AppCompatActivity {
         imgTraceLibre.setOnClickListener(new Ecouteur());
         imgEfface.setOnClickListener(new Ecouteur());
 
-        black.setOnClickListener(new Ecouteur());
-        gray.setOnClickListener(new Ecouteur());
-        blue.setOnClickListener(new Ecouteur());
-        yellow.setOnClickListener(new Ecouteur());
-        red.setOnClickListener(new Ecouteur());
-        orange.setOnClickListener(new Ecouteur());
-        green.setOnClickListener(new Ecouteur());
-        purple.setOnClickListener(new Ecouteur());
+//        black.setOnClickListener(new Ecouteur());
+//        gray.setOnClickListener(new Ecouteur());
+//        blue.setOnClickListener(new Ecouteur());
+//        yellow.setOnClickListener(new Ecouteur());
+//        red.setOnClickListener(new Ecouteur());
+//        orange.setOnClickListener(new Ecouteur());
+//        green.setOnClickListener(new Ecouteur());
+//        purple.setOnClickListener(new Ecouteur());
 
 
     }
@@ -108,31 +125,36 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public void onClick(View source) {
-//
-//            if (source == black) {
-//                traceLibre.setCouleur(Color.BLACK);
-//            }
-//            if (source == gray) {
-//                 traceLibre.setCouleur(Color.GRAY);
-//            }
-//            if (source == blue) {
-//                traceLibre.setCouleur(Color.BLUE);
-//            }
-//            if (source == yellow) {
-//                traceLibre.setCouleur(Color.YELLOW);
-//            }
-//            if (source == red) {
-//                traceLibre.setCouleur(Color.RED);
-//            }
-//            if (source == orange) {
-//                traceLibre.setCouleur(Color.rgb(255,165,0));
-//            }
-//            if (source == green) {
-//                traceLibre.setCouleur(Color.GREEN);
-//            }
-//            if (source == purple) {
-//                traceLibre.setCouleur(Color.MAGENTA);
-//            }
+
+            LargeurTraitDialogue dialog = new LargeurTraitDialogue(MainActivity.this);
+            dialog.show();
+
+            if (source == black) {
+                traceLibre.setCouleur(Color.BLACK);
+            }
+            if (source == gray) {
+                 traceLibre.setCouleur(Color.GRAY);
+            }
+            if (source == blue) {
+                traceLibre.setCouleur(Color.BLUE);
+            }
+            if (source == yellow) {
+                traceLibre.setCouleur(Color.YELLOW);
+            }
+            if (source == red) {
+                traceLibre.setCouleur(Color.RED);
+            }
+            if (source == orange) {
+                traceLibre.setCouleur(Color.rgb(255,165,0));
+            }
+            if (source == green) {
+                traceLibre.setCouleur(Color.GREEN);
+            }
+            if (source == purple) {
+                traceLibre.setCouleur(Color.MAGENTA);
+            }
+
+
 
             if (source == imgTraceLibre) {
                 traceLibre = new TraceLibre(MainActivity.this);
@@ -150,5 +172,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         }
+
+        // onSidebar -> essayer d'en extraire sa valeur apres
     }
 }

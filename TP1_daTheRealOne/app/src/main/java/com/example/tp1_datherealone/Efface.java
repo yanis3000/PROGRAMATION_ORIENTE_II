@@ -15,7 +15,7 @@ public class Efface extends SuperPaint{
     @Override
     public boolean onTouchEvent(MotionEvent event) {
 
-        setCouleur(Color.rgb(238, 238, 238));
+        setCouleur(Color.WHITE);
 
         float x = event.getX();
         float y = event.getY();
