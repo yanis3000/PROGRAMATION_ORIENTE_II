@@ -12,66 +12,78 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:background="#050505">
+        android:background="#242424">
 
         <com.google.android.material.chip.ChipGroup
+            android:id="@+id/ChipGroup"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            app:selectionRequired="true"
+            app:singleSelection="true">
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/black"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
-                android:backgroundTint="@color/black" />
+                android:backgroundTint="@color/black"
+                android:checkable="true" />
 
             <com.google.android.material.chip.Chip
-                android:id="@+id/red"
+                android:id="@+id/gray"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="5dp" />
-
-            <com.google.android.material.chip.Chip
-                android:id="@+id/cyan"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp" />
-
-            <com.google.android.material.chip.Chip
-                android:id="@+id/green"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp" />
-
-            <com.google.android.material.chip.Chip
-                android:id="@+id/magenta"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp" />
+                android:layout_margin="5dp"
+                android:backgroundTint="@color/gray"
+                android:checkable="true" />
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/blue"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="5dp" />
+                android:layout_margin="5dp"
+                android:backgroundTint="@color/blue"
+                android:checkable="true" />
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/yellow"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="5dp" />
+                android:layout_margin="5dp"
+                android:backgroundTint="@color/yellow"
+                android:checkable="true" />
 
             <com.google.android.material.chip.Chip
-                android:id="@+id/purple"
+                android:id="@+id/red"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="5dp" />
+                android:layout_margin="5dp"
+                android:backgroundTint="@color/red"
+                android:checkable="true" />
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/orange"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="5dp" />
+                android:layout_margin="5dp"
+                android:backgroundTint="@color/orange"
+                android:checkable="true" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/green"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:backgroundTint="@color/green"
+                android:checkable="true" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/purple"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:backgroundTint="@color/purple"
+                android:checkable="true" />
 
         </com.google.android.material.chip.ChipGroup>
     </HorizontalScrollView>
@@ -93,7 +105,7 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="#020202"
+            android:background="#242424"
             android:orientation="horizontal">
 
             <ImageView

@@ -14,7 +14,9 @@ public class SuperPaint extends View {
     protected Path path;
 
     protected float epaisseur = 15;
-    protected int couleur = Color.RED;
+    protected int couleur = Color.BLACK;
+
+
 
 
     public SuperPaint(Context context) {

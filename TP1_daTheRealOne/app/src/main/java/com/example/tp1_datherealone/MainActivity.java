@@ -1,9 +1,11 @@
 package com.example.tp1_datherealone;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,15 +14,29 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.google.android.material.chip.Chip;
+import com.google.android.material.chip.ChipGroup;
+
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
-
     ConstraintLayout parent;
+
+    Chip black;
+    Chip gray;
+    Chip blue;
+    Chip yellow;
+    Chip red;
+    Chip orange;
+    Chip green;
+    Chip purple;
     TraceLibre traceLibre;
     Efface efface;
     ImageView imgTraceLibre;
     ImageView imgEfface;
+    ChipGroup chipGroup;
+
+
     ArrayList<TraceLibre> dessin = new ArrayList<TraceLibre>();
 
 
@@ -38,13 +54,32 @@ public class MainActivity extends AppCompatActivity {
 
         parent = findViewById(R.id.parent);
 
+        black = findViewById(R.id.black);
+        gray = findViewById(R.id.gray);
+        blue = findViewById(R.id.blue);
+        yellow = findViewById(R.id.yellow);
+        red = findViewById(R.id.red);
+        orange = findViewById(R.id.orange);
+        green = findViewById(R.id.green);
+        purple = findViewById(R.id.purple);
+
         imgTraceLibre = findViewById(R.id.traceLibre);
         imgEfface = findViewById(R.id.efface);
 
 
 //
-           imgTraceLibre.setOnClickListener(new Ecouteur());
-           imgEfface.setOnClickListener(new Ecouteur());
+        imgTraceLibre.setOnClickListener(new Ecouteur());
+        imgEfface.setOnClickListener(new Ecouteur());
+
+        black.setOnClickListener(new Ecouteur());
+        gray.setOnClickListener(new Ecouteur());
+        blue.setOnClickListener(new Ecouteur());
+        yellow.setOnClickListener(new Ecouteur());
+        red.setOnClickListener(new Ecouteur());
+        orange.setOnClickListener(new Ecouteur());
+        green.setOnClickListener(new Ecouteur());
+        purple.setOnClickListener(new Ecouteur());
+
 
     }
 
@@ -73,6 +108,31 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public void onClick(View source) {
+//
+//            if (source == black) {
+//                traceLibre.setCouleur(Color.BLACK);
+//            }
+//            if (source == gray) {
+//                 traceLibre.setCouleur(Color.GRAY);
+//            }
+//            if (source == blue) {
+//                traceLibre.setCouleur(Color.BLUE);
+//            }
+//            if (source == yellow) {
+//                traceLibre.setCouleur(Color.YELLOW);
+//            }
+//            if (source == red) {
+//                traceLibre.setCouleur(Color.RED);
+//            }
+//            if (source == orange) {
+//                traceLibre.setCouleur(Color.rgb(255,165,0));
+//            }
+//            if (source == green) {
+//                traceLibre.setCouleur(Color.GREEN);
+//            }
+//            if (source == purple) {
+//                traceLibre.setCouleur(Color.MAGENTA);
+//            }
 
             if (source == imgTraceLibre) {
                 traceLibre = new TraceLibre(MainActivity.this);
