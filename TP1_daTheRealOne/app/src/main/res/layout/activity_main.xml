@@ -141,7 +141,7 @@
                 app:srcCompat="@drawable/pipette" />
 
             <ImageView
-                android:id="@+id/bouton"
+                android:id="@+id/epaisseur"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"

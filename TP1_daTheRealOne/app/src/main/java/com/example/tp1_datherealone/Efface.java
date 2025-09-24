@@ -2,20 +2,20 @@ package com.example.tp1_datherealone;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.graphics.ColorSpace;
 import android.view.MotionEvent;
 
-public class Efface extends SuperPaint{
+public class Efface extends SuperPaint {
+    private MainActivity mainActivity;
 
     public Efface(Context context) {
         super(context);
+        MainActivity mainActivity;
     }
-
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
 
-        setCouleur(Color.WHITE);
+        setCouleur(mainActivity.couleurBackground);
 
         float x = event.getX();
         float y = event.getY();
@@ -28,7 +28,6 @@ public class Efface extends SuperPaint{
         }
 
         invalidate();
-
         return true;
     }
 

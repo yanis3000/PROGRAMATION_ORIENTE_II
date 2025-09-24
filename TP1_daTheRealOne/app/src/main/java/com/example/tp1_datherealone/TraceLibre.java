@@ -11,6 +11,7 @@ public class TraceLibre extends SuperPaint {
 
     public TraceLibre(Context context) {
         super(context);
+
     }
 
     @Override
