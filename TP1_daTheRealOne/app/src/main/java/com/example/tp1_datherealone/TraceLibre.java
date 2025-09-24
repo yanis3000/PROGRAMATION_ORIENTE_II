@@ -9,26 +9,14 @@ import android.view.MotionEvent;
 
 public class TraceLibre extends SuperPaint {
 
-    public TraceLibre(Context context) {
-        super(context);
-
+    public TraceLibre(int couleur) {
+        super(couleur);
     }
 
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
-
-        float x = event.getX();
-        float y = event.getY();
-
-        if (event.getAction() == MotionEvent.ACTION_DOWN ) {
-            path.moveTo(x, y);
-        }
-        if (event.getAction() == MotionEvent.ACTION_MOVE) {
-            path.lineTo(x, y);
-        }
-
-        invalidate();
-
-        return true;
+    protected void dessiner(Canvas canvas) {
+        canvas.drawPath(path, crayon);
     }
+
+
+
 }

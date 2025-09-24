@@ -8,7 +8,7 @@ import android.graphics.Path;
 import android.view.MotionEvent;
 import android.view.View;
 
-public class SuperPaint extends View {
+public class SuperPaint {
 
     protected Paint crayon;
     protected Path path;
@@ -16,8 +16,8 @@ public class SuperPaint extends View {
     protected int couleur = Color.BLACK;
 
 
-    public SuperPaint(Context context) {
-        super(context);
+    public SuperPaint(int couleur) {
+        this.couleur = couleur;
         crayon = new Paint(Paint.ANTI_ALIAS_FLAG);
         crayon.setColor(couleur);
         crayon.setStyle(Paint.Style.STROKE);
@@ -25,22 +25,14 @@ public class SuperPaint extends View {
         path = new Path();
     }
 
-    @Override
-    protected void onDraw(Canvas canvas) {
-        super.onDraw(canvas);
-        canvas.drawPath(path, crayon);
-    }
-
     public void setCouleur(int newColor) {
-        couleur = newColor;
-        crayon.setColor(couleur);
-        invalidate();
+        this.couleur = newColor;
+        crayon.setColor(this.couleur);
     }
 
     public void setEpaisseur(float newWidth) {
         epaisseur = newWidth;
         crayon.setStrokeWidth(epaisseur);
-        invalidate();
     }
 
 }

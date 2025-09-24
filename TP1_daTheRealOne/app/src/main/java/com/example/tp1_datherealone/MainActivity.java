@@ -1,12 +1,19 @@
 package com.example.tp1_datherealone;
 
+import android.content.Context;
+import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Path;
 import android.os.Bundle;
+import android.view.MotionEvent;
+import android.view.Surface;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.graphics.Insets;
@@ -22,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
 
     ImageView epaisseur;
 
+    SurfaceDessin sd;
     ConstraintLayout parent;
 
     int couleurCourante = Color.BLACK;
@@ -33,8 +41,6 @@ public class MainActivity extends AppCompatActivity {
     ImageView imgEfface;
     ChipGroup chipGroup;
     ArrayList<TraceLibre> dessin = new ArrayList<TraceLibre>();
-    private TraceLibre traceLibreActuel;
-
     public Integer getColorBackground() {
         return couleurBackground;
     }
@@ -51,6 +57,13 @@ public class MainActivity extends AppCompatActivity {
         });
 
         parent = findViewById(R.id.parent);
+
+        sd = new SurfaceDessin(this);
+        sd.setLayoutParams(new LinearLayout.LayoutParams(-1, -1));
+        sd.setBackgroundColor(Color.WHITE);
+        parent.addView(sd);
+
+
         chipGroup = findViewById(R.id.ChipGroup);
 
         parent.setBackgroundColor(couleurBackground);
@@ -68,6 +81,81 @@ public class MainActivity extends AppCompatActivity {
         imgTraceLibre.setOnClickListener(new Ecouteur());
         imgEfface.setOnClickListener(new Ecouteur());
 
+        EcouteurSurface es = new EcouteurSurface();
+
+        sd.setOnTouchListener(es);
+    }
+
+    private class SurfaceDessin extends View {
+        Paint crayon;
+        Path path;
+
+        public SurfaceDessin(Context context) {
+            super(context);
+            crayon = new Paint(Paint.ANTI_ALIAS_FLAG);
+            crayon.setStyle(Paint.Style.STROKE);
+            path = new Path();
+        }
+
+
+        @Override
+        protected void onDraw(@NonNull Canvas canvas) {
+            super.onDraw(canvas);
+
+            for (TraceLibre traceLibre : dessin) {
+                traceLibre.dessiner(canvas);
+            }
+
+            if (traceLibre != null) {
+                traceLibre.dessiner(canvas);
+            }
+        }
+
+//        @Override
+//        public boolean onTouchEvent(MotionEvent event) {
+//
+//            float x = event.getX();
+//            float y = event.getY();
+//
+//            if (event.getAction() == MotionEvent.ACTION_DOWN ) {
+//                path.moveTo(x, y);
+//            }
+//            if (event.getAction() == MotionEvent.ACTION_MOVE) {
+//                path.lineTo(x, y);
+//            }
+////            if (event.getAction() == MotionEvent.ACTION_UP) {
+////            }
+//
+//            invalidate();
+//
+//            return true;
+//        }
+    }
+
+    private class EcouteurSurface implements View.OnTouchListener {
+
+
+        @Override
+        public boolean onTouch(View v, MotionEvent event) {
+
+            float x = event.getX();
+            float y = event.getY();
+
+            if (event.getAction() == MotionEvent.ACTION_DOWN ) {
+                traceLibre = new TraceLibre(couleurCourante);
+                traceLibre.path.moveTo(x, y);
+            }
+            if (event.getAction() == MotionEvent.ACTION_MOVE) {
+                traceLibre.path.lineTo(x, y);
+            }
+            if (event.getAction() == MotionEvent.ACTION_UP) {
+                dessin.add(traceLibre);
+            }
+
+            sd.invalidate();
+
+            return true;
+        }
     }
 
     private class Ecouteur implements View.OnClickListener{
@@ -79,28 +167,20 @@ public class MainActivity extends AppCompatActivity {
                 String couleur = (String) chip.getTag();
                 couleurCourante = Color.parseColor(couleur);
 
-                if (traceLibreActuel != null) {
-                    traceLibreActuel.setCouleur(couleurCourante);
+                if (traceLibre != null) {
+                    traceLibre.setCouleur(couleurCourante);
                 }
             }
 
-            if (source == imgTraceLibre) {
-                traceLibre = new TraceLibre(MainActivity.this);
-                traceLibre.setCouleur(couleurCourante);
-                traceLibre.setLayoutParams(new LinearLayout.LayoutParams(-1, -1));
-                dessin.add(traceLibre);
-                parent.addView(traceLibre);
+//            if (source == imgTraceLibre) {
+//                traceLibre = new TraceLibre(couleurCourante);
+//            }
 
-                traceLibreActuel = traceLibre;
-
-
-            }
-
-            if (source == imgEfface) {
-                efface = new Efface(MainActivity.this);
-                traceLibre.setLayoutParams(new LinearLayout.LayoutParams(-1, -1));
-                parent.addView(efface);
-            }
+//            if (source == imgEfface) {
+//                efface = new Efface(MainActivity.this, couleurBackground);
+//                traceLibre.setLayoutParams(new LinearLayout.LayoutParams(-1, -1));
+//                parent.addView(efface);
+//            }
 
         }
     }
