@@ -5,33 +5,21 @@ import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
-import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 public class LargeurTraitDialogue extends Dialog {
-
     SeekBar seekBar;
     TextView texte;
-    Button button2;
+    Button confirm;
     MainActivity parent;
-    int progress;
+    int progress = 15;
 
-    public int epaisseurProgress() {
-        return progress;
-    }
-
-    public LargeurTraitDialogue(@NonNull Context context) { //, int progress)
-        super(context);
+    public LargeurTraitDialogue(@NonNull MainActivity parent) {
+        super(parent);
         this.parent = parent;
-        this.progress = progress;
     }
 
     @Override
@@ -41,17 +29,19 @@ public class LargeurTraitDialogue extends Dialog {
 
         seekBar = findViewById(R.id.seekBar);
         texte = findViewById(R.id.texte);
-        button2 = findViewById(R.id.button2);
+        confirm = findViewById(R.id.confirm);
 
         Ecouteuse ec = new Ecouteuse();
         seekBar.setOnSeekBarChangeListener(ec);
-        button2.setOnClickListener(ec);
+        confirm.setOnClickListener(ec);
     }
 
     private class Ecouteuse implements SeekBar.OnSeekBarChangeListener, View.OnClickListener {
+
         @Override
-        public void onProgressChanged(SeekBar seekbar, int progress, boolean fromUser) {
-             texte.setText("Largeur : " + progress);
+        public void onProgressChanged(SeekBar seekbar, int p, boolean fromUser) {
+            progress = p;
+            texte.setText("Largeur : " + p);
         }
 
         @Override
@@ -65,9 +55,12 @@ public class LargeurTraitDialogue extends Dialog {
         }
 
         @Override
-        public void onClick(View v){
-            dismiss();
-        }
+        public void onClick(View source){
+            if (source == confirm) {
+                parent.progressChoisi = progress;
+                dismiss();
+            }
+
 
     }
-}
+}}

@@ -1,6 +1,7 @@
 package com.example.tp1_datherealone;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -30,19 +31,26 @@ public class MainActivity extends AppCompatActivity {
     ConstraintLayout parent;
 
     boolean dessineIsTrue;
+    int dessineOuForme = 1;
     int couleurChoisi;
-
+    int progressChoisi = 15;
     int couleurCourante = Color.BLACK;
     int couleurBackground = Color.WHITE;
     LargeurTraitDialogue dialogue;
     TraceLibre traceLibre;
-    Efface efface;
+    Forme forme;
+    MotionEvent event;
+//    Efface efface;
     ImageView imgTraceLibre;
     ImageView imgEfface;
     ImageView imgEpaisseur;
+    ImageView imgRemplir;
+    ImageView imgPipette;
+    ImageView imgRectangle;
     ChipGroup chipGroup;
+    Bitmap bitmapImage;
     ArrayList<TraceLibre> dessinTrace = new ArrayList<TraceLibre>();
-    ArrayList<Efface> dessinEfface = new ArrayList<Efface>();
+    ArrayList<Forme> dessinForme = new ArrayList<Forme>();
     public Integer getColorBackground() {
         return couleurBackground;
     }
@@ -78,15 +86,23 @@ public class MainActivity extends AppCompatActivity {
         imgTraceLibre = findViewById(R.id.traceLibre);
         imgEfface = findViewById(R.id.efface);
         imgEpaisseur = findViewById(R.id.epaisseur);
+        imgRemplir = findViewById(R.id.remplir);
+        imgPipette = findViewById(R.id.pipette);
+        imgRectangle = findViewById(R.id.rectangle);
 
-        EcouteurSurface es = new EcouteurSurface();
+        EcouteurSurfaceTrace es = new EcouteurSurfaceTrace();
+//        EcouteurSurfaceForme esf = new EcouteurSurfaceForme();
         Ecouteur ec = new Ecouteur();
 
         imgTraceLibre.setOnClickListener(ec);
         imgEfface.setOnClickListener(ec);
         imgEpaisseur.setOnClickListener(ec);
+        imgRemplir.setOnClickListener(ec);
+        imgPipette.setOnClickListener(ec);
+        imgRectangle.setOnClickListener(ec);
 
         sd.setOnTouchListener(es);
+//        sd.setOnTouchListener(esf);
         sd.setOnClickListener(ec);
     }
 
@@ -98,9 +114,17 @@ public class MainActivity extends AppCompatActivity {
             super(context);
             crayon = new Paint(Paint.ANTI_ALIAS_FLAG);
             crayon.setStyle(Paint.Style.STROKE);
+            crayon.setStrokeWidth(progressChoisi);
             path = new Path();
         }
 
+        public Bitmap getBitmapImage() {
+            this.buildDrawingCache();
+            bitmapImage = Bitmap.createBitmap(this.getDrawingCache());
+            this.destroyDrawingCache();
+
+            return bitmapImage;
+        }
 
         @Override
         protected void onDraw(@NonNull Canvas canvas) {
@@ -110,34 +134,22 @@ public class MainActivity extends AppCompatActivity {
                 traceLibre.dessiner(canvas);
             }
 
+            for (Forme forme : dessinForme) {
+                forme.dessiner(canvas);
+            }
+
             if (traceLibre != null) {
                 traceLibre.dessiner(canvas);
             }
 
-        }
+            if (forme != null) {
+                forme.dessiner(canvas);
+            }
 
-//        @Override
-//        public boolean onTouchEvent(MotionEvent event) {
-//
-//            float x = event.getX();
-//            float y = event.getY();
-//
-//            if (event.getAction() == MotionEvent.ACTION_DOWN ) {
-//                path.moveTo(x, y);
-//            }
-//            if (event.getAction() == MotionEvent.ACTION_MOVE) {
-//                path.lineTo(x, y);
-//            }
-////            if (event.getAction() == MotionEvent.ACTION_UP) {
-////            }
-//
-//            invalidate();
-//
-//            return true;
-//        }
+        }
     }
 
-    private class EcouteurSurface implements View.OnTouchListener {
+    private class EcouteurSurfaceTrace implements View.OnTouchListener {
 
         @Override
         public boolean onTouch(View v, MotionEvent event) {
@@ -145,25 +157,43 @@ public class MainActivity extends AppCompatActivity {
             float x = event.getX();
             float y = event.getY();
 
-            couleurChoisi = dessineIsTrue ? couleurCourante : couleurBackground;
+             couleurChoisi = dessineIsTrue ? couleurCourante : couleurBackground;
 
-                if (event.getAction() == MotionEvent.ACTION_DOWN ) {
-                    traceLibre = new TraceLibre(couleurChoisi);
-                    traceLibre.path.moveTo(x, y);
-                }
-                if (event.getAction() == MotionEvent.ACTION_MOVE) {
-                    traceLibre.path.lineTo(x, y);
-                }
-                if (event.getAction() == MotionEvent.ACTION_UP) {
-                    dessinTrace.add(traceLibre);
-                    traceLibre = null; // Parce que la couleur se rénitialise à chaque fois
-                }
+             if (dessineOuForme == 1) {
+                 if (event.getAction() == MotionEvent.ACTION_DOWN ) {
+                     traceLibre = new TraceLibre(couleurChoisi, progressChoisi);
+                     traceLibre.path.moveTo(x, y);
+                 }
+                 if (event.getAction() == MotionEvent.ACTION_MOVE) {
+                     traceLibre.path.lineTo(x, y);
+                 }
+                 if (event.getAction() == MotionEvent.ACTION_UP) {
+                     dessinTrace.add(traceLibre);
+                     traceLibre = null; // Parce que la couleur se rénitialise à chaque fois
+                 }
+                 sd.invalidate();
+             }
 
-            sd.invalidate();
+             if (dessineOuForme == 2) {
+                 if (event.getAction() == MotionEvent.ACTION_DOWN ) {
+                     forme = new Forme(couleurCourante, progressChoisi);
+                     forme.startP(x, y);
+                 }
+                 if (event.getAction() == MotionEvent.ACTION_MOVE) {
+                     forme.endP(x, y);
+                     sd.invalidate();
+                 }
+                 if (event.getAction() == MotionEvent.ACTION_UP) {
+                     forme.endP(x, y);
+                     dessinForme.add(forme);
+                     sd.invalidate();
+                 }
+             }
 
             return true;
         }
     }
+
 
     private class Ecouteur implements View.OnClickListener{
 
@@ -176,18 +206,39 @@ public class MainActivity extends AppCompatActivity {
 
                 if (traceLibre != null) {
                     traceLibre.setCouleur(couleurCourante);
+                    traceLibre.setEpaisseur(progressChoisi);
                 }
             }
 
-            if (source == imgTraceLibre) dessineIsTrue = true;
+            if (source == imgTraceLibre) {
+                dessineOuForme = 1;
+                dessineIsTrue = true;
+            }
 
-            if (source == imgEfface) dessineIsTrue = false;
+            if (source == imgEfface) {
+                dessineOuForme = 1;
+                dessineIsTrue = false;
+            }
 
             if (source == imgEpaisseur) {
                 LargeurTraitDialogue dialog = new LargeurTraitDialogue(MainActivity.this);
-//                dialog.seekBar.get
+//                dialog.seekBar.ge t
                 dialog.show();
+            }
 
+            if (source == imgRemplir) {
+                couleurBackground = couleurCourante;
+                sd.setBackgroundColor(couleurBackground);
+            }
+
+//            if (source == imgPipette) {
+//                Bitmap bmp = sd.getBitmapImage(); //  j'ai rien compris a ma vie
+//                couleurCourante = bmp.getPixel(bmp.getWidth(),bmp.getHeight());
+//
+//            }
+
+            if (source == imgRectangle) {
+                dessineOuForme = 2;
             }
 
 

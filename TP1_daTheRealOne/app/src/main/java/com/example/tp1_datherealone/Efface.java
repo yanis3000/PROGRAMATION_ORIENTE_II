@@ -5,14 +5,14 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.view.MotionEvent;
 
-public class Efface extends SuperPaint {
-    public Efface(int couleur) {
-        super(couleur);
-    }
-
-    protected void effacer(Canvas canvas) {
-        canvas.drawPath(path, crayon);
-    }
+//public class Efface extends SuperPaint {
+//    public Efface(int couleur) {
+//        super(couleur);
+//    }
+//
+//    protected void effacer(Canvas canvas) {
+//        canvas.drawPath(path, crayon);
+//    }
 
 
 //    @Override
@@ -38,4 +38,4 @@ public class Efface extends SuperPaint {
 
 
 
-}
+//}

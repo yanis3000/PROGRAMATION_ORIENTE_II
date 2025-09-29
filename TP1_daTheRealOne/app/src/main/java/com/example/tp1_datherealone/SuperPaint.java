@@ -15,8 +15,9 @@ public class SuperPaint {
     protected float epaisseur = 15;
     protected int couleur = Color.BLACK;
 
-    public SuperPaint(int couleur) {
+    public SuperPaint(int couleur, int epaisseur) {
         this.couleur = couleur;
+        this.epaisseur = epaisseur;
         crayon = new Paint(Paint.ANTI_ALIAS_FLAG);
         crayon.setColor(couleur);
         crayon.setStyle(Paint.Style.STROKE);

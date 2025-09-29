@@ -9,8 +9,8 @@ import android.view.MotionEvent;
 
 public class TraceLibre extends SuperPaint {
 
-    public TraceLibre(int couleur) {
-        super(couleur);
+    public TraceLibre(int couleur, int progress) {
+        super(couleur, progress);
     }
 
     protected void dessiner(Canvas canvas) {
