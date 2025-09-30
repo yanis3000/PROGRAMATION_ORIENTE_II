@@ -8,12 +8,23 @@
     tools:context=".LargeurTraitDialogue">
 
     <TextView
-        android:id="@+id/texte"
-        android:layout_width="242dp"
-        android:layout_height="46dp"
-        android:layout_marginTop="55dp"
-        android:text="Largeur :"
+        android:id="@+id/texte2"
+        android:layout_width="210dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="44dp"
+        android:text="Largeur du trait"
         android:textSize="30sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/texte"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="112dp"
+        android:text="Valeur non assignée"
+        android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -22,10 +33,10 @@
         android:id="@+id/seekBar"
         android:layout_width="262dp"
         android:layout_height="25dp"
-        android:layout_marginTop="124dp"
+        android:layout_marginTop="168dp"
         android:max="20"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.408"
+        app:layout_constraintHorizontal_bias="0.578"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -33,7 +44,7 @@
         android:id="@+id/confirm"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="168dp"
+        android:layout_marginTop="220dp"
         android:text="Appliquer"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

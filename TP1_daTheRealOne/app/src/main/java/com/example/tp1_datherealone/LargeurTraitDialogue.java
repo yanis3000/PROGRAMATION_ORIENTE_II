@@ -1,7 +1,6 @@
 package com.example.tp1_datherealone;
 
 import android.app.Dialog;
-import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -15,7 +14,7 @@ public class LargeurTraitDialogue extends Dialog {
     TextView texte;
     Button confirm;
     MainActivity parent;
-    int progress = 15;
+    int progressGlobal = 15;
 
     public LargeurTraitDialogue(@NonNull MainActivity parent) {
         super(parent);
@@ -40,13 +39,12 @@ public class LargeurTraitDialogue extends Dialog {
 
         @Override
         public void onProgressChanged(SeekBar seekbar, int p, boolean fromUser) {
-            progress = p;
-            texte.setText("Largeur : " + p);
+            progressGlobal = p;
+            texte.setText(String.valueOf(p));
         }
 
         @Override
         public void onStartTrackingTouch(SeekBar seekBar) {
-
         }
 
         @Override
@@ -57,10 +55,13 @@ public class LargeurTraitDialogue extends Dialog {
         @Override
         public void onClick(View source){
             if (source == confirm) {
-                parent.progressChoisi = progress;
+                parent.progressChoisi = progressGlobal;
                 dismiss();
             }
 
+        }
+
 
     }
-}}
+
+}

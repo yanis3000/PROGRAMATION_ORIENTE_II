@@ -6,6 +6,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.graphics.Point;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
@@ -32,13 +33,14 @@ public class MainActivity extends AppCompatActivity {
 
     boolean dessineIsTrue;
     int dessineOuForme = 1;
+    int cercleOuRect = 0;
     int couleurChoisi;
     int progressChoisi = 15;
     int couleurCourante = Color.BLACK;
     int couleurBackground = Color.WHITE;
     LargeurTraitDialogue dialogue;
     TraceLibre traceLibre;
-    Forme forme;
+    Rectangle rectangle;
     MotionEvent event;
 //    Efface efface;
     ImageView imgTraceLibre;
@@ -47,10 +49,12 @@ public class MainActivity extends AppCompatActivity {
     ImageView imgRemplir;
     ImageView imgPipette;
     ImageView imgRectangle;
+    ImageView imgCercle;
     ChipGroup chipGroup;
     Bitmap bitmapImage;
+
     ArrayList<TraceLibre> dessinTrace = new ArrayList<TraceLibre>();
-    ArrayList<Forme> dessinForme = new ArrayList<Forme>();
+    ArrayList<Rectangle> dessinRectangle = new ArrayList<Rectangle>();
     public Integer getColorBackground() {
         return couleurBackground;
     }
@@ -89,9 +93,9 @@ public class MainActivity extends AppCompatActivity {
         imgRemplir = findViewById(R.id.remplir);
         imgPipette = findViewById(R.id.pipette);
         imgRectangle = findViewById(R.id.rectangle);
+        imgCercle = findViewById(R.id.cercle);
 
         EcouteurSurfaceTrace es = new EcouteurSurfaceTrace();
-//        EcouteurSurfaceForme esf = new EcouteurSurfaceForme();
         Ecouteur ec = new Ecouteur();
 
         imgTraceLibre.setOnClickListener(ec);
@@ -100,9 +104,9 @@ public class MainActivity extends AppCompatActivity {
         imgRemplir.setOnClickListener(ec);
         imgPipette.setOnClickListener(ec);
         imgRectangle.setOnClickListener(ec);
+        imgCercle.setOnClickListener(ec);
 
         sd.setOnTouchListener(es);
-//        sd.setOnTouchListener(esf);
         sd.setOnClickListener(ec);
     }
 
@@ -130,20 +134,22 @@ public class MainActivity extends AppCompatActivity {
         protected void onDraw(@NonNull Canvas canvas) {
             super.onDraw(canvas);
 
+            for (Rectangle rectangle : dessinRectangle) {
+                rectangle.dessiner(canvas);
+            }
+
             for (TraceLibre traceLibre : dessinTrace) {
                 traceLibre.dessiner(canvas);
             }
 
-            for (Forme forme : dessinForme) {
-                forme.dessiner(canvas);
+            // Faire de faire qu'une seule liste pour tous les elements
+
+            if (rectangle != null) {
+                rectangle.dessiner(canvas);
             }
 
             if (traceLibre != null) {
                 traceLibre.dessiner(canvas);
-            }
-
-            if (forme != null) {
-                forme.dessiner(canvas);
             }
 
         }
@@ -176,18 +182,36 @@ public class MainActivity extends AppCompatActivity {
 
              if (dessineOuForme == 2) {
                  if (event.getAction() == MotionEvent.ACTION_DOWN ) {
-                     forme = new Forme(couleurCourante, progressChoisi);
-                     forme.startP(x, y);
+                     rectangle = new Rectangle(couleurCourante, progressChoisi);
+                     rectangle.startP(x, y);
                  }
                  if (event.getAction() == MotionEvent.ACTION_MOVE) {
-                     forme.endP(x, y);
+                     rectangle.endP(x, y);
                      sd.invalidate();
                  }
                  if (event.getAction() == MotionEvent.ACTION_UP) {
-                     forme.endP(x, y);
-                     dessinForme.add(forme);
+                     rectangle.endP(x, y);
+                     dessinRectangle.add(rectangle);
                      sd.invalidate();
                  }
+             }
+
+             if (dessineOuForme == 3) {
+//                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
+//                     depart = new Point((int)event.getX(), (int)event.getY());
+//                     fin = null;
+//                     sd.invalidate(); // redessiner effaec et appele la foonc  on draw
+//                 }
+//
+//                 if (event.getAction() == MotionEvent.ACTION_MOVE) {
+//                     milieu = new Point((int)event.getX(), (int)event.getY());
+//                     sd.invalidate(); // redessiner effaec et appele la foonc  on draw
+//                 }
+//
+//                 if (event.getAction() == MotionEvent.ACTION_UP) {
+//                     fin = new Point((int)event.getX(), (int)event.getY());
+//                     sd.invalidate(); // redessiner effaec et appele la foonc  on draw
+//                 }
              }
 
             return true;
@@ -238,10 +262,14 @@ public class MainActivity extends AppCompatActivity {
 //            }
 
             if (source == imgRectangle) {
+                cercleOuRect = 1;
                 dessineOuForme = 2;
             }
 
-
+            if (source == imgCercle) {
+                cercleOuRect = 2;
+                dessineOuForme = 2;
+            }
 
 
         }
