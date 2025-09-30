@@ -255,11 +255,11 @@ public class MainActivity extends AppCompatActivity {
                 sd.setBackgroundColor(couleurBackground);
             }
 
-//            if (source == imgPipette) {
-//                Bitmap bmp = sd.getBitmapImage(); //  j'ai rien compris a ma vie
-//                couleurCourante = bmp.getPixel(bmp.getWidth(),bmp.getHeight());
-//
-//            }
+            if (source == imgPipette) {
+                Bitmap bmp = sd.getBitmapImage();
+              //  couleurCourante = bmp.getPixel((int)event.getX() , (int)event.getY());
+                // A voir pourquoi ca ne fonctionne pas ?
+            }
 
             if (source == imgRectangle) {
                 cercleOuRect = 1;

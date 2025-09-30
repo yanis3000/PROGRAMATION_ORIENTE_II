@@ -63,12 +63,23 @@ public class PlacementActivity extends AppCompatActivity {
                 labelReponse.setText(d.format(placement.calculerMontantFinal()));
                 //            }
             }
-            catch (NumberFormatException nfe) {
+            catch (NegativeException nfe) { // Exception si on ne veut pas ce casser la tete
                 creerAlertDialog("Entrer un montant valide, osti");
                 champMontant.setText("");
                 champMontant.requestFocus();
                 labelReponse.setText("");
+
+                nfe.printStackTrace(); // affiche la pile d'appel dans la console LogCat, outil pour le programmeur
+
             }
+
+            // une balle s'attrape qu'une seule fois
+
+
+
+
+
+
         }
     }
 

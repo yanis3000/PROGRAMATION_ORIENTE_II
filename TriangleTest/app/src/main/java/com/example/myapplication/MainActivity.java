@@ -76,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
             }
 
             if (ligne1 != null && ligne2 != null) {
-                canvas.drawLine(ligne2.x, ligne2.y, depart1.x, depart2.y, crayon);
+                canvas.drawLine(ligne2.x, ligne2.y, depart1.x, depart1.y, crayon);
             }
 
         }
@@ -91,17 +91,22 @@ public class MainActivity extends AppCompatActivity {
             int x = (int) event.getX();
             int y = (int) event.getY();
 
-            if (depart1 == null && ligne1 == null) {
+//            if (depart1 == null && ligne1 == null) {
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
                     depart1 = new Point(x, y);
+                    ligne1 = null;
+                    ligne2 = null;
+                    depart2 = null;
+                    ligne3 = null;
                     sd.invalidate();
+//                }
                 }
 
                 if (event.getAction() == MotionEvent.ACTION_MOVE) {
                     ligne1 = new Point(x, y);
                     sd.invalidate();
                 }
-            }
+
 
             if (depart1 != null && ligne1 != null) {
                 if (event.getAction() == MotionEvent.ACTION_UP) {
@@ -117,6 +122,7 @@ public class MainActivity extends AppCompatActivity {
             return true;
         }
     }
+
 
 
 
