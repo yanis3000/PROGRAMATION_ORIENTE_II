@@ -24,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
     SurfaceDessin sd;
     Point depart1, ligne1;
     Point depart2, ligne2;
-    Point ligne3;
+    boolean firstLine = true;
 
 
 
@@ -58,8 +58,9 @@ public class MainActivity extends AppCompatActivity {
         public SurfaceDessin(Context context) {
             super(context);
             crayon = new Paint(Paint.ANTI_ALIAS_FLAG);
-            crayon.setColor(Color.RED);
+            crayon.setColor(Color.BLACK);
             crayon.setStrokeWidth(15);
+
 
         }
 
@@ -68,11 +69,11 @@ public class MainActivity extends AppCompatActivity {
             super.onDraw(canvas);
 
             if (ligne1 != null) {
-                canvas.drawLine((depart1.x) - 30, (depart1.y) - 30, (ligne1.x) - 30, (ligne1.y) - 30, crayon);
+                canvas.drawLine((depart1.x), (depart1.y), (ligne1.x), (ligne1.y), crayon);
             }
 
             if (ligne2 != null) {
-                canvas.drawLine((depart2.x) - 30, (depart2.y) - 30, (ligne2.x) - 30, (ligne2.y) - 30, crayon);
+                canvas.drawLine((depart2.x), (depart2.y), (ligne2.x), (ligne2.y), crayon);
             }
 
             if (ligne1 != null && ligne2 != null) {
@@ -91,33 +92,29 @@ public class MainActivity extends AppCompatActivity {
             int x = (int) event.getX();
             int y = (int) event.getY();
 
-//            if (depart1 == null && ligne1 == null) {
-                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+            sd.clearAnimation();
+
+            if (event.getAction() == MotionEvent.ACTION_DOWN)
+                if (firstLine) {
                     depart1 = new Point(x, y);
-                    ligne1 = null;
-                    ligne2 = null;
-                    depart2 = null;
-                    ligne3 = null;
-                    sd.invalidate();
-//                }
-                }
-
-                if (event.getAction() == MotionEvent.ACTION_MOVE) {
-                    ligne1 = new Point(x, y);
-                    sd.invalidate();
-                }
-
-
-            if (depart1 != null && ligne1 != null) {
-                if (event.getAction() == MotionEvent.ACTION_UP) {
+                } else {
                     depart2 = ligne1;
-                    sd.invalidate();
                 }
 
-                if (event.getAction() == MotionEvent.ACTION_MOVE) {
+            if (event.getAction() == MotionEvent.ACTION_MOVE) {
+                if (firstLine) {
+                    ligne1 = new Point(x, y);
+                } else {
                     ligne2 = new Point(x, y);
-                    sd.invalidate();
                 }
+                sd.invalidate();
+            }
+
+            if (event.getAction() == MotionEvent.ACTION_UP) {
+                if (firstLine) {
+                    firstLine = false;
+                }
+                sd.invalidate();
             }
             return true;
         }

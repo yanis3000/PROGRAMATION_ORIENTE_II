@@ -257,7 +257,7 @@ public class MainActivity extends AppCompatActivity {
 
             if (source == imgPipette) {
                 Bitmap bmp = sd.getBitmapImage();
-              //  couleurCourante = bmp.getPixel((int)event.getX() , (int)event.getY());
+                couleurCourante = bmp.getPixel((int)event.getX() , (int)event.getY());
                 // A voir pourquoi ca ne fonctionne pas ?
             }
 
