@@ -18,10 +18,13 @@ public class SuperPaint {
     public SuperPaint(int couleur, int epaisseur) {
         this.couleur = couleur;
         this.epaisseur = epaisseur;
+
         crayon = new Paint(Paint.ANTI_ALIAS_FLAG);
-        crayon.setColor(couleur);
         crayon.setStyle(Paint.Style.STROKE);
+
+        crayon.setColor(couleur);
         crayon.setStrokeWidth(epaisseur);
+
         path = new Path();
     }
 

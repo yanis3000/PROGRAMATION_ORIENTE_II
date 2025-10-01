@@ -40,7 +40,8 @@ public class MainActivity extends AppCompatActivity {
     int couleurBackground = Color.WHITE;
     LargeurTraitDialogue dialogue;
     TraceLibre traceLibre;
-    Rectangle rectangle;
+    Efface efface;
+    Oval rectangle;
     MotionEvent event;
 //    Efface efface;
     ImageView imgTraceLibre;
@@ -54,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
     Bitmap bitmapImage;
 
     ArrayList<TraceLibre> dessinTrace = new ArrayList<TraceLibre>();
-    ArrayList<Rectangle> dessinRectangle = new ArrayList<Rectangle>();
+    ArrayList<Oval> dessinRectangle = new ArrayList<Oval>();
     public Integer getColorBackground() {
         return couleurBackground;
     }
@@ -119,6 +120,7 @@ public class MainActivity extends AppCompatActivity {
             crayon = new Paint(Paint.ANTI_ALIAS_FLAG);
             crayon.setStyle(Paint.Style.STROKE);
             crayon.setStrokeWidth(progressChoisi);
+            crayon.setColor(couleurCourante);
             path = new Path();
         }
 
@@ -134,7 +136,7 @@ public class MainActivity extends AppCompatActivity {
         protected void onDraw(@NonNull Canvas canvas) {
             super.onDraw(canvas);
 
-            for (Rectangle rectangle : dessinRectangle) {
+            for (Oval rectangle : dessinRectangle) {
                 rectangle.dessiner(canvas);
             }
 
@@ -142,7 +144,14 @@ public class MainActivity extends AppCompatActivity {
                 traceLibre.dessiner(canvas);
             }
 
+            //                     for (TraceLibre traceLibre : dessinTrace) {
+//                         if (traceLibre.couleur != couleurChoisi) {
+//                             traceLibre.couleur = couleurChoisi;
+//                         }
+//                     }
+
             // Faire de faire qu'une seule liste pour tous les elements
+            // faut faire le draw circle
 
             if (rectangle != null) {
                 rectangle.dessiner(canvas);
@@ -150,6 +159,10 @@ public class MainActivity extends AppCompatActivity {
 
             if (traceLibre != null) {
                 traceLibre.dessiner(canvas);
+            }
+
+            if (efface != null) {
+                efface.dessiner(canvas);
             }
 
         }
@@ -170,19 +183,20 @@ public class MainActivity extends AppCompatActivity {
                      traceLibre = new TraceLibre(couleurChoisi, progressChoisi);
                      traceLibre.path.moveTo(x, y);
                  }
-                 if (event.getAction() == MotionEvent.ACTION_MOVE) {
+                 else if (event.getAction() == MotionEvent.ACTION_MOVE) {
                      traceLibre.path.lineTo(x, y);
                  }
-                 if (event.getAction() == MotionEvent.ACTION_UP) {
+                 else if (event.getAction() == MotionEvent.ACTION_UP) {
                      dessinTrace.add(traceLibre);
-                     traceLibre = null; // Parce que la couleur se rénitialise à chaque fois
+
+                     traceLibre = null;
                  }
                  sd.invalidate();
              }
 
              if (dessineOuForme == 2) {
                  if (event.getAction() == MotionEvent.ACTION_DOWN ) {
-                     rectangle = new Rectangle(couleurCourante, progressChoisi);
+                     rectangle = new Oval(couleurCourante, progressChoisi);
                      rectangle.startP(x, y);
                  }
                  if (event.getAction() == MotionEvent.ACTION_MOVE) {

@@ -24,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
     SurfaceDessin sd;
     Point depart1, ligne1;
     Point depart2, ligne2;
-    boolean firstLine = true;
+    int firstLine = 0;
 
 
 
@@ -92,30 +92,39 @@ public class MainActivity extends AppCompatActivity {
             int x = (int) event.getX();
             int y = (int) event.getY();
 
-            sd.clearAnimation();
+            if (firstLine == 2) {
+                depart1 = null;
+                depart2 = null;
+                ligne1 = null;
+                ligne2 = null;
+                firstLine = 0;
+            }
 
-            if (event.getAction() == MotionEvent.ACTION_DOWN)
-                if (firstLine) {
+            if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                if (firstLine == 0 || firstLine == 2) {
                     depart1 = new Point(x, y);
-                } else {
+                    firstLine = 0;
+                }
+                else if (firstLine == 1) {
                     depart2 = ligne1;
                 }
-
+            }
             if (event.getAction() == MotionEvent.ACTION_MOVE) {
-                if (firstLine) {
+                if (firstLine == 0) {
                     ligne1 = new Point(x, y);
-                } else {
+                } else if (firstLine == 1) {
                     ligne2 = new Point(x, y);
                 }
                 sd.invalidate();
             }
 
             if (event.getAction() == MotionEvent.ACTION_UP) {
-                if (firstLine) {
-                    firstLine = false;
+                if (firstLine == 0 || firstLine == 1) {
+                    firstLine++;
                 }
                 sd.invalidate();
             }
+
             return true;
         }
     }

@@ -7,19 +7,14 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.view.MotionEvent;
 
-public class TraceLibre extends SuperPaint {
+public class Efface extends SuperPaint {
 
-    public TraceLibre(int couleur, int progress) {
+    public Efface(int couleur, int progress) {
         super(couleur, progress);
     }
 
     protected void dessiner(Canvas canvas) {
         canvas.drawPath(path, crayon);
     }
-
-    // setStrokeJoin(Join.ROUND)
-    // setStrokeCap(Cap.ROUND)
-
-
 
 }
