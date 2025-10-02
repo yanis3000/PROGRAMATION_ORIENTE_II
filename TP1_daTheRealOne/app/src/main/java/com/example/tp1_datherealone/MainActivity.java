@@ -33,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
     boolean dessineIsTrue;
     int dessineOuForme = 1;
     int cercleOuRect = 0;
+    int option = 1;
     int couleurChoisi;
     int progressChoisi = 15;
     int couleurCourante = Color.BLACK;
@@ -50,12 +51,13 @@ public class MainActivity extends AppCompatActivity {
     ImageView imgPipette;
     ImageView imgRectangle;
     ImageView imgCercle;
+    ImageView imgTriangle;
     ChipGroup chipGroup;
     Bitmap bitmapImage;
 
     ArrayList<SuperPaint> superPaintListe = new ArrayList<SuperPaint>();
-//    ArrayList<TraceLibre> dessinTrace = new ArrayList<TraceLibre>();
-//    ArrayList<Oval> dessinRectangle = new ArrayList<Oval>();
+    ArrayList<Efface> effaceListe = new ArrayList<Efface>();
+    ArrayList<TraceLibre> dessinTrace = new ArrayList<TraceLibre>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,6 +90,7 @@ public class MainActivity extends AppCompatActivity {
         imgPipette = findViewById(R.id.pipette);
         imgRectangle = findViewById(R.id.rectangle);
         imgCercle = findViewById(R.id.cercle);
+        imgTriangle = findViewById(R.id.triangle);
 
         EcouteurSurfaceTrace es = new EcouteurSurfaceTrace();
         Ecouteur ec = new Ecouteur();
@@ -99,6 +102,7 @@ public class MainActivity extends AppCompatActivity {
         imgPipette.setOnClickListener(ec);
         imgRectangle.setOnClickListener(ec);
         imgCercle.setOnClickListener(ec);
+        imgTriangle.setOnClickListener(ec);
 
         sd.setOnTouchListener(es);
         sd.setOnClickListener(ec);
@@ -128,30 +132,26 @@ public class MainActivity extends AppCompatActivity {
         protected void onDraw(@NonNull Canvas canvas) {
             super.onDraw(canvas);
 
+            // On met tous sur une liste pour qu'on puisse avoir tous les elems
+
             for (SuperPaint superPaint : superPaintListe) {
                 superPaint.dessiner(canvas);
             }
 
-//            for (Oval rectangle : dessinRectangle) {
-//                rectangle.dessiner(canvas);
-//            }
-//
 //            for (TraceLibre traceLibre : dessinTrace) {
 //                traceLibre.dessiner(canvas);
 //            }
 
-            //                     for (TraceLibre traceLibre : dessinTrace) {
-//                         if (traceLibre.couleur != couleurChoisi) {
-//                             traceLibre.couleur = couleurChoisi;
-//                         }
-//                     }
+//            for (Efface efface : effaceListe) {
+//                if (efface.couleur != couleurBackground) efface.couleur = couleurBackground;
+//                efface.dessiner(canvas);
+//            }
 
-            // Faire de faire qu'une seule liste pour tous les elements
             // faut faire le draw circle
 
-            if (rectangle != null) {
-                rectangle.dessiner(canvas);
-            }
+//            if (rectangle != null) {
+//                rectangle.dessiner(canvas);
+//            }
 
             if (traceLibre != null) {
                 traceLibre.dessiner(canvas);
@@ -172,57 +172,71 @@ public class MainActivity extends AppCompatActivity {
             float x = event.getX();
             float y = event.getY();
 
-             couleurChoisi = dessineIsTrue ? couleurCourante : couleurBackground;
+            switch (option) {
+                case 1 : {
+                    if (event.getAction() == MotionEvent.ACTION_DOWN ) {
+                        traceLibre = new TraceLibre(couleurCourante, progressChoisi);
+                        traceLibre.path.moveTo(x, y);
+                    }
+                    else if (event.getAction() == MotionEvent.ACTION_MOVE) {
+                        traceLibre.path.lineTo(x, y);
+                    }
+                    else if (event.getAction() == MotionEvent.ACTION_UP) {
+                        superPaintListe.add(traceLibre);
+                        traceLibre = null;
+                    }
+                    break;
+                }
+                case 2 : {
+                    if (event.getAction() == MotionEvent.ACTION_DOWN ) {
+                        efface = new Efface(couleurBackground, progressChoisi);
+                        efface.path.moveTo(x, y);
+                    }
+                    else if (event.getAction() == MotionEvent.ACTION_MOVE) {
+                        efface.path.lineTo(x, y);
+                    }
+                    else if (event.getAction() == MotionEvent.ACTION_UP) {
+                        superPaintListe.add(efface);
+                        efface = null;
+                    }
+                    break;
+                }
+                case 3 : {
 
-             if (dessineOuForme == 1) {
-                 if (event.getAction() == MotionEvent.ACTION_DOWN ) {
-                     traceLibre = new TraceLibre(couleurChoisi, progressChoisi);
-                     traceLibre.path.moveTo(x, y);
-                 }
-                 else if (event.getAction() == MotionEvent.ACTION_MOVE) {
-                     traceLibre.path.lineTo(x, y);
-                 }
-                 else if (event.getAction() == MotionEvent.ACTION_UP) {
-                     superPaintListe.add(traceLibre);
 
-                     traceLibre = null;
-                 }
-                 sd.invalidate();
-             }
 
-             if (dessineOuForme == 2) {
-                 if (event.getAction() == MotionEvent.ACTION_DOWN ) {
-                     rectangle = new Oval(couleurCourante, progressChoisi);
-                     rectangle.startP(x, y);
-                 }
-                 if (event.getAction() == MotionEvent.ACTION_MOVE) {
-                     rectangle.endP(x, y);
-                     sd.invalidate();
-                 }
-                 if (event.getAction() == MotionEvent.ACTION_UP) {
-                     rectangle.endP(x, y);
-//                     dessinRectangle.add(rectangle);
-                     sd.invalidate();
-                 }
-             }
 
-             if (dessineOuForme == 3) {
-//                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
-//                     depart = new Point((int)event.getX(), (int)event.getY());
-//                     fin = null;
-//                     sd.invalidate(); // redessiner effaec et appele la foonc  on draw
+
+
+
+                    break;
+                }
+
+
+
+
+
+
+
+            }
+
+
+
+//                 if (event.getAction() == MotionEvent.ACTION_DOWN ) {
+//                     rectangle = new Oval(couleurCourante, progressChoisi);
+//                     rectangle.startP(x, y);
 //                 }
-//
 //                 if (event.getAction() == MotionEvent.ACTION_MOVE) {
-//                     milieu = new Point((int)event.getX(), (int)event.getY());
-//                     sd.invalidate(); // redessiner effaec et appele la foonc  on draw
+//                     rectangle.endP(x, y);
+//                     sd.invalidate();
 //                 }
-//
 //                 if (event.getAction() == MotionEvent.ACTION_UP) {
-//                     fin = new Point((int)event.getX(), (int)event.getY());
-//                     sd.invalidate(); // redessiner effaec et appele la foonc  on draw
+//                     rectangle.endP(x, y);
+////                     dessinRectangle.add(rectangle);
+//                     sd.invalidate();
 //                 }
-             }
+
+            sd.invalidate();
 
             return true;
         }
@@ -238,47 +252,41 @@ public class MainActivity extends AppCompatActivity {
                 String couleur = (String) chip.getTag();
                 couleurCourante = Color.parseColor(couleur);
 
-                if (traceLibre != null) {
-                    traceLibre.setCouleur(couleurCourante);
-                    traceLibre.setEpaisseur(progressChoisi);
-                }
+//                if (traceLibre != null) {
+//                    traceLibre.setCouleur(couleurCourante);
+//                    traceLibre.setEpaisseur(progressChoisi);
+//                }
             }
+
 
             if (source == imgTraceLibre) {
-                dessineOuForme = 1;
-                dessineIsTrue = true;
+                option = 1;
             }
 
-            if (source == imgEfface) {
-                dessineOuForme = 1;
-                dessineIsTrue = false;
+            else if (source == imgEfface) {
+                option = 2;
             }
 
-            if (source == imgEpaisseur) {
+            else if (source == imgEpaisseur) {
+//                dialog.seekBar.ge t -- A quoi ca sert deja ?
                 LargeurTraitDialogue dialog = new LargeurTraitDialogue(MainActivity.this);
-//                dialog.seekBar.ge t
                 dialog.show();
             }
 
-            if (source == imgRemplir) {
+            else if (source == imgRemplir) {
                 couleurBackground = couleurCourante;
                 sd.setBackgroundColor(couleurBackground);
             }
 
-            if (source == imgPipette) {
-                Bitmap bmp = sd.getBitmapImage();
-                couleurCourante = bmp.getPixel((int)event.getX() , (int)event.getY());
-                // A voir pourquoi ca ne fonctionne pas ?
+            else if (source == imgPipette) {
             }
 
-            if (source == imgRectangle) {
-                cercleOuRect = 1;
-                dessineOuForme = 2;
+            else if (source == imgRectangle) {
             }
+            else if (source == imgCercle) {
+            }
+            else if (source == imgTriangle) {
 
-            if (source == imgCercle) {
-                cercleOuRect = 2;
-                dessineOuForme = 2;
             }
 
 
