@@ -6,7 +6,6 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
-import android.graphics.Point;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
@@ -54,11 +53,9 @@ public class MainActivity extends AppCompatActivity {
     ChipGroup chipGroup;
     Bitmap bitmapImage;
 
-    ArrayList<TraceLibre> dessinTrace = new ArrayList<TraceLibre>();
-    ArrayList<Oval> dessinRectangle = new ArrayList<Oval>();
-    public Integer getColorBackground() {
-        return couleurBackground;
-    }
+    ArrayList<SuperPaint> superPaintListe = new ArrayList<SuperPaint>();
+//    ArrayList<TraceLibre> dessinTrace = new ArrayList<TraceLibre>();
+//    ArrayList<Oval> dessinRectangle = new ArrayList<Oval>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,17 +69,13 @@ public class MainActivity extends AppCompatActivity {
         });
 
         parent = findViewById(R.id.parent);
-
         sd = new SurfaceDessin(this);
         sd.setLayoutParams(new LinearLayout.LayoutParams(-1, -1));
         sd.setBackgroundColor(couleurBackground);
         parent.addView(sd);
 
-
         chipGroup = findViewById(R.id.ChipGroup);
-
         parent.setBackgroundColor(couleurBackground);
-
 
         for (int i = 0; i < chipGroup.getChildCount(); i++) {
             ((Chip) chipGroup.getChildAt(i)).setOnClickListener(new Ecouteur());
@@ -128,7 +121,6 @@ public class MainActivity extends AppCompatActivity {
             this.buildDrawingCache();
             bitmapImage = Bitmap.createBitmap(this.getDrawingCache());
             this.destroyDrawingCache();
-
             return bitmapImage;
         }
 
@@ -136,13 +128,17 @@ public class MainActivity extends AppCompatActivity {
         protected void onDraw(@NonNull Canvas canvas) {
             super.onDraw(canvas);
 
-            for (Oval rectangle : dessinRectangle) {
-                rectangle.dessiner(canvas);
+            for (SuperPaint superPaint : superPaintListe) {
+                superPaint.dessiner(canvas);
             }
 
-            for (TraceLibre traceLibre : dessinTrace) {
-                traceLibre.dessiner(canvas);
-            }
+//            for (Oval rectangle : dessinRectangle) {
+//                rectangle.dessiner(canvas);
+//            }
+//
+//            for (TraceLibre traceLibre : dessinTrace) {
+//                traceLibre.dessiner(canvas);
+//            }
 
             //                     for (TraceLibre traceLibre : dessinTrace) {
 //                         if (traceLibre.couleur != couleurChoisi) {
@@ -187,7 +183,7 @@ public class MainActivity extends AppCompatActivity {
                      traceLibre.path.lineTo(x, y);
                  }
                  else if (event.getAction() == MotionEvent.ACTION_UP) {
-                     dessinTrace.add(traceLibre);
+                     superPaintListe.add(traceLibre);
 
                      traceLibre = null;
                  }
@@ -205,7 +201,7 @@ public class MainActivity extends AppCompatActivity {
                  }
                  if (event.getAction() == MotionEvent.ACTION_UP) {
                      rectangle.endP(x, y);
-                     dessinRectangle.add(rectangle);
+//                     dessinRectangle.add(rectangle);
                      sd.invalidate();
                  }
              }

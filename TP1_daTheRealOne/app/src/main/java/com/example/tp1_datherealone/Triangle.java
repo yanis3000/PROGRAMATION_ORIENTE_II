@@ -11,7 +11,7 @@ public class Triangle extends SuperPaint {
         super(couleur, progress);
     }
 
-    public void dessiner(Canvas canvas) {
+    void dessiner(Canvas canvas) {
         if (ligne1 != null) {
             canvas.drawLine((depart1.x), (depart1.y), (ligne1.x), (ligne1.y), crayon);
         }

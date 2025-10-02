@@ -23,7 +23,7 @@ public class Oval extends SuperPaint {
         endY = y;
     }
 
-    public void dessiner(Canvas canvas) {
+    void dessiner(Canvas canvas) {
         canvas.drawOval(startX, startY, endX, endY , crayon);
     }
 

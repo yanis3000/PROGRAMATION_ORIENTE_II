@@ -35,15 +35,12 @@ public class LargeurTraitDialogue extends Dialog {
 
         texte.setText(String.valueOf(parent.progressChoisi));
 
-
         Ecouteuse ec = new Ecouteuse();
         seekBar.setOnSeekBarChangeListener(ec);
         confirm.setOnClickListener(ec);
     }
 
     private class Ecouteuse implements SeekBar.OnSeekBarChangeListener, View.OnClickListener {
-        SharedPreferences sharedPref = parent.getSharedPreferences("seekbarPrefs", Context.MODE_PRIVATE);
-
         @Override
         public void onProgressChanged(SeekBar seekbar, int p, boolean fromUser) {
             progressGlobal = p;
@@ -56,16 +53,14 @@ public class LargeurTraitDialogue extends Dialog {
 
         @Override
         public void onStopTrackingTouch(SeekBar seekBar) {
-
+            seekBar.setProgress(progressGlobal);
         }
 
         @Override
         public void onClick(View source){
             if (source == confirm) {
                 parent.progressChoisi = progressGlobal;
-//                sharedPref.edit().putInt("seekbarPosition", parent.progressChoisi).apply();
-//                int pos = sharedPref.getInt("seekbarPosition", 4);
-
+                seekBar.setProgress(parent.progressChoisi); // comment faire pour que la position du seekbar soit initialise ?
                 dismiss();
             }
 

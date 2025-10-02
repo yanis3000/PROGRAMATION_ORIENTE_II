@@ -1,12 +1,9 @@
 package com.example.tp1_datherealone;
 
-import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
-import android.view.MotionEvent;
-import android.view.View;
 
 public class SuperPaint {
 
@@ -29,8 +26,7 @@ public class SuperPaint {
     }
 
     public void setCouleur(int newColor) {
-        this.couleur = newColor;
-        crayon.setColor(this.couleur);
+
     }
 
     public void setEpaisseur(float newWidth) {
@@ -38,4 +34,6 @@ public class SuperPaint {
         crayon.setStrokeWidth(epaisseur);
     }
 
+    void dessiner(Canvas canvas) {
+    }
 }

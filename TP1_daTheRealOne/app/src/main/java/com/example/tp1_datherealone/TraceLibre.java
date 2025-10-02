@@ -1,11 +1,8 @@
 package com.example.tp1_datherealone;
 
-import android.content.Context;
 import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.Path;
-import android.view.MotionEvent;
+
+import androidx.annotation.NonNull;
 
 public class TraceLibre extends SuperPaint {
 
@@ -13,7 +10,7 @@ public class TraceLibre extends SuperPaint {
         super(couleur, progress);
     }
 
-    protected void dessiner(Canvas canvas) {
+    public void dessiner(Canvas canvas) {
         canvas.drawPath(path, crayon);
     }
 
