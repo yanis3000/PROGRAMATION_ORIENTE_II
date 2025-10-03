@@ -1,13 +1,14 @@
 package com.example.tp1_datherealone;
 
 import android.graphics.Canvas;
+import android.graphics.Color;
 
 public class Efface extends SuperPaint {
 
     MainActivity parent;
 
-    public Efface(int couleur, int progress) {
-        super(couleur, progress);
+    public Efface(int progress) {
+        super(Color.WHITE, progress);
     }
 
     @Override

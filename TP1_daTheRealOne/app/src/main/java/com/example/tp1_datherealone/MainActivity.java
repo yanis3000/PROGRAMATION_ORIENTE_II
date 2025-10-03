@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
     int couleurChoisi;
     int progressChoisi = 15;
     int couleurCourante = Color.BLACK;
-    int couleurBackground = Color.WHITE;
+    public static int couleurBackground = Color.WHITE;
     LargeurTraitDialogue dialogue;
     TraceLibre traceLibre;
     Efface efface;
@@ -134,7 +134,16 @@ public class MainActivity extends AppCompatActivity {
 
             // On met tous sur une liste pour qu'on puisse avoir tous les elems
 
+
+//            for (Efface efface : effaceListe) {
+//                if (efface.couleur != couleurBackground) efface.couleur = couleurBackground;
+//                superPaintListe.add(efface);
+//            }
+
             for (SuperPaint superPaint : superPaintListe) {
+//                if (superPaint == efface && efface.couleur != couleurBackground) {
+//                    efface.couleur = couleurBackground;
+//                }
                 superPaint.dessiner(canvas);
             }
 
@@ -142,10 +151,6 @@ public class MainActivity extends AppCompatActivity {
 //                traceLibre.dessiner(canvas);
 //            }
 
-//            for (Efface efface : effaceListe) {
-//                if (efface.couleur != couleurBackground) efface.couleur = couleurBackground;
-//                efface.dessiner(canvas);
-//            }
 
             // faut faire le draw circle
 
@@ -189,7 +194,7 @@ public class MainActivity extends AppCompatActivity {
                 }
                 case 2 : {
                     if (event.getAction() == MotionEvent.ACTION_DOWN ) {
-                        efface = new Efface(couleurBackground, progressChoisi);
+                        efface = new Efface(progressChoisi);
                         efface.path.moveTo(x, y);
                     }
                     else if (event.getAction() == MotionEvent.ACTION_MOVE) {

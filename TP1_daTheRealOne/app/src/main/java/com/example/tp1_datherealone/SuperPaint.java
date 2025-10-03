@@ -26,7 +26,8 @@ public class SuperPaint {
     }
 
     public void setCouleur(int newColor) {
-
+        this.couleur = newColor;
+        crayon.setColor(newColor);
     }
 
     public void setEpaisseur(float newWidth) {
