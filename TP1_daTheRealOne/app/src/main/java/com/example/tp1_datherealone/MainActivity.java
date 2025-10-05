@@ -6,6 +6,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.graphics.Point;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
@@ -29,19 +30,19 @@ public class MainActivity extends AppCompatActivity {
 
     SurfaceDessin sd;
     ConstraintLayout parent;
-
-    boolean dessineIsTrue;
-    int dessineOuForme = 1;
-    int cercleOuRect = 0;
-    int option = 1;
-    int couleurChoisi;
-    int progressChoisi = 15;
-    int couleurCourante = Color.BLACK;
+    private int option = 1;
+    public int progressChoisi = 15;
+    private int couleurCourante = Color.BLACK;
     public static int couleurBackground = Color.WHITE;
+    private Point depart1, ligne1;
+    private Point depart2, ligne2;
+    private int firstLine = 0;
     LargeurTraitDialogue dialogue;
     TraceLibre traceLibre;
     Efface efface;
-    Oval rectangle;
+    Rectangle rectangle;
+    Oval cercle;
+    Triangle triangle;
     MotionEvent event;
 //    Efface efface;
     ImageView imgTraceLibre;
@@ -134,29 +135,9 @@ public class MainActivity extends AppCompatActivity {
 
             // On met tous sur une liste pour qu'on puisse avoir tous les elems
 
-
-//            for (Efface efface : effaceListe) {
-//                if (efface.couleur != couleurBackground) efface.couleur = couleurBackground;
-//                superPaintListe.add(efface);
-//            }
-
             for (SuperPaint superPaint : superPaintListe) {
-//                if (superPaint == efface && efface.couleur != couleurBackground) {
-//                    efface.couleur = couleurBackground;
-//                }
                 superPaint.dessiner(canvas);
             }
-
-//            for (TraceLibre traceLibre : dessinTrace) {
-//                traceLibre.dessiner(canvas);
-//            }
-
-
-            // faut faire le draw circle
-
-//            if (rectangle != null) {
-//                rectangle.dessiner(canvas);
-//            }
 
             if (traceLibre != null) {
                 traceLibre.dessiner(canvas);
@@ -165,6 +146,19 @@ public class MainActivity extends AppCompatActivity {
             if (efface != null) {
                 efface.dessiner(canvas);
             }
+
+            if (rectangle != null) {
+                rectangle.dessiner(canvas);
+            }
+
+            if (cercle != null) {
+                cercle.dessiner(canvas);
+            }
+
+            if (triangle != null) {
+                triangle.dessiner(canvas);
+            }
+
 
         }
     }
@@ -190,6 +184,7 @@ public class MainActivity extends AppCompatActivity {
                         superPaintListe.add(traceLibre);
                         traceLibre = null;
                     }
+                    sd.invalidate();
                     break;
                 }
                 case 2 : {
@@ -204,45 +199,94 @@ public class MainActivity extends AppCompatActivity {
                         superPaintListe.add(efface);
                         efface = null;
                     }
+                    sd.invalidate();
+
                     break;
                 }
                 case 3 : {
-
-
-
-
-
-
-
+                    Bitmap bmp = sd.getBitmapImage();
+                    couleurCourante = bmp.getPixel((int)event.getX() , (int)event.getY());
                     break;
                 }
 
+                case 4 : {
+                    if (event.getAction() == MotionEvent.ACTION_DOWN ) {
+                        rectangle = new Rectangle(couleurCourante, progressChoisi);
+                        rectangle.startP(x, y);
+                    }
+                    if (event.getAction() == MotionEvent.ACTION_MOVE) {
+                        rectangle.endP(x, y);
+                        sd.invalidate();
+                    }
+                    if (event.getAction() == MotionEvent.ACTION_UP) {
+                        rectangle.endP(x, y);
+                        superPaintListe.add(rectangle);
+                        sd.invalidate();
+                    }
+                    break;
+                }
 
+                case 5 : {
+                    if (event.getAction() == MotionEvent.ACTION_DOWN ) {
+                        cercle = new Oval(couleurCourante, progressChoisi);
+                        cercle.startP(x, y);
+                    }
+                    if (event.getAction() == MotionEvent.ACTION_MOVE) {
+                        cercle.endP(x, y);
+                        sd.invalidate();
+                    }
+                    if (event.getAction() == MotionEvent.ACTION_UP) {
+                        cercle.endP(x, y);
+                        superPaintListe.add(cercle);
+                        sd.invalidate();
+                    }
+                    break;
+                }
 
+                case 6 : {
+                    if (firstLine == 2) {
+                        depart1 = null;
+                        depart2 = null;
+                        ligne1 = null;
+                        ligne2 = null;
+                        triangle = null;
+                        firstLine = 0;
+                    }
 
+                    if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                        if (firstLine == 0 || firstLine == 2) {
+                            triangle = new Triangle(couleurCourante, progressChoisi);
+                            depart1 = new Point((int) x, (int)y);
+                            triangle.depart1 = depart1;
+                            firstLine = 0;
+                        }
+                        else if (firstLine == 1) {
+                            depart2 = ligne1;
+                            triangle.depart2 = depart2;
+                        }
+                    }
+                    if (event.getAction() == MotionEvent.ACTION_MOVE) {
+                        if (firstLine == 0) {
+                            ligne1 = new Point((int) x, (int) y);
+                            triangle.ligne1 = ligne1;
+                        } else if (firstLine == 1) {
+                            ligne2 = new Point((int) x, (int) y);
+                            triangle.ligne2 = ligne2;
+                        }
+                        sd.invalidate();
+                    }
 
+                    if (event.getAction() == MotionEvent.ACTION_UP) {
+                        if (firstLine == 0 || firstLine == 1) {
+                            firstLine++;
+                        }
+                        superPaintListe.add(triangle);
+                        sd.invalidate();
+                    }
 
-
+                    break;
+                }
             }
-
-
-
-//                 if (event.getAction() == MotionEvent.ACTION_DOWN ) {
-//                     rectangle = new Oval(couleurCourante, progressChoisi);
-//                     rectangle.startP(x, y);
-//                 }
-//                 if (event.getAction() == MotionEvent.ACTION_MOVE) {
-//                     rectangle.endP(x, y);
-//                     sd.invalidate();
-//                 }
-//                 if (event.getAction() == MotionEvent.ACTION_UP) {
-//                     rectangle.endP(x, y);
-////                     dessinRectangle.add(rectangle);
-//                     sd.invalidate();
-//                 }
-
-            sd.invalidate();
-
             return true;
         }
     }
@@ -256,11 +300,6 @@ public class MainActivity extends AppCompatActivity {
                 Chip chip = (Chip) source;
                 String couleur = (String) chip.getTag();
                 couleurCourante = Color.parseColor(couleur);
-
-//                if (traceLibre != null) {
-//                    traceLibre.setCouleur(couleurCourante);
-//                    traceLibre.setEpaisseur(progressChoisi);
-//                }
             }
 
 
@@ -284,14 +323,17 @@ public class MainActivity extends AppCompatActivity {
             }
 
             else if (source == imgPipette) {
+                option = 3;
             }
 
             else if (source == imgRectangle) {
+                option = 4;
             }
             else if (source == imgCercle) {
+                option = 5;
             }
             else if (source == imgTriangle) {
-
+                option = 6;
             }
 
 
