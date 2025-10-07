@@ -11,4 +11,8 @@
     <color name="orange">#FF7518</color>
     <color name="green">#008000</color>
     <color name="purple">#7F00FF</color>
+
+
+    <color name="couleurPrincipal">#C2DFFA</color>
+
 </resources>

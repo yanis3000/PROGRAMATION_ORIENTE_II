@@ -8,6 +8,22 @@
     android:orientation="vertical"
     tools:context=".MainActivity">
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/titre"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#A6D3F6">
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Paint"
+            android:textSize="24sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
     <HorizontalScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -133,6 +149,38 @@
                 app:srcCompat="@drawable/efface" />
 
             <ImageView
+                android:id="@+id/triangle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                app:srcCompat="@drawable/triangle" />
+
+            <ImageView
+                android:id="@+id/cercle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                app:srcCompat="@drawable/cercle" />
+
+            <ImageView
+                android:id="@+id/rectangle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                app:srcCompat="@drawable/rectangle" />
+
+            <ImageView
+                android:id="@+id/epaisseur"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                app:srcCompat="@drawable/largeur_trait" />
+
+            <ImageView
                 android:id="@+id/remplir"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -149,20 +197,12 @@
                 app:srcCompat="@drawable/pipette" />
 
             <ImageView
-                android:id="@+id/epaisseur"
+                android:id="@+id/undo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
                 android:layout_weight="1"
-                app:srcCompat="@drawable/largeur_trait" />
-
-            <ImageView
-                android:id="@+id/triangle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:layout_weight="1"
-                app:srcCompat="@drawable/triangle" />
+                app:srcCompat="@drawable/undo" />
 
             <ImageView
                 android:id="@+id/redo"
@@ -173,22 +213,20 @@
                 app:srcCompat="@drawable/redo" />
 
             <ImageView
-                android:id="@+id/rectangle"
+                android:id="@+id/enregistre"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
                 android:layout_weight="1"
-                app:srcCompat="@drawable/rectangle" />
-
-            <ImageView
-                android:id="@+id/cercle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:layout_weight="1"
-                app:srcCompat="@drawable/cercle" />
+                app:srcCompat="@drawable/enregistrer" />
 
         </LinearLayout>
     </HorizontalScrollView>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/home"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp" />
 
 </LinearLayout>

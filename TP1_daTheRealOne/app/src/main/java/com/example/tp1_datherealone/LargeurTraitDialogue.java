@@ -38,6 +38,8 @@ public class LargeurTraitDialogue extends Dialog {
         Ecouteuse ec = new Ecouteuse();
         seekBar.setOnSeekBarChangeListener(ec);
         confirm.setOnClickListener(ec);
+
+        seekBar.setProgress(parent.progressChoisi);
     }
 
     private class Ecouteuse implements SeekBar.OnSeekBarChangeListener, View.OnClickListener {

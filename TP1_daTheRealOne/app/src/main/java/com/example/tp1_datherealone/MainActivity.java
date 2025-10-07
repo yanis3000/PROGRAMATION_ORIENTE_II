@@ -8,6 +8,7 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Point;
 import android.os.Bundle;
+import android.os.Environment;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
@@ -24,7 +25,10 @@ import androidx.core.view.WindowInsetsCompat;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -53,10 +57,16 @@ public class MainActivity extends AppCompatActivity {
     ImageView imgRectangle;
     ImageView imgCercle;
     ImageView imgTriangle;
+    ImageView imgEnregistrer;
+    ImageView imgRedo;
+    ImageView imgUndo;
     ChipGroup chipGroup;
     Bitmap bitmapImage;
 
     ArrayList<SuperPaint> superPaintListe = new ArrayList<SuperPaint>();
+    private int indexListe = 0; // on pourra essayer d'utiliser un splice
+
+
     ArrayList<Efface> effaceListe = new ArrayList<Efface>();
     ArrayList<TraceLibre> dessinTrace = new ArrayList<TraceLibre>();
 
@@ -92,6 +102,9 @@ public class MainActivity extends AppCompatActivity {
         imgRectangle = findViewById(R.id.rectangle);
         imgCercle = findViewById(R.id.cercle);
         imgTriangle = findViewById(R.id.triangle);
+        imgEnregistrer = findViewById(R.id.enregistre);
+        imgRedo = findViewById(R.id.redo);
+        imgUndo = findViewById(R.id.undo);
 
         EcouteurSurfaceTrace es = new EcouteurSurfaceTrace();
         Ecouteur ec = new Ecouteur();
@@ -104,6 +117,9 @@ public class MainActivity extends AppCompatActivity {
         imgRectangle.setOnClickListener(ec);
         imgCercle.setOnClickListener(ec);
         imgTriangle.setOnClickListener(ec);
+        imgEnregistrer.setOnClickListener(ec);
+        imgRedo.setOnClickListener(ec);
+        imgUndo.setOnClickListener(ec);
 
         sd.setOnTouchListener(es);
         sd.setOnClickListener(ec);
@@ -312,7 +328,6 @@ public class MainActivity extends AppCompatActivity {
             }
 
             else if (source == imgEpaisseur) {
-//                dialog.seekBar.ge t -- A quoi ca sert deja ?
                 LargeurTraitDialogue dialog = new LargeurTraitDialogue(MainActivity.this);
                 dialog.show();
             }
@@ -335,8 +350,49 @@ public class MainActivity extends AppCompatActivity {
             else if (source == imgTriangle) {
                 option = 6;
             }
+            else if (source == imgRedo) {
+                indexListe++;
+                indexListe  = Math.max(indexListe, 0);
+//                superPaintListe.c
 
+            }
 
+            else if (source == imgUndo) {
+                indexListe--;
+                indexListe  = Math.min(indexListe, superPaintListe.size());
+
+            }
+
+            else if (source == imgEnregistrer) {
+
+                // Source : https://stackoverflow.com/questions/2661536/how-to-programmatically-take-a-screenshot-on-android
+
+                Date now = new Date();
+                android.text.format.DateFormat.format("yyyy-MM-dd_hh:mm:ss", now);
+
+                try {
+                    // image naming and path  to include sd card  appending name you choose for file
+                    String mPath = Environment.getExternalStorageDirectory().toString() + "/" + now + ".jpg";
+
+                    // create bitmap screen capture
+                    View v1 = getWindow().getDecorView().getRootView();
+                    v1.setDrawingCacheEnabled(true);
+                    Bitmap bitmap = Bitmap.createBitmap(v1.getDrawingCache());
+                    v1.setDrawingCacheEnabled(false);
+
+                    File imageFile = new File(mPath);
+
+                    FileOutputStream outputStream = new FileOutputStream(imageFile);
+                    int quality = 100;
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, quality, outputStream);
+                    outputStream.flush();
+                    outputStream.close();
+
+                } catch (Throwable e) {
+                    // Several error may come out with file handling or DOM
+                    e.printStackTrace();
+                }
+            }
         }
     }
 }
