@@ -8,11 +8,13 @@
     android:orientation="vertical"
     tools:context=".MainActivity">
 
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/titre"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#A6D3F6">
+
 
         <TextView
             android:id="@+id/textView"
@@ -21,7 +23,8 @@
             android:text="Paint"
             android:textSize="24sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            tools:ignore="MissingConstraints" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <HorizontalScrollView

@@ -365,7 +365,7 @@ public class MainActivity extends AppCompatActivity {
 
             else if (source == imgEnregistrer) {
 
-                // Source : https://stackoverflow.com/questions/2661536/how-to-programmatically-take-a-screenshot-on-android
+                // Source : https://www.geeksforgeeks.org/android/how-to-take-screenshot-programmatically-in-android/
 
                 Date now = new Date();
                 android.text.format.DateFormat.format("yyyy-MM-dd_hh:mm:ss", now);
