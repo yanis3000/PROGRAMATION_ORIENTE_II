@@ -1,0 +1,16 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.Examen2" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Customize your light theme here. -->
+         <item name="colorSurface">@color/couleurFond</item>
+        <item name="colorOnSurface">@color/white</item>
+        <item name="colorSecondaryContainer">@color/chip_background_checked</item>
+        <item name="colorPrimary">@color/chip_background_checked</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorSecondary">@color/chip_background_checked</item>
+        <item name="android:textColor">@color/chip_background_checked</item>
+    </style>
+
+
+    <style name="Theme.Examen2" parent="Base.Theme.Examen2" />
+</resources>

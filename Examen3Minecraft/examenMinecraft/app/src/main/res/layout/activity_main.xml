@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+
+    <com.google.android.material.chip.ChipGroup
+        android:id="@+id/groupe"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginTop="5dp"
+        android:layout_weight="1"
+        app:selectionRequired="true"
+        app:singleSelection="true">
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chipBambou"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:checkable="true"
+            android:gravity="center"
+            android:text="Bambou"
+            android:textAlignment="center" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chipEchelle"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:checkable="true"
+            android:gravity="center"
+            android:text="Echelle"
+            android:textAlignment="center" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chipChampignon"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:checkable="true"
+            android:gravity="center"
+            android:text="Champignon"
+            android:textAlignment="center" />
+    </com.google.android.material.chip.ChipGroup>
+
+    <TextView
+        android:id="@+id/texteCouleur"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="25dp"
+        android:layout_weight="1"
+        android:gravity="center_horizontal"
+        android:text="Couleur de l'item :"
+        android:textSize="20sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="2"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/boutonRouge"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Rouge" />
+
+        <Button
+            android:id="@+id/boutonVert"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Vert" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/texteLargeur"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="25dp"
+        android:layout_weight="1"
+        android:gravity="center_horizontal"
+        android:text="Largeur :"
+        android:textSize="20sp" />
+
+    <SeekBar
+        android:id="@+id/seekBar"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="20dp"
+        android:layout_weight="1"
+        android:max="10"
+        android:progress="3" />
+
+    <Button
+        android:id="@+id/boutonApercu"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="30dp"
+        android:layout_weight="2"
+        android:text="Apercu" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/conteneur"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="5">
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</LinearLayout>

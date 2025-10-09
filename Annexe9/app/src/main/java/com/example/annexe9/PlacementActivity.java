@@ -59,9 +59,9 @@ public class PlacementActivity extends AppCompatActivity {
 
             try {
                 Placement placement = new Placement(Double.parseDouble(champMontant.getText().toString()), numberPicker.getValue() * 12);
-                //            if (source == bouton) {
-                labelReponse.setText(d.format(placement.calculerMontantFinal()));
-                //            }
+                if (source == bouton) {
+                        labelReponse.setText(d.format(placement.calculerMontantFinal()));
+                }
             }
             catch (NegativeException nfe) { // Exception si on ne veut pas ce casser la tete
                 creerAlertDialog("Entrer un montant valide, osti");
