@@ -33,5 +33,7 @@ public class MainActivity extends AppCompatActivity {
 
         instance.fermerConnectionDB(); // A enlever apres
 
+        // View, Tool Windows, App Inspection -> on devrait le voir en bas
+
     }
 }

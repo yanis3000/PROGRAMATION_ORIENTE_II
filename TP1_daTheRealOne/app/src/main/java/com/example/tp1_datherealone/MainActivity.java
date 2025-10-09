@@ -64,8 +64,8 @@ public class MainActivity extends AppCompatActivity {
     Bitmap bitmapImage;
 
     ArrayList<SuperPaint> superPaintListe = new ArrayList<SuperPaint>();
+    ArrayList<SuperPaint> superListe = new ArrayList<SuperPaint>();
     private int indexListe = 0; // on pourra essayer d'utiliser un splice
-
 
     ArrayList<Efface> effaceListe = new ArrayList<Efface>();
     ArrayList<TraceLibre> dessinTrace = new ArrayList<TraceLibre>();
@@ -91,7 +91,7 @@ public class MainActivity extends AppCompatActivity {
         parent.setBackgroundColor(couleurBackground);
 
         for (int i = 0; i < chipGroup.getChildCount(); i++) {
-            ((Chip) chipGroup.getChildAt(i)).setOnClickListener(new Ecouteur());
+            (chipGroup.getChildAt(i)).setOnClickListener(new Ecouteur());
         }
 
         imgTraceLibre = findViewById(R.id.traceLibre);
@@ -175,7 +175,6 @@ public class MainActivity extends AppCompatActivity {
                 triangle.dessiner(canvas);
             }
 
-
         }
     }
 
@@ -186,6 +185,8 @@ public class MainActivity extends AppCompatActivity {
 
             float x = event.getX();
             float y = event.getY();
+
+            superListe.addAll(superPaintListe);
 
             switch (option) {
                 case 1 : {
