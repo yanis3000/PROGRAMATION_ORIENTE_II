@@ -13,7 +13,7 @@
         android:id="@+id/titre"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#A6D3F6">
+        android:background="@color/couleurPrincipal">
 
 
         <TextView
@@ -230,6 +230,7 @@
         android:id="@+id/home"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="5dp" />
+        android:background="@color/couleurPrincipal"
+        android:padding="5dp" />
 
 </LinearLayout>

@@ -63,12 +63,10 @@ public class MainActivity extends AppCompatActivity {
     ChipGroup chipGroup;
     Bitmap bitmapImage;
 
-    ArrayList<SuperPaint> superPaintListe = new ArrayList<SuperPaint>();
-    ArrayList<SuperPaint> superListe = new ArrayList<SuperPaint>();
+    private ArrayList<SuperPaint> superPaintListe = new ArrayList<SuperPaint>();
+    private ArrayList<SuperPaint> superListe = new ArrayList<SuperPaint>();
     private int indexListe = 0; // on pourra essayer d'utiliser un splice
-
-    ArrayList<Efface> effaceListe = new ArrayList<Efface>();
-    ArrayList<TraceLibre> dessinTrace = new ArrayList<TraceLibre>();
+    private int placeListe = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -123,6 +121,7 @@ public class MainActivity extends AppCompatActivity {
 
         sd.setOnTouchListener(es);
         sd.setOnClickListener(ec);
+
     }
 
     private class SurfaceDessin extends View {
@@ -148,12 +147,23 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onDraw(@NonNull Canvas canvas) {
             super.onDraw(canvas);
+//            superListe.addAll(superPaintListe);
+
+            for (int i = 0; i < superPaintListe.size(); i++) {
+
+                placeListe = i + indexListe;
+                if ((indexListe + superPaintListe.size()) < superPaintListe.size()) placeListe = superPaintListe.size();
+                else if (placeListe < 0) placeListe = 0;
+
+                superListe.add(superPaintListe.get(placeListe));
+            }
 
             // On met tous sur une liste pour qu'on puisse avoir tous les elems
 
-            for (SuperPaint superPaint : superPaintListe) {
+            for (SuperPaint superPaint : superListe) {
                 superPaint.dessiner(canvas);
             }
+
 
             if (traceLibre != null) {
                 traceLibre.dessiner(canvas);
@@ -185,8 +195,6 @@ public class MainActivity extends AppCompatActivity {
 
             float x = event.getX();
             float y = event.getY();
-
-            superListe.addAll(superPaintListe);
 
             switch (option) {
                 case 1 : {
@@ -353,15 +361,10 @@ public class MainActivity extends AppCompatActivity {
             }
             else if (source == imgRedo) {
                 indexListe++;
-                indexListe  = Math.max(indexListe, 0);
-//                superPaintListe.c
-
             }
 
             else if (source == imgUndo) {
                 indexListe--;
-                indexListe  = Math.min(indexListe, superPaintListe.size());
-
             }
 
             else if (source == imgEnregistrer) {
