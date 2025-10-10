@@ -32,23 +32,25 @@ import java.util.Date;
 
 public class MainActivity extends AppCompatActivity {
 
-    SurfaceDessin sd;
-    ConstraintLayout parent;
+
+    // Pour commencer avec le dessin libre, de couleur noir et une taille de 15 sur un background blanc
     private int option = 1;
     public int progressChoisi = 15;
     private int couleurCourante = Color.BLACK;
     public static int couleurBackground = Color.WHITE;
+    // Pour le triangle, on doit faire deux lignes composés chacun de deux points
     private Point depart1, ligne1;
     private Point depart2, ligne2;
+    //  Pour savoir quelle est la ligne qui est dessiné présentement dans le triangle
     private int firstLine = 0;
-    LargeurTraitDialogue dialogue;
+    // On definit les widgets
+    SurfaceDessin sd;
+    ConstraintLayout parent;
     TraceLibre traceLibre;
     Efface efface;
     Rectangle rectangle;
     Oval cercle;
     Triangle triangle;
-    MotionEvent event;
-//    Efface efface;
     ImageView imgTraceLibre;
     ImageView imgEfface;
     ImageView imgEpaisseur;
@@ -63,10 +65,9 @@ public class MainActivity extends AppCompatActivity {
     ChipGroup chipGroup;
     Bitmap bitmapImage;
 
+    // Liste contenant tous les elements de Paint (Les sous classes de la classe SuperPaint)
     private ArrayList<SuperPaint> superPaintListe = new ArrayList<SuperPaint>();
-    private ArrayList<SuperPaint> superListe = new ArrayList<SuperPaint>();
-    private int indexListe = 0; // on pourra essayer d'utiliser un splice
-    private int placeListe = 0;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,19 +80,27 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
 
+        // Definir la surface de dessin
         parent = findViewById(R.id.parent);
         sd = new SurfaceDessin(this);
         sd.setLayoutParams(new LinearLayout.LayoutParams(-1, -1));
         sd.setBackgroundColor(couleurBackground);
         parent.addView(sd);
 
-        chipGroup = findViewById(R.id.ChipGroup);
-        parent.setBackgroundColor(couleurBackground);
 
+        chipGroup = findViewById(R.id.ChipGroup); // On lie l'id du ChipGroup a son widget
+        parent.setBackgroundColor(couleurBackground); // La couleur changera dès qu'un chip différent sera selectionne
+
+        // On crée nos deux écouteurs, un pour la surface de dessin et l'autre pour les boutons et les chips
+        EcouteurSurfaceTrace es = new EcouteurSurfaceTrace();
+        Ecouteur ec = new Ecouteur();
+
+        // Pour chaque chip du chipGroup, on attribue un écouteur
         for (int i = 0; i < chipGroup.getChildCount(); i++) {
-            (chipGroup.getChildAt(i)).setOnClickListener(new Ecouteur());
+            (chipGroup.getChildAt(i)).setOnClickListener(ec);
         }
 
+        // On assigne les ids aux widgets
         imgTraceLibre = findViewById(R.id.traceLibre);
         imgEfface = findViewById(R.id.efface);
         imgEpaisseur = findViewById(R.id.epaisseur);
@@ -104,9 +113,7 @@ public class MainActivity extends AppCompatActivity {
         imgRedo = findViewById(R.id.redo);
         imgUndo = findViewById(R.id.undo);
 
-        EcouteurSurfaceTrace es = new EcouteurSurfaceTrace();
-        Ecouteur ec = new Ecouteur();
-
+        // on attribue des ecouteurs a chaque bouton
         imgTraceLibre.setOnClickListener(ec);
         imgEfface.setOnClickListener(ec);
         imgEpaisseur.setOnClickListener(ec);
@@ -128,6 +135,7 @@ public class MainActivity extends AppCompatActivity {
         Paint crayon;
         Path path;
 
+        // Parametre de base pour le crayon et creation d'un nouveau Path
         public SurfaceDessin(Context context) {
             super(context);
             crayon = new Paint(Paint.ANTI_ALIAS_FLAG);
@@ -137,6 +145,7 @@ public class MainActivity extends AppCompatActivity {
             path = new Path();
         }
 
+        // fonction bitmap du prof
         public Bitmap getBitmapImage() {
             this.buildDrawingCache();
             bitmapImage = Bitmap.createBitmap(this.getDrawingCache());
@@ -147,23 +156,15 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onDraw(@NonNull Canvas canvas) {
             super.onDraw(canvas);
-//            superListe.addAll(superPaintListe);
 
-            for (int i = 0; i < superPaintListe.size(); i++) {
+            // On met tous sur une liste pour qu'on puisse avoir tous les traces et parametres de l'utilisateur
+            // vu que toutes les fonctions sont des sous-classes de la fonction superpaint, ils font tous partis de la meme liste
 
-                placeListe = i + indexListe;
-                if ((indexListe + superPaintListe.size()) < superPaintListe.size()) placeListe = superPaintListe.size();
-                else if (placeListe < 0) placeListe = 0;
-
-                superListe.add(superPaintListe.get(placeListe));
-            }
-
-            // On met tous sur une liste pour qu'on puisse avoir tous les elems
-
-            for (SuperPaint superPaint : superListe) {
+            for (SuperPaint superPaint : superPaintListe) {
                 superPaint.dessiner(canvas);
             }
 
+            // Verification pour eviter l'erreur
 
             if (traceLibre != null) {
                 traceLibre.dessiner(canvas);
@@ -187,18 +188,19 @@ public class MainActivity extends AppCompatActivity {
 
         }
     }
-
     private class EcouteurSurfaceTrace implements View.OnTouchListener {
 
         @Override
         public boolean onTouch(View v, MotionEvent event) {
-
+            // Pour avoir le mouvement de l'utilisateur sur l'écran
             float x = event.getX();
             float y = event.getY();
 
+            // TraceLibre
             switch (option) {
                 case 1 : {
                     if (event.getAction() == MotionEvent.ACTION_DOWN ) {
+                        // instancie un objet traceLibre qui aura une couleur et une epaisseur en fonction des parametres actuels
                         traceLibre = new TraceLibre(couleurCourante, progressChoisi);
                         traceLibre.path.moveTo(x, y);
                     }
@@ -206,51 +208,57 @@ public class MainActivity extends AppCompatActivity {
                         traceLibre.path.lineTo(x, y);
                     }
                     else if (event.getAction() == MotionEvent.ACTION_UP) {
+                        // on ajoute a la superclasse SuperPaint pour qu'elle reste sur la surface de dessin
                         superPaintListe.add(traceLibre);
-                        traceLibre = null;
+                        traceLibre = null; // Evite de faire changer le couleur trait passé
                     }
                     sd.invalidate();
                     break;
                 }
+                // Efface
                 case 2 : {
                     if (event.getAction() == MotionEvent.ACTION_DOWN ) {
-                        efface = new Efface(progressChoisi);
+                        efface = new Efface(progressChoisi); // meme fonctionnement que pour le trace mais son la couleur
                         efface.path.moveTo(x, y);
                     }
                     else if (event.getAction() == MotionEvent.ACTION_MOVE) {
                         efface.path.lineTo(x, y);
                     }
                     else if (event.getAction() == MotionEvent.ACTION_UP) {
-                        superPaintListe.add(efface);
-                        efface = null;
+                        superPaintListe.add(efface); // on ajoute l'efface a la liste
+                        efface = null; //
                     }
                     sd.invalidate();
 
                     break;
                 }
+                // Bitmap
                 case 3 : {
-                    Bitmap bmp = sd.getBitmapImage();
+                    Bitmap bmp = sd.getBitmapImage(); // fonction du prof
                     couleurCourante = bmp.getPixel((int)event.getX() , (int)event.getY());
                     break;
                 }
 
+                //Rectangle
                 case 4 : {
                     if (event.getAction() == MotionEvent.ACTION_DOWN ) {
+                        // lorsqu'on clique sur la surface on instancie un nouveau rectangle
                         rectangle = new Rectangle(couleurCourante, progressChoisi);
                         rectangle.startP(x, y);
                     }
                     if (event.getAction() == MotionEvent.ACTION_MOVE) {
+                        // pour redimensionner le rectangle, on reste appuye sur l'ecran
                         rectangle.endP(x, y);
-                        sd.invalidate();
+                        sd.invalidate(); // on montre en temps reel a quoi ressemble le rectangle
                     }
                     if (event.getAction() == MotionEvent.ACTION_UP) {
-                        rectangle.endP(x, y);
+                        rectangle.endP(x, y); // on confirme la taille du
                         superPaintListe.add(rectangle);
                         sd.invalidate();
                     }
                     break;
                 }
-
+                // Cercle : meme fonctionnement que pour le rectangle
                 case 5 : {
                     if (event.getAction() == MotionEvent.ACTION_DOWN ) {
                         cercle = new Oval(couleurCourante, progressChoisi);
@@ -267,21 +275,25 @@ public class MainActivity extends AppCompatActivity {
                     }
                     break;
                 }
-
+                // Triangle
                 case 6 : {
+                    // Si le dernier triangle, le firstLine est à 2
+                    // On souhaite le rénitialiser a 0, pour en refaire un autre
                     if (firstLine == 2) {
-                        depart1 = null;
+                        depart1 = null; // ON ENLEVE TOUT
                         depart2 = null;
                         ligne1 = null;
                         ligne2 = null;
                         triangle = null;
-                        firstLine = 0;
+                        firstLine = 0; // on le rénitialise à 0
                     }
 
                     if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                        if (firstLine == 0 || firstLine == 2) {
+                        if (firstLine == 0) { // si aucun trait n'a ete fait  préalablement
                             triangle = new Triangle(couleurCourante, progressChoisi);
+                            // Les points ne prennent pas les float donc on transtype
                             depart1 = new Point((int) x, (int)y);
+                            // on assigne le point de depart au triangle
                             triangle.depart1 = depart1;
                             firstLine = 0;
                         }
@@ -292,6 +304,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                     if (event.getAction() == MotionEvent.ACTION_MOVE) {
                         if (firstLine == 0) {
+                            // on assigne le point de depart au triangle
                             ligne1 = new Point((int) x, (int) y);
                             triangle.ligne1 = ligne1;
                         } else if (firstLine == 1) {
@@ -321,6 +334,10 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public void onClick(View source) {
+
+            // Je n'etais pas en mesure de faire des switch cases sur la source donc j'ai fait un enchainement de if else if
+
+            // Pour faire en sorte, que le chip fasse changer de couleur
             if (source instanceof Chip) {
                 Chip chip = (Chip) source;
                 String couleur = (String) chip.getTag();
@@ -359,44 +376,7 @@ public class MainActivity extends AppCompatActivity {
             else if (source == imgTriangle) {
                 option = 6;
             }
-            else if (source == imgRedo) {
-                indexListe++;
-            }
 
-            else if (source == imgUndo) {
-                indexListe--;
-            }
-
-            else if (source == imgEnregistrer) {
-
-                // Source : https://www.geeksforgeeks.org/android/how-to-take-screenshot-programmatically-in-android/
-
-                Date now = new Date();
-                android.text.format.DateFormat.format("yyyy-MM-dd_hh:mm:ss", now);
-
-                try {
-                    // image naming and path  to include sd card  appending name you choose for file
-                    String mPath = Environment.getExternalStorageDirectory().toString() + "/" + now + ".jpg";
-
-                    // create bitmap screen capture
-                    View v1 = getWindow().getDecorView().getRootView();
-                    v1.setDrawingCacheEnabled(true);
-                    Bitmap bitmap = Bitmap.createBitmap(v1.getDrawingCache());
-                    v1.setDrawingCacheEnabled(false);
-
-                    File imageFile = new File(mPath);
-
-                    FileOutputStream outputStream = new FileOutputStream(imageFile);
-                    int quality = 100;
-                    bitmap.compress(Bitmap.CompressFormat.JPEG, quality, outputStream);
-                    outputStream.flush();
-                    outputStream.close();
-
-                } catch (Throwable e) {
-                    // Several error may come out with file handling or DOM
-                    e.printStackTrace();
-                }
-            }
         }
     }
 }
