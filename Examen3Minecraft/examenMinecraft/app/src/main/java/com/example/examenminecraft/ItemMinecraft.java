@@ -10,8 +10,9 @@ public class ItemMinecraft {
     private int couleur;
     private int largeur;
 
-    public ItemMinecraft(String type, int couleur, int largeur)
+    public ItemMinecraft(String type, int couleur, int largeur) // throws
     {
+        // on lance l'exception ici throw new MinecraftException (`)
         this.type = type;
         this.couleur = couleur;
         this.largeur = largeur;

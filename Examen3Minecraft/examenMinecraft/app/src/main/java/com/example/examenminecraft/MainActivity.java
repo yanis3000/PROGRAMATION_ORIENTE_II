@@ -107,7 +107,7 @@ public class MainActivity extends AppCompatActivity {
             try {
                 if (v == boutonApercu) {
                     i = new ItemMinecraft(type, couleur, largeur);
-
+                    // faudrait mettre ca dans ItemMinecraft
                     if (type.equals("Bambou") && couleur == Color.RED) {
                         throw new MinecraftException("Le bambou ne peut pas être de couleur rouge");
                     }
