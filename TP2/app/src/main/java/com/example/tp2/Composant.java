@@ -47,4 +47,16 @@ public class Composant  extends ConstraintLayout {
     public TextView getTexteMulti() {
         return texteMulti;
     }
+
+    public void setTexteLettre(TextView texteLettre) {
+        this.texteLettre = texteLettre;
+    }
+
+    public void setTexteValeur(TextView texteValeur) {
+        this.texteValeur = texteValeur;
+    }
+
+    public void setTexteMulti(TextView texteMulti) {
+        this.texteMulti = texteMulti;
+    }
 }

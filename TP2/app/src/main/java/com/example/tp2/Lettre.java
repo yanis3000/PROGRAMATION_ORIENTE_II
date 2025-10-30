@@ -3,10 +3,20 @@ package com.example.tp2;
 public class Lettre {
 
     private int poids, points;
+    private char lettre;
 
-    public Lettre(int poids, int points) {
+    public Lettre(char lettre, int poids, int points) {
+        this.lettre = lettre;
         this.poids = poids;
         this.points = points;
+    }
+
+    public char getLettre() {
+        return lettre;
+    }
+
+    public void setLettre(char lettre) {
+        this.lettre = lettre;
     }
 
     public int getPoints() {

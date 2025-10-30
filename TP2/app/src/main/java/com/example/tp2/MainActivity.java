@@ -4,7 +4,10 @@ import android.graphics.Canvas;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.view.DragEvent;
+import android.view.MotionEvent;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
@@ -18,9 +21,13 @@ import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
 
-    TextView textView;
-    TextView textView2;
+    TextView textView; // time
+    TextView textView2; // random
+    TextView textView4; // resultat du mot
     monTimer timer;
+    LinearLayout tableau;
+    Composant mot;
+    String oui;
 
 
     @Override
@@ -37,17 +44,98 @@ public class MainActivity extends AppCompatActivity {
 
         textView = findViewById(R.id.textView);
         textView2 = findViewById(R.id.textView2);
+        textView4 = findViewById(R.id.textView4);
+        tableau = findViewById(R.id.tableau);
+
+
+        Ecouteur ec = new Ecouteur();
+
+
+        for (int i = 0; i < tableau.getChildCount(); i++) {
+            LinearLayout temp = (LinearLayout) tableau.getChildAt(i);
+            for (int j = 0; j < temp.getChildCount(); j++) {
+                Composant mot = (Composant) temp.getChildAt(j);
+                mot.setOnDragListener(ec);
+                mot.setOnTouchListener(ec);
+            }
+        }
+
+
+
 
         textView.setText(String.valueOf(Math.random())); // Pour faire un random
         // Pour parcourir une liste, on pourra utiliser shuffle : Atelier 1 - ameliore
         timer = new monTimer(10000L, 1000L);
         timer.start();
 
-        HashMap<String, Lettre> lettres = new HashMap<>();
-        lettres.put("a", new Lettre(2, 2));
+        HashMap<Character, Lettre> lettres = new HashMap<>();
 
+        lettres.put('A', new Lettre('A', 9, 1));
+        lettres.put('B', new Lettre('B',2, 3));
+        lettres.put('C', new Lettre('C',2, 3));
+        lettres.put('D', new Lettre('D',3, 2));
+        lettres.put('E', new Lettre('E',15, 1));
+        lettres.put('F', new Lettre('F',2, 4));
+        lettres.put('G', new Lettre('G',2, 2));
+        lettres.put('H', new Lettre('H',2, 4));
+        lettres.put('I', new Lettre('I',8, 1));
+        lettres.put('J', new Lettre('J',1, 8));
+        lettres.put('K', new Lettre('K',1, 10));
+        lettres.put('L', new Lettre('L',5, 1));
+        lettres.put('M', new Lettre('M',3, 2));
+        lettres.put('N', new Lettre('N',6, 1));
+        lettres.put('O', new Lettre('O',6, 1));
+        lettres.put('P', new Lettre('P',2, 3));
+        lettres.put('Q', new Lettre('Q',1, 8));
+        lettres.put('R', new Lettre('R',6, 1));
+        lettres.put('S', new Lettre('S',6, 1));
+        lettres.put('T', new Lettre('T',6, 1));
+        lettres.put('U', new Lettre('U',6, 1));
+        lettres.put('V', new Lettre('V',2, 4));
+        lettres.put('W', new Lettre('W',1, 10));
+        lettres.put('X', new Lettre('X',1, 10));
+        lettres.put('Y', new Lettre('Y',1, 10));
+        lettres.put('Z', new Lettre('Z',1, 10));
 
     }
+
+
+    private class Ecouteur implements View.OnTouchListener, View.OnDragListener {
+
+
+        @Override
+        public boolean onDrag(View view, DragEvent dragEvent) {
+
+            switch (dragEvent.getAction()) {
+                case DragEvent.ACTION_DRAG_ENTERED:
+                    View source = (View) dragEvent.getLocalState();
+                    if (source instanceof Composant) {
+                        Composant comp = (Composant) source;
+                        oui = comp.getTexteLettre().toString();
+                    }
+                    break;
+
+                case DragEvent.ACTION_DRAG_EXITED:
+                    textView4.setText(oui);
+                    break;
+
+                case DragEvent.ACTION_DRAG_LOCATION:
+                    break;
+            }
+
+            return true;
+        }
+
+        @Override
+        public boolean onTouch(View view, MotionEvent motionEvent) {
+            View.DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(view);
+            view.startDragAndDrop(null, shadowBuilder, view, 0);
+            return true;
+        }
+    }
+
+
+
 
     private class monTimer extends CountDownTimer{
 
