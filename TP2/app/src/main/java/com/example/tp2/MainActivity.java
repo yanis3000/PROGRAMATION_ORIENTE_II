@@ -1,5 +1,7 @@
 package com.example.tp2;
 
+import static android.view.View.VISIBLE;
+
 import android.graphics.Canvas;
 import android.graphics.Point;
 import android.os.Bundle;
@@ -17,7 +19,6 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import java.util.HashMap;
-import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -26,8 +27,7 @@ public class MainActivity extends AppCompatActivity {
     TextView textView4; // resultat du mot
     monTimer timer;
     LinearLayout tableau;
-    Composant mot;
-    String oui;
+    String mot;
 
 
     @Override
@@ -99,6 +99,22 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    private static class ShadowInvisible extends View.DragShadowBuilder {
+
+        @Override
+        public void onProvideShadowMetrics(Point outShadowSize, Point outShadowTouchPoint) {
+            // tout petit
+            outShadowSize.set(1, 1);
+            outShadowTouchPoint.set(0, 0);
+        }
+
+        @Override
+        public void onDrawShadow(Canvas canvas) {
+            // rien faire, on ne dessine rien
+        }
+
+    }
+
 
     private class Ecouteur implements View.OnTouchListener, View.OnDragListener {
 
@@ -106,21 +122,26 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public boolean onDrag(View view, DragEvent dragEvent) {
 
+
+
             switch (dragEvent.getAction()) {
                 case DragEvent.ACTION_DRAG_ENTERED:
                     View source = (View) dragEvent.getLocalState();
                     if (source instanceof Composant) {
                         Composant comp = (Composant) source;
-                        oui = comp.getTexteLettre().toString();
+                        mot += comp.getTexteLettre().getText().toString();
+
+
                     }
                     break;
 
+
+
                 case DragEvent.ACTION_DRAG_EXITED:
-                    textView4.setText(oui);
+                    textView4.setText(mot);
                     break;
 
-                case DragEvent.ACTION_DRAG_LOCATION:
-                    break;
+
             }
 
             return true;
@@ -128,14 +149,11 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public boolean onTouch(View view, MotionEvent motionEvent) {
-            View.DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(view);
-            view.startDragAndDrop(null, shadowBuilder, view, 0);
+            ShadowInvisible shadow = new ShadowInvisible();
+            view.startDragAndDrop(null, shadow, view, 512);
             return true;
         }
     }
-
-
-
 
     private class monTimer extends CountDownTimer{
 
@@ -154,21 +172,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private static class ShadowInvisible extends View.DragShadowBuilder {
-
-        @Override
-        public void onProvideShadowMetrics(Point outShadowSize, Point outShadowTouchPoint) {
-            // tout petit
-            outShadowSize.set(1, 1);
-            outShadowTouchPoint.set(0, 0);
-        }
-
-        @Override
-        public void onDrawShadow(Canvas canvas) {
-            // rien faire, on ne dessine rien
-        }
-
-    }
 
 
 

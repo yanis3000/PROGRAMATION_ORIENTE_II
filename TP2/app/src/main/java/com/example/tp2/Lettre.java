@@ -11,6 +11,7 @@ public class Lettre {
         this.points = points;
     }
 
+
     public char getLettre() {
         return lettre;
     }

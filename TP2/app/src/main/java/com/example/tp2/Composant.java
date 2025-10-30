@@ -33,7 +33,6 @@ public class Composant  extends ConstraintLayout {
         texteLettre = findViewById(R.id.texteLettre);
         texteValeur = findViewById(R.id.texteValeur);
         texteMulti = findViewById(R.id.texteMulti);
-
     }
 
     public TextView getTexteLettre() {
