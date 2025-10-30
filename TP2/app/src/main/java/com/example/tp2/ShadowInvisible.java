@@ -4,10 +4,10 @@
 //// que cette classe est totalement indépendante de la classe englobante, si pas static, la classe interne a une référence implicite à la classe englobante
 //// ce qui peut créer des pertes de mémoire ( memory leaks )
 //
-//import android.graphics.Canvas;
-//import android.graphics.Point;
-//import android.view.View;
-//
+import android.graphics.Canvas;
+import android.graphics.Point;
+import android.view.View;
+
 //private static class ShadowInvisible extends View.DragShadowBuilder {
 //
 //    @Override

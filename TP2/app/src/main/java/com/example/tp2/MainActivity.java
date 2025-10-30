@@ -13,6 +13,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import java.util.HashMap;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
@@ -39,10 +40,11 @@ public class MainActivity extends AppCompatActivity {
 
         textView.setText(String.valueOf(Math.random())); // Pour faire un random
         // Pour parcourir une liste, on pourra utiliser shuffle : Atelier 1 - ameliore
-
         timer = new monTimer(10000L, 1000L);
-
         timer.start();
+
+        HashMap<String, Lettre> lettres = new HashMap<>();
+        lettres.put("a", new Lettre(2, 2));
 
 
     }
@@ -79,4 +81,10 @@ public class MainActivity extends AppCompatActivity {
         }
 
     }
+
+
+
+
+
+
 }
