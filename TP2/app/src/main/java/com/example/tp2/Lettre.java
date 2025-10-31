@@ -1,5 +1,10 @@
 package com.example.tp2;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Random;
+
 public class Lettre {
 
     private int poids, points;
@@ -11,25 +16,24 @@ public class Lettre {
         this.points = points;
     }
 
-
     public char getLettre() {
         return lettre;
-    }
-
-    public void setLettre(char lettre) {
-        this.lettre = lettre;
     }
 
     public int getPoints() {
         return points;
     }
 
+    public int getPoids() {
+        return poids;
+    }
+
     public void setPoints(int points) {
         this.points = points;
     }
 
-    public int getPoids() {
-        return poids;
+    public void setLettre(char lettre) {
+        this.lettre = lettre;
     }
 
     public void setPoids(int poids) {

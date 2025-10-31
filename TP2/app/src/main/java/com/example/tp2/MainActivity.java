@@ -1,7 +1,5 @@
 package com.example.tp2;
 
-import static android.view.View.VISIBLE;
-
 import android.graphics.Canvas;
 import android.graphics.Point;
 import android.os.Bundle;
@@ -18,8 +16,6 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-import java.util.HashMap;
-
 public class MainActivity extends AppCompatActivity {
 
     TextView textView; // time
@@ -27,8 +23,8 @@ public class MainActivity extends AppCompatActivity {
     TextView textView4; // resultat du mot
     monTimer timer;
     LinearLayout tableau;
-    String mot;
-
+    GestionDB instanceV; // Pour la validation du mot
+    String concat = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,25 +37,27 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
 
-
         textView = findViewById(R.id.textView);
         textView2 = findViewById(R.id.textView2);
         textView4 = findViewById(R.id.textView4);
         tableau = findViewById(R.id.tableau);
 
-
         Ecouteur ec = new Ecouteur();
+
+        GrilleDeLettres grille = new GrilleDeLettres();
 
 
         for (int i = 0; i < tableau.getChildCount(); i++) {
             LinearLayout temp = (LinearLayout) tableau.getChildAt(i);
             for (int j = 0; j < temp.getChildCount(); j++) {
                 Composant mot = (Composant) temp.getChildAt(j);
+                grille.genererLettres();
+                mot.setTexteLettre(grille.lettreRand.getLettre());
+                mot.setTexteValeur(grille.lettreRand.getPoints());
                 mot.setOnDragListener(ec);
                 mot.setOnTouchListener(ec);
             }
         }
-
 
 
 
@@ -68,37 +66,8 @@ public class MainActivity extends AppCompatActivity {
         timer = new monTimer(10000L, 1000L);
         timer.start();
 
-        HashMap<Character, Lettre> lettres = new HashMap<>();
-
-        lettres.put('A', new Lettre('A', 9, 1));
-        lettres.put('B', new Lettre('B',2, 3));
-        lettres.put('C', new Lettre('C',2, 3));
-        lettres.put('D', new Lettre('D',3, 2));
-        lettres.put('E', new Lettre('E',15, 1));
-        lettres.put('F', new Lettre('F',2, 4));
-        lettres.put('G', new Lettre('G',2, 2));
-        lettres.put('H', new Lettre('H',2, 4));
-        lettres.put('I', new Lettre('I',8, 1));
-        lettres.put('J', new Lettre('J',1, 8));
-        lettres.put('K', new Lettre('K',1, 10));
-        lettres.put('L', new Lettre('L',5, 1));
-        lettres.put('M', new Lettre('M',3, 2));
-        lettres.put('N', new Lettre('N',6, 1));
-        lettres.put('O', new Lettre('O',6, 1));
-        lettres.put('P', new Lettre('P',2, 3));
-        lettres.put('Q', new Lettre('Q',1, 8));
-        lettres.put('R', new Lettre('R',6, 1));
-        lettres.put('S', new Lettre('S',6, 1));
-        lettres.put('T', new Lettre('T',6, 1));
-        lettres.put('U', new Lettre('U',6, 1));
-        lettres.put('V', new Lettre('V',2, 4));
-        lettres.put('W', new Lettre('W',1, 10));
-        lettres.put('X', new Lettre('X',1, 10));
-        lettres.put('Y', new Lettre('Y',1, 10));
-        lettres.put('Z', new Lettre('Z',1, 10));
 
     }
-
     private static class ShadowInvisible extends View.DragShadowBuilder {
 
         @Override
@@ -117,31 +86,24 @@ public class MainActivity extends AppCompatActivity {
 
 
     private class Ecouteur implements View.OnTouchListener, View.OnDragListener {
-
-
+        private View derniereVueEntered = null; // Pour éviter les doublons
         @Override
         public boolean onDrag(View view, DragEvent dragEvent) {
-
-
 
             switch (dragEvent.getAction()) {
                 case DragEvent.ACTION_DRAG_ENTERED:
                     View source = (View) dragEvent.getLocalState();
+
                     if (source instanceof Composant) {
                         Composant comp = (Composant) source;
-                        mot += comp.getTexteLettre().getText().toString();
-
-
+                        concat += comp.getTexteLettre().getText().toString();
+                        textView4.setText(concat);
                     }
                     break;
 
-
-
-                case DragEvent.ACTION_DRAG_EXITED:
-                    textView4.setText(mot);
+                case DragEvent.ACTION_DROP: // faudrait mettre cela dans drop selon le prof
+                    textView4.setText(concat);
                     break;
-
-
             }
 
             return true;
