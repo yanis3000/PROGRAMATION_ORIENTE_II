@@ -30,9 +30,9 @@ public class GestionDB extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) { // important : EXECUTE UNE SEULE FOIS LORS DE L'INSTALLATION DE L'APP
         db.execSQL("CREATE TABLE evaluation ( _id INTEGER PRIMARY KEY AUTOINCREMENT, nom TEXT, microbrasserie TEXT, etoiles INTEGER)");
-//        ajouterBiere(new Evaluation("Coors Light", "nahh", 1), db);
-//        ajouterBiere(new Evaluation("H20", "Terre", 3), db);
-//        ajouterBiere(new Evaluation("Essence", "Terre", 5), db);
+        ajouterBiere(new Evaluation("Coors Light", "nahh", 1));
+        ajouterBiere(new Evaluation("H20", "Terre", 3));
+        ajouterBiere(new Evaluation("Essence", "Terre", 5));
     }
 
     public void ajouterBiere(Evaluation i /*SQLiteDatabase db*/) {

@@ -5,14 +5,17 @@ import android.graphics.Point;
 
 public class Triangle extends SuperPaint {
 
-    Point depart1, ligne1;
+    // On utilisera deux lignes collées qui seront reliees par une ligne tracée automatiquement pour faire un triangle
+    // Similaire a ce qu'on a fait sur l'annexe7
+    // On devra faire deux drawLine pour arriver a nos fins
+    Point depart1, ligne1; // Pour les drawLines
     Point depart2, ligne2;
-    public Triangle(int couleur, int progress) {
+    public Triangle(int couleur, int progress) { // Constructeur
         super(couleur, progress);
     }
 
     void dessiner(Canvas canvas) {
-        if (ligne1 != null) {
+        if (ligne1 != null) { // Validation : s'il n'existe pas, on ne l'affiche pas
             canvas.drawLine((depart1.x), (depart1.y), (ligne1.x), (ligne1.y), crayon);
         }
 

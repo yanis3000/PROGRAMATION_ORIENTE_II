@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
         textDe = findViewById(R.id.textDe);
         textA = findViewById(R.id.textA);
         textTransfert = findViewById(R.id.textTransfert);
-        textSolde = findViewById(R.id.textSolde);
+        textSolde = findViewById(R.id.textSolde); // source
 
         Ecouteur ec = new Ecouteur();
 
@@ -53,12 +53,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     //Un écouteur (OnClickListener)
-    private class Ecouteur implements View.OnClickListener {
+    private class Ecouteur implements View.OnClickListener { // ecouteur
         @Override
-        public void onClick(View source) {
+        public void onClick(View source) { // objet evenementiel
             // Et on ajoute le comportement
             if (source == boutonValider) {
-                if (textDe.getText().toString().equals("Epargne"));
+                if (textDe.getText().equals("Epargne"));
                     textSolde.setText("1000");
 
             }

@@ -50,8 +50,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private class Ecouteur implements View.OnTouchListener, View.OnDragListener {
-
-
         @Override
         public boolean onDrag(View source, DragEvent event) { // la source ce sont les linearLayout
             Drawable normal = getResources().getDrawable(R.drawable.background_contenant);
@@ -71,9 +69,9 @@ public class MainActivity extends AppCompatActivity {
                     // aller chercher le jeton
                     jeton = (View) event.getLocalState();
                     // aller chercher les parents initials du jeton
-                    LinearLayout parentOrigiel = (LinearLayout) jeton.getParent();
+                    LinearLayout parentOriginel = (LinearLayout) jeton.getParent();
                     // enlever le jeton reste sur le conteneur d'origine
-                    parentOrigiel.removeView(jeton);
+                    parentOriginel.removeView(jeton);
                     // recupererr le linearlayout actuel et lui ajouter le jeton
                     LinearLayout nouveauParent = (LinearLayout) source;
                     nouveauParent.addView(jeton);

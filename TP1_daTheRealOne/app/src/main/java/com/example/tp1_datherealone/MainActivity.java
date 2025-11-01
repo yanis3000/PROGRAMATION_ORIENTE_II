@@ -33,15 +33,15 @@ import java.util.Date;
 public class MainActivity extends AppCompatActivity {
 
 
-    // Pour commencer avec le dessin libre, de couleur noir et une taille de 15 sur un background blanc
+    // Valeurs initiales : dessin libre (option 1), trait noir d'épaisseur 15, fond blanc
     private int option = 1;
-    public int progressChoisi = 15;
+    public static int progressChoisi = 15;
     private int couleurCourante = Color.BLACK;
-    public static int couleurBackground = Color.WHITE;
+    public static int couleurBackground = Color.WHITE; //
     // Pour le triangle, on doit faire deux lignes composés chacun de deux points
     private Point depart1, ligne1;
     private Point depart2, ligne2;
-    //  Pour savoir quelle est la ligne qui est dessiné présentement dans le triangle
+    //  Pour savoir quelle est la ligne qui est dessinée présentement dans le triangle
     private int firstLine = 0;
     // On definit les widgets
     SurfaceDessin sd;
@@ -59,9 +59,6 @@ public class MainActivity extends AppCompatActivity {
     ImageView imgRectangle;
     ImageView imgCercle;
     ImageView imgTriangle;
-    ImageView imgEnregistrer;
-    ImageView imgRedo;
-    ImageView imgUndo;
     ChipGroup chipGroup;
     Bitmap bitmapImage;
 
@@ -109,9 +106,6 @@ public class MainActivity extends AppCompatActivity {
         imgRectangle = findViewById(R.id.rectangle);
         imgCercle = findViewById(R.id.cercle);
         imgTriangle = findViewById(R.id.triangle);
-        imgEnregistrer = findViewById(R.id.enregistre);
-        imgRedo = findViewById(R.id.redo);
-        imgUndo = findViewById(R.id.undo);
 
         // on attribue des ecouteurs a chaque bouton
         imgTraceLibre.setOnClickListener(ec);
@@ -122,9 +116,6 @@ public class MainActivity extends AppCompatActivity {
         imgRectangle.setOnClickListener(ec);
         imgCercle.setOnClickListener(ec);
         imgTriangle.setOnClickListener(ec);
-        imgEnregistrer.setOnClickListener(ec);
-        imgRedo.setOnClickListener(ec);
-        imgUndo.setOnClickListener(ec);
 
         sd.setOnTouchListener(es);
         sd.setOnClickListener(ec);
@@ -145,7 +136,7 @@ public class MainActivity extends AppCompatActivity {
             path = new Path();
         }
 
-        // fonction bitmap du prof
+        // fonction bitmap du prof qui retourne un bitmap de la surface de dessin
         public Bitmap getBitmapImage() {
             this.buildDrawingCache();
             bitmapImage = Bitmap.createBitmap(this.getDrawingCache());
@@ -157,21 +148,22 @@ public class MainActivity extends AppCompatActivity {
         protected void onDraw(@NonNull Canvas canvas) {
             super.onDraw(canvas);
 
-            // On met tous sur une liste pour qu'on puisse avoir tous les traces et parametres de l'utilisateur
-            // vu que toutes les fonctions sont des sous-classes de la fonction superpaint, ils font tous partis de la meme liste
+            // On parcourt la liste de tous les tracés effectués par l'utilisateur.
+            // Chaque élément est une sous-classe de SuperPaint, ce qui permet de tout redessiner facilement.
+
 
             for (SuperPaint superPaint : superPaintListe) {
                 superPaint.dessiner(canvas);
             }
 
-            // Verification pour eviter l'erreur
-
-            if (traceLibre != null) {
-                traceLibre.dessiner(canvas);
-            }
+            // On vérifie que chaque forme existe avant de la dessiner pour éviter de potentielles erreurs
 
             if (efface != null) {
                 efface.dessiner(canvas);
+            }
+
+            if (traceLibre != null) {
+                traceLibre.dessiner(canvas);
             }
 
             if (rectangle != null) {
@@ -218,7 +210,7 @@ public class MainActivity extends AppCompatActivity {
                 // Efface
                 case 2 : {
                     if (event.getAction() == MotionEvent.ACTION_DOWN ) {
-                        efface = new Efface(progressChoisi); // meme fonctionnement que pour le trace mais son la couleur
+                        efface = new Efface(MainActivity.this, progressChoisi); // même fonctionnement que le dessin libre, mais avec la couleur du fond
                         efface.path.moveTo(x, y);
                     }
                     else if (event.getAction() == MotionEvent.ACTION_MOVE) {
@@ -234,7 +226,7 @@ public class MainActivity extends AppCompatActivity {
                 }
                 // Bitmap
                 case 3 : {
-                    Bitmap bmp = sd.getBitmapImage(); // fonction du prof
+                    Bitmap bmp = sd.getBitmapImage(); // fonction du prof, récupère la couleur du pixel touché sur le dessin
                     couleurCourante = bmp.getPixel((int)event.getX() , (int)event.getY());
                     break;
                 }
@@ -252,7 +244,7 @@ public class MainActivity extends AppCompatActivity {
                         sd.invalidate(); // on montre en temps reel a quoi ressemble le rectangle
                     }
                     if (event.getAction() == MotionEvent.ACTION_UP) {
-                        rectangle.endP(x, y); // on confirme la taille du
+                        rectangle.endP(x, y); // on confirme la taille du rectangle
                         superPaintListe.add(rectangle);
                         sd.invalidate();
                     }
@@ -287,36 +279,39 @@ public class MainActivity extends AppCompatActivity {
                         triangle = null;
                         firstLine = 0; // on le rénitialise à 0
                     }
-
                     if (event.getAction() == MotionEvent.ACTION_DOWN) {
                         if (firstLine == 0) { // si aucun trait n'a ete fait  préalablement
                             triangle = new Triangle(couleurCourante, progressChoisi);
-                            // Les points ne prennent pas les float donc on transtype
-                            depart1 = new Point((int) x, (int)y);
+                            depart1 = new Point((int) x, (int)y);  // Les points ne prennent pas les float donc on transtype
                             // on assigne le point de depart au triangle
-                            triangle.depart1 = depart1;
-                            firstLine = 0;
+                            triangle.depart1 = depart1; // on transmet les points à l'objet Triangle pour qu’il puisse tracer les lignes
                         }
+                        //
                         else if (firstLine == 1) {
+                            // on assigne le deuxieme point de depart du triangle qui commencera sur la fin de la premiere ligne
                             depart2 = ligne1;
                             triangle.depart2 = depart2;
                         }
                     }
                     if (event.getAction() == MotionEvent.ACTION_MOVE) {
                         if (firstLine == 0) {
-                            // on assigne le point de depart au triangle
+                            // pour redimensionner la premiere ligne du triangle, on reste appuye sur l'ecran
                             ligne1 = new Point((int) x, (int) y);
                             triangle.ligne1 = ligne1;
                         } else if (firstLine == 1) {
+                            // pour redimensionner la premiere ligne du triangle, on reste appuye sur l'ecran
                             ligne2 = new Point((int) x, (int) y);
                             triangle.ligne2 = ligne2;
                         }
-                        sd.invalidate();
+                        sd.invalidate(); // affiche le redimensionnement
                     }
 
                     if (event.getAction() == MotionEvent.ACTION_UP) {
                         if (firstLine == 0 || firstLine == 1) {
-                            firstLine++;
+                            firstLine++; //  on incremente la valeur
+                            // on incrémente le compteur de lignes du triangle (0, 1, 2)
+
+
                         }
                         superPaintListe.add(triangle);
                         sd.invalidate();
@@ -344,7 +339,7 @@ public class MainActivity extends AppCompatActivity {
                 couleurCourante = Color.parseColor(couleur);
             }
 
-
+            // chaque imageView permet de selectionner une option pour la surface de dessin
             if (source == imgTraceLibre) {
                 option = 1;
             }
@@ -355,11 +350,11 @@ public class MainActivity extends AppCompatActivity {
 
             else if (source == imgEpaisseur) {
                 LargeurTraitDialogue dialog = new LargeurTraitDialogue(MainActivity.this);
-                dialog.show();
+                dialog.show(); // sert a changer l'epaisseur du crayon pour tous les elements
             }
 
             else if (source == imgRemplir) {
-                couleurBackground = couleurCourante;
+                couleurBackground = couleurCourante; // la couleurBackground se fait passer la couleur du chip
                 sd.setBackgroundColor(couleurBackground);
             }
 

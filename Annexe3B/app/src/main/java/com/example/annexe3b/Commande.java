@@ -5,8 +5,7 @@ public class Commande {
 
     private Vector<Produit> listeCommande;
 
-    public Commande ( )
-    {
+    public Commande () {
         listeCommande = new Vector();
     }
 

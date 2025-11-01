@@ -5,9 +5,9 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
 
-public class SuperPaint {
+public class SuperPaint { // La super classe de tous les elements s'appliquant sur la surface de dessin
 
-    protected Paint crayon;
+    protected Paint crayon; // Chaque forme possede son propre crayon, chemin (path), épaisseur et couleur
     protected Path path;
     protected float epaisseur = 15;
     protected int couleur = Color.BLACK;
@@ -25,16 +25,6 @@ public class SuperPaint {
         path = new Path();
     }
 
-    public void setCouleur(int newColor) {
-        this.couleur = newColor;
-        crayon.setColor(newColor);
-    }
-
-    public void setEpaisseur(float newWidth) {
-        epaisseur = newWidth;
-        crayon.setStrokeWidth(epaisseur);
-    }
-
-    void dessiner(Canvas canvas) {
+    void dessiner(Canvas canvas) { // redifinit les sous-classes pour dessiner leur forme sur le canvas
     }
 }

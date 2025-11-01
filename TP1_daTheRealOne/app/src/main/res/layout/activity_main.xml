@@ -199,30 +199,6 @@
                 android:layout_weight="1"
                 app:srcCompat="@drawable/pipette" />
 
-            <ImageView
-                android:id="@+id/undo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:layout_weight="1"
-                app:srcCompat="@drawable/undo" />
-
-            <ImageView
-                android:id="@+id/redo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:layout_weight="1"
-                app:srcCompat="@drawable/redo" />
-
-            <ImageView
-                android:id="@+id/enregistre"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:layout_weight="1"
-                app:srcCompat="@drawable/enregistrer" />
-
         </LinearLayout>
     </HorizontalScrollView>
 

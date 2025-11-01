@@ -14,9 +14,4 @@ public class TraceLibre extends SuperPaint {
         canvas.drawPath(path, crayon);
     }
 
-    // setStrokeJoin(Join.ROUND)
-    // setStrokeCap(Cap.ROUND)
-
-
-
 }

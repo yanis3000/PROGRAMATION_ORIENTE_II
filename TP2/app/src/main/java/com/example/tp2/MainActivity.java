@@ -16,6 +16,8 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import java.util.ArrayList;
+
 public class MainActivity extends AppCompatActivity {
 
     TextView textView; // time
@@ -25,6 +27,8 @@ public class MainActivity extends AppCompatActivity {
     LinearLayout tableau;
     GestionDB instanceV; // Pour la validation du mot
     String concat = "";
+    String ocn = "";
+    ArrayList<View> lettreUtilise = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,23 +90,24 @@ public class MainActivity extends AppCompatActivity {
 
 
     private class Ecouteur implements View.OnTouchListener, View.OnDragListener {
-        private View derniereVueEntered = null; // Pour éviter les doublons
         @Override
         public boolean onDrag(View view, DragEvent dragEvent) {
 
             switch (dragEvent.getAction()) {
                 case DragEvent.ACTION_DRAG_ENTERED:
-                    View source = (View) dragEvent.getLocalState();
-
-                    if (source instanceof Composant) {
-                        Composant comp = (Composant) source;
+                    if (view instanceof Composant && !lettreUtilise.contains(view)) {
+                        Composant comp = (Composant) view;
+                        lettreUtilise.add(view);
                         concat += comp.getTexteLettre().getText().toString();
                         textView4.setText(concat);
+
                     }
                     break;
 
                 case DragEvent.ACTION_DROP: // faudrait mettre cela dans drop selon le prof
                     textView4.setText(concat);
+                    concat = "";
+                    lettreUtilise.clear();
                     break;
             }
 

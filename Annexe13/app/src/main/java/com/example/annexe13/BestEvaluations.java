@@ -32,9 +32,6 @@ public class BestEvaluations extends AppCompatActivity {
             return insets;
         });
 
-
-
-
         listView = findViewById(R.id.listView);
         bouton = findViewById(R.id.bouton);
 
@@ -47,8 +44,7 @@ public class BestEvaluations extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         instance = GestionDB.getInstance(getApplicationContext()); // dans l'idee que c'est un singleton
-        // this foncitonne aussi
-        instance.ouvrirConnectionDB();
+        instance.ouvrirConnectionDB();  // this foncitonne aussi
 //        ArrayAdapter adapter = null;
 //        try {
         ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, instance.retournerMeilleurs());

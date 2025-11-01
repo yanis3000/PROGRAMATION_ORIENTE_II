@@ -1,7 +1,7 @@
 package com.example.tp1_datherealone;
 
 import android.graphics.Canvas;
-
+// identique au rectangle mais au lieu d'un drawRect, on mettra un drawOval
 public class Oval extends SuperPaint {
 
     float startX;

@@ -12,16 +12,15 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 
 public class LargeurTraitDialogue extends Dialog {
-    SeekBar seekBar;
-    TextView texte;
-    Button confirm;
+    SeekBar seekBar; // barre de changement de l'epaisseur
+    TextView texte; // affiche la valeur de l'epaisseur
+    Button confirm; //
     MainActivity parent;
-    int progressGlobal;
+    int progressGlobal; // intermediaire servant a faire passer la valeur du seekbar dans la variable parent.progressChoisi
 
-    public LargeurTraitDialogue(@NonNull MainActivity parent) {
+    public LargeurTraitDialogue(@NonNull MainActivity parent) { // garde la reference a mainActivity
         super(parent);
         this.parent = parent;
-        //largeur du parent
     }
 
     @Override
@@ -33,13 +32,13 @@ public class LargeurTraitDialogue extends Dialog {
         texte = findViewById(R.id.texte);
         confirm = findViewById(R.id.confirm);
 
-        texte.setText(String.valueOf(parent.progressChoisi));
+        texte.setText(String.valueOf(parent.progressChoisi)); // pour afficher l'etat actuel de l'epaisseur en texte
 
         Ecouteuse ec = new Ecouteuse();
         seekBar.setOnSeekBarChangeListener(ec);
         confirm.setOnClickListener(ec);
 
-        seekBar.setProgress(parent.progressChoisi);
+        seekBar.setProgress(parent.progressChoisi); // pour afficher l'etat actuel de l'epaisseur sur le seekbar
     }
 
     private class Ecouteuse implements SeekBar.OnSeekBarChangeListener, View.OnClickListener {
@@ -55,14 +54,15 @@ public class LargeurTraitDialogue extends Dialog {
 
         @Override
         public void onStopTrackingTouch(SeekBar seekBar) {
-            seekBar.setProgress(progressGlobal);
+            seekBar.setProgress(progressGlobal); // pour afficher l'epaisseur en court du texte
         }
 
         @Override
         public void onClick(View source){
+            // Les valeurs ont ete modifie, si confirme
             if (source == confirm) {
                 parent.progressChoisi = progressGlobal;
-                seekBar.setProgress(parent.progressChoisi); // comment faire pour que la position du seekbar soit initialise ?
+                seekBar.setProgress(parent.progressChoisi);
                 dismiss();
             }
 
