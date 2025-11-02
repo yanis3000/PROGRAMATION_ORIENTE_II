@@ -1,12 +1,16 @@
 package com.example.tp2;
 
+import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.DragEvent;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -16,19 +20,23 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
 
-    TextView textView; // time
-    TextView textView2; // random
-    TextView textView4; // resultat du mot
-    monTimer timer;
-    LinearLayout tableau;
-    GestionDB instanceV; // Pour la validation du mot
-    String concat = "";
-    String ocn = "";
-    ArrayList<View> lettreUtilise = new ArrayList<>();
+    private TextView textView; // time
+    private TextView textView2; // random
+    private TextView textView4; // resultat du mot
+    private monTimer timer;
+    private LinearLayout tableau;
+    private GestionDB instanceV; // Pour la validation du mot
+    private String concat = "";
+    private ArrayList<View> lettreUtilise = new ArrayList<>();
+    private Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,15 +71,20 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-
-
         textView.setText(String.valueOf(Math.random())); // Pour faire un random
         // Pour parcourir une liste, on pourra utiliser shuffle : Atelier 1 - ameliore
         timer = new monTimer(10000L, 1000L);
         timer.start();
 
-
     }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        instanceV = GestionDB.getInstance(getApplicationContext());
+        instanceV.ouvrirConnectionDB();
+        }
+
     private static class ShadowInvisible extends View.DragShadowBuilder {
 
         @Override
@@ -95,19 +108,26 @@ public class MainActivity extends AppCompatActivity {
 
             switch (dragEvent.getAction()) {
                 case DragEvent.ACTION_DRAG_ENTERED:
+                    textView4.setBackgroundColor(Color.WHITE);
                     if (view instanceof Composant && !lettreUtilise.contains(view)) {
                         Composant comp = (Composant) view;
                         lettreUtilise.add(view);
                         concat += comp.getTexteLettre().getText().toString();
                         textView4.setText(concat);
-
                     }
                     break;
 
                 case DragEvent.ACTION_DROP: // faudrait mettre cela dans drop selon le prof
                     textView4.setText(concat);
+                    if (instanceV.verifMot(concat.toLowerCase(Locale.ROOT))) {
+                        textView4.setBackgroundColor(Color.GREEN);
+                    }
+                    else {
+                        textView4.setBackgroundColor(Color.RED);
+                    }
+
                     concat = "";
-                    lettreUtilise.clear();
+                    lettreUtilise.clear(); // pour reinitialiser la liste
                     break;
             }
 
@@ -137,6 +157,12 @@ public class MainActivity extends AppCompatActivity {
         public void onFinish() {
             textView2.setText("done!");
         }
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        instanceV.fermerConnectionDB();
     }
 
 
