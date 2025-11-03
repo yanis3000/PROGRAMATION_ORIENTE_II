@@ -56,6 +56,11 @@ public class Composant  extends ConstraintLayout {
     }
 
     public void setTexteMulti(int texteMulti) {
-        this.texteMulti.setText(String.valueOf(texteMulti));
+        if (texteMulti == 4) {
+            this.texteMulti.setText("D"); // Pour indiquer que la valeur sera double
+        }
+        else {
+            this.texteMulti.setText(String.valueOf(texteMulti));
+        }
     }
 }

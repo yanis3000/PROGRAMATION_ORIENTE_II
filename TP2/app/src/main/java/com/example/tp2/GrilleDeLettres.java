@@ -3,6 +3,7 @@ package com.example.tp2;
 import androidx.annotation.NonNull;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Random;
 
@@ -57,6 +58,24 @@ public class GrilleDeLettres {
 
         lettreRand = lettresTot.get(random.nextInt(lettresTot.size()));
 
+    }
+
+    public ArrayList<Integer> genererMulti() {
+        ArrayList<Integer> multiScore = new ArrayList<>();
+
+        for (int i = 0; i < 12; i++) {
+            multiScore.add(1);
+        }
+
+        for (int i = 0; i < 2; i++) {
+            multiScore.add(2);
+        }
+
+        multiScore.add(4);
+
+        Collections.shuffle(multiScore);
+
+        return multiScore;
     }
 
 

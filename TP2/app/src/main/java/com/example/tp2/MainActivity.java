@@ -34,8 +34,15 @@ public class MainActivity extends AppCompatActivity {
     private monTimer timer;
     private LinearLayout tableau;
     private GestionDB instanceV; // Pour la validation du mot
+    private int tempScore = 0;
+    private int score = 0;
+    private int valeur = 0;
+    private int multi = 0;
     private String concat = "";
+    private boolean motdouble = false;
     private ArrayList<View> lettreUtilise = new ArrayList<>();
+    private ArrayList<String> motUtilise = new ArrayList<>();
+
     private Context context;
 
     @Override
@@ -58,6 +65,8 @@ public class MainActivity extends AppCompatActivity {
 
         GrilleDeLettres grille = new GrilleDeLettres();
 
+        ArrayList<Integer> multiListe = grille.genererMulti();
+        int indexMulti = 0;
 
         for (int i = 0; i < tableau.getChildCount(); i++) {
             LinearLayout temp = (LinearLayout) tableau.getChildAt(i);
@@ -66,15 +75,19 @@ public class MainActivity extends AppCompatActivity {
                 grille.genererLettres();
                 mot.setTexteLettre(grille.lettreRand.getLettre());
                 mot.setTexteValeur(grille.lettreRand.getPoints());
+                if (indexMulti < multiListe.size()) {
+                    mot.setTexteMulti(multiListe.get(indexMulti));
+                    indexMulti++;
+                }
                 mot.setOnDragListener(ec);
                 mot.setOnTouchListener(ec);
             }
         }
 
-        textView.setText(String.valueOf(Math.random())); // Pour faire un random
+//        textView.setText(score); // Pour faire un random
         // Pour parcourir une liste, on pourra utiliser shuffle : Atelier 1 - ameliore
-        timer = new monTimer(10000L, 1000L);
-        timer.start();
+//        timer = new monTimer(10000L, 1000L);
+//        timer.start();
 
     }
 
@@ -113,20 +126,44 @@ public class MainActivity extends AppCompatActivity {
                         Composant comp = (Composant) view;
                         lettreUtilise.add(view);
                         concat += comp.getTexteLettre().getText().toString();
+                        valeur = Integer.parseInt(comp.getTexteValeur().getText().toString());
+                        multi = Integer.parseInt(comp.getTexteMulti().getText().toString());
+
+                        if (multi == 4) {
+                            motdouble = true;
+                            tempScore += valeur;;
+                        }
+                        else {
+                            tempScore += valeur * multi;
+                        }
                         textView4.setText(concat);
                     }
                     break;
 
                 case DragEvent.ACTION_DROP: // faudrait mettre cela dans drop selon le prof
                     textView4.setText(concat);
-                    if (instanceV.verifMot(concat.toLowerCase(Locale.ROOT))) {
+                    if (motUtilise.contains(concat)){
+                        textView4.setBackgroundColor(Color.MAGENTA);
+                    }
+                    else if (instanceV.verifMot(concat.toLowerCase(Locale.ROOT))) {
                         textView4.setBackgroundColor(Color.GREEN);
+                        motUtilise.add(concat);
+                        if (motdouble) {
+                            score += tempScore * 2;
+                        }
+                        else {
+                            score += tempScore;
+                        }
+                        textView.setText(String.valueOf(score));
                     }
                     else {
                         textView4.setBackgroundColor(Color.RED);
                     }
 
                     concat = "";
+                    tempScore = 0;
+                    multi = 0;
+                    valeur = 0;
                     lettreUtilise.clear(); // pour reinitialiser la liste
                     break;
             }
