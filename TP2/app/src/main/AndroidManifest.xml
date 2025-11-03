@@ -13,7 +13,10 @@
         android:theme="@style/Theme.TP2"
         tools:targetApi="31">
         <activity
-            android:name=".debutJeu"
+            android:name=".FinActivity"
+            android:exported="false" />
+        <activity
+            android:name=".DebutActivity"
             android:exported="false" />
         <activity
             android:name=".MainActivity"

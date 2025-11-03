@@ -135,6 +135,7 @@ public class MainActivity extends AppCompatActivity {
                     texteMots.setBackgroundColor(Color.WHITE);
                     if (view instanceof Composant && !lettreUtilise.contains(view)) {
                         Composant comp = (Composant) view;
+//                        comp.setBackgroundColor(Color.BLACK);
                         lettreUtilise.add(view);
                         concat += comp.getTexteLettre().getText().toString();
                         valeur = Integer.parseInt(comp.getTexteValeur().getText().toString());
