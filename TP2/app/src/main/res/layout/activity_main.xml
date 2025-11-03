@@ -5,28 +5,44 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#CFDAE7"
     android:orientation="vertical"
-    tools:context=".MainActivity" >
+    tools:context=".MainActivity">
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="20">
+        android:layout_height="wrap_content"
+        android:layout_weight="5">
 
         <TextView
-            android:id="@+id/textView"
+            android:id="@+id/textePoints"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="right|left"
-            android:text="TextView"
+            android:layout_gravity="center"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:fontFamily="@font/archivo"
+            android:text="Trouver un mot pour accumuler les points !"
+            android:textAlignment="center"
             android:textSize="30sp" />
 
         <TextView
-            android:id="@+id/textView2"
+            android:id="@+id/texteTitre"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:text="TextView"
+            android:layout_gravity="center|top"
+            android:layout_marginTop="15dp"
+            android:fontFamily="@font/aldrich"
+            android:text="W0RD_BLITZ"
+            android:textSize="40sp" />
+
+        <TextView
+            android:id="@+id/texteMots"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|center"
+            android:layout_marginBottom="20dp"
+            android:fontFamily="@font/archivo"
             android:textSize="30sp" />
     </FrameLayout>
 
@@ -45,81 +61,37 @@
             <com.example.tp2.Composant
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
+                android:layout_marginStart="6dp"
                 android:layout_marginTop="0dp"
-                android:layout_marginEnd="5dp"
-                android:layout_marginBottom="0dp"
+                android:layout_marginEnd="12dp"
+                android:layout_marginBottom="10dp"
                 android:layout_weight="1" />
 
             <com.example.tp2.Composant
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
+                android:layout_marginStart="6dp"
                 android:layout_marginTop="0dp"
-                android:layout_marginEnd="5dp"
-                android:layout_marginBottom="0dp"
+                android:layout_marginEnd="12dp"
+                android:layout_marginBottom="10dp"
                 android:layout_weight="1" />
 
             <com.example.tp2.Composant
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
+                android:layout_marginStart="6dp"
                 android:layout_marginTop="0dp"
-                android:layout_marginEnd="5dp"
-                android:layout_marginBottom="0dp"
+                android:layout_marginEnd="12dp"
+                android:layout_marginBottom="10dp"
                 android:layout_weight="1" />
 
             <com.example.tp2.Composant
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
+                android:layout_marginStart="6dp"
                 android:layout_marginTop="0dp"
-                android:layout_marginEnd="5dp"
-                android:layout_marginBottom="0dp"
-                android:layout_weight="1" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="horizontal">
-
-            <com.example.tp2.Composant
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
-                android:layout_marginTop="0dp"
-                android:layout_marginEnd="5dp"
-                android:layout_marginBottom="0dp"
-                android:layout_weight="1" />
-
-            <com.example.tp2.Composant
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
-                android:layout_marginTop="0dp"
-                android:layout_marginEnd="5dp"
-                android:layout_marginBottom="0dp"
-                android:layout_weight="1" />
-
-            <com.example.tp2.Composant
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
-                android:layout_marginTop="0dp"
-                android:layout_marginEnd="5dp"
-                android:layout_marginBottom="0dp"
-                android:layout_weight="1" />
-
-            <com.example.tp2.Composant
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
-                android:layout_marginTop="0dp"
-                android:layout_marginEnd="5dp"
-                android:layout_marginBottom="0dp"
+                android:layout_marginEnd="12dp"
+                android:layout_marginBottom="10dp"
                 android:layout_weight="1" />
 
         </LinearLayout>
@@ -133,37 +105,37 @@
             <com.example.tp2.Composant
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
+                android:layout_marginStart="6dp"
                 android:layout_marginTop="0dp"
-                android:layout_marginEnd="5dp"
-                android:layout_marginBottom="0dp"
+                android:layout_marginEnd="12dp"
+                android:layout_marginBottom="10dp"
                 android:layout_weight="1" />
 
             <com.example.tp2.Composant
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
+                android:layout_marginStart="6dp"
                 android:layout_marginTop="0dp"
-                android:layout_marginEnd="5dp"
-                android:layout_marginBottom="0dp"
+                android:layout_marginEnd="12dp"
+                android:layout_marginBottom="10dp"
                 android:layout_weight="1" />
 
             <com.example.tp2.Composant
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
+                android:layout_marginStart="6dp"
                 android:layout_marginTop="0dp"
-                android:layout_marginEnd="5dp"
-                android:layout_marginBottom="0dp"
+                android:layout_marginEnd="12dp"
+                android:layout_marginBottom="10dp"
                 android:layout_weight="1" />
 
             <com.example.tp2.Composant
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
+                android:layout_marginStart="6dp"
                 android:layout_marginTop="0dp"
-                android:layout_marginEnd="5dp"
-                android:layout_marginBottom="0dp"
+                android:layout_marginEnd="12dp"
+                android:layout_marginBottom="10dp"
                 android:layout_weight="1" />
 
         </LinearLayout>
@@ -177,37 +149,81 @@
             <com.example.tp2.Composant
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
+                android:layout_marginStart="6dp"
                 android:layout_marginTop="0dp"
-                android:layout_marginEnd="5dp"
-                android:layout_marginBottom="0dp"
+                android:layout_marginEnd="12dp"
+                android:layout_marginBottom="10dp"
                 android:layout_weight="1" />
 
             <com.example.tp2.Composant
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
+                android:layout_marginStart="6dp"
                 android:layout_marginTop="0dp"
-                android:layout_marginEnd="5dp"
-                android:layout_marginBottom="0dp"
+                android:layout_marginEnd="12dp"
+                android:layout_marginBottom="10dp"
                 android:layout_weight="1" />
 
             <com.example.tp2.Composant
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
+                android:layout_marginStart="6dp"
                 android:layout_marginTop="0dp"
-                android:layout_marginEnd="5dp"
-                android:layout_marginBottom="0dp"
+                android:layout_marginEnd="12dp"
+                android:layout_marginBottom="10dp"
                 android:layout_weight="1" />
 
             <com.example.tp2.Composant
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
+                android:layout_marginStart="6dp"
                 android:layout_marginTop="0dp"
-                android:layout_marginEnd="5dp"
-                android:layout_marginBottom="0dp"
+                android:layout_marginEnd="12dp"
+                android:layout_marginBottom="10dp"
+                android:layout_weight="1" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <com.example.tp2.Composant
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="6dp"
+                android:layout_marginTop="0dp"
+                android:layout_marginEnd="12dp"
+                android:layout_marginBottom="10dp"
+                android:layout_weight="1" />
+
+            <com.example.tp2.Composant
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="6dp"
+                android:layout_marginTop="0dp"
+                android:layout_marginEnd="12dp"
+                android:layout_marginBottom="10dp"
+                android:layout_weight="1" />
+
+            <com.example.tp2.Composant
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="6dp"
+                android:layout_marginTop="0dp"
+                android:layout_marginEnd="12dp"
+                android:layout_marginBottom="10dp"
+                android:layout_weight="1" />
+
+            <com.example.tp2.Composant
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="6dp"
+                android:layout_marginTop="0dp"
+                android:layout_marginEnd="12dp"
+                android:layout_marginBottom="10dp"
                 android:layout_weight="1" />
 
         </LinearLayout>
@@ -216,13 +232,27 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="10">
+        android:layout_weight="4">
+
+        <SeekBar
+            android:id="@+id/seekBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="10dp"
+            android:foregroundTint="#000000" />
 
         <TextView
-            android:id="@+id/textView4"
+            android:id="@+id/texteTemps"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="TextView"
+            android:layout_gravity="bottom|center"
+            android:layout_marginBottom="30dp"
+            android:fontFamily="@font/aldrich"
+            android:text="Temps"
+            android:textAlignment="center"
             android:textSize="24sp" />
     </FrameLayout>
 </LinearLayout>

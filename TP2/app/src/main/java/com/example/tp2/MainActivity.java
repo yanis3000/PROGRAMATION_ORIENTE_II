@@ -1,7 +1,6 @@
 package com.example.tp2;
 
 import android.content.Context;
-import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Point;
@@ -10,8 +9,8 @@ import android.os.CountDownTimer;
 import android.view.DragEvent;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
+import android.widget.SeekBar;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
@@ -20,17 +19,15 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
 
-    private TextView textView; // time
-    private TextView textView2; // random
-    private TextView textView4; // resultat du mot
+    private TextView texteTitre; // time
+    private TextView texteMots; // random
+    private TextView textePoints; // resultat du mot
+    private TextView texteTemps;
     private monTimer timer;
     private LinearLayout tableau;
     private GestionDB instanceV; // Pour la validation du mot
@@ -42,6 +39,9 @@ public class MainActivity extends AppCompatActivity {
     private boolean motdouble = false;
     private ArrayList<View> lettreUtilise = new ArrayList<>();
     private ArrayList<String> motUtilise = new ArrayList<>();
+    private SeekBar seekBar;
+    private long temps;
+    private long dureeTotale = 10000L;
 
     private Context context;
 
@@ -56,12 +56,23 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
 
-        textView = findViewById(R.id.textView);
-        textView2 = findViewById(R.id.textView2);
-        textView4 = findViewById(R.id.textView4);
+        texteTitre = findViewById(R.id.texteTitre);
+        texteMots = findViewById(R.id.texteMots);
+        textePoints = findViewById(R.id.textePoints);
+        texteTemps =  findViewById(R.id.texteTemps);
         tableau = findViewById(R.id.tableau);
+        seekBar = findViewById(R.id.seekBar);
 
         Ecouteur ec = new Ecouteur();
+
+        dureeTotale = 90000L; // tu peux mettre 30000L = 30s ou 60000L = 1min
+        seekBar.setMax((int) (dureeTotale / 1000)); // nombre de secondes totales
+        seekBar.setProgress((int) (dureeTotale / 1000)); // commence pleine
+
+        timer = new monTimer(dureeTotale, 1000L);
+        timer.start();
+
+        seekBar.setOnSeekBarChangeListener(ec);
 
         GrilleDeLettres grille = new GrilleDeLettres();
 
@@ -115,13 +126,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    private class Ecouteur implements View.OnTouchListener, View.OnDragListener {
+    private class Ecouteur implements View.OnTouchListener, View.OnDragListener, SeekBar.OnSeekBarChangeListener {
         @Override
         public boolean onDrag(View view, DragEvent dragEvent) {
 
             switch (dragEvent.getAction()) {
                 case DragEvent.ACTION_DRAG_ENTERED:
-                    textView4.setBackgroundColor(Color.WHITE);
+                    texteMots.setBackgroundColor(Color.WHITE);
                     if (view instanceof Composant && !lettreUtilise.contains(view)) {
                         Composant comp = (Composant) view;
                         lettreUtilise.add(view);
@@ -136,17 +147,17 @@ public class MainActivity extends AppCompatActivity {
                         else {
                             tempScore += valeur * multi;
                         }
-                        textView4.setText(concat);
+                        texteMots.setText(concat);
                     }
                     break;
 
                 case DragEvent.ACTION_DROP: // faudrait mettre cela dans drop selon le prof
-                    textView4.setText(concat);
+                    texteMots.setText(concat);
                     if (motUtilise.contains(concat)){
-                        textView4.setBackgroundColor(Color.MAGENTA);
+                        texteMots.setBackgroundColor(Color.MAGENTA);
                     }
                     else if (instanceV.verifMot(concat.toLowerCase(Locale.ROOT))) {
-                        textView4.setBackgroundColor(Color.GREEN);
+                        texteMots.setBackgroundColor(Color.GREEN);
                         motUtilise.add(concat);
                         if (motdouble) {
                             score += tempScore * 2;
@@ -154,10 +165,10 @@ public class MainActivity extends AppCompatActivity {
                         else {
                             score += tempScore;
                         }
-                        textView.setText(String.valueOf(score));
+                        textePoints.setText("Nombres de points : " +  score);
                     }
                     else {
-                        textView4.setBackgroundColor(Color.RED);
+                        texteMots.setBackgroundColor(Color.RED);
                     }
 
                     concat = "";
@@ -177,6 +188,20 @@ public class MainActivity extends AppCompatActivity {
             view.startDragAndDrop(null, shadow, view, 512);
             return true;
         }
+
+        @Override
+        public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+        }
+
+        @Override
+        public void onStartTrackingTouch(SeekBar seekBar) {
+
+        }
+
+        @Override
+        public void onStopTrackingTouch(SeekBar seekBar) {
+
+        }
     }
 
     private class monTimer extends CountDownTimer{
@@ -187,12 +212,14 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public void onTick(long millisUntilFinished) {
-            textView2.setText("seconds remaining: " + millisUntilFinished / 1000);
+            temps = (millisUntilFinished / 1000);
+            texteTemps.setText(temps + " s");
+            seekBar.setProgress((int) temps);
         }
 
         @Override
         public void onFinish() {
-            textView2.setText("done!");
+            seekBar.setProgress(0);
         }
     }
 
