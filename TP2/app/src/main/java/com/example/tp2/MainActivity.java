@@ -1,6 +1,7 @@
 package com.example.tp2;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Point;
@@ -30,7 +31,8 @@ public class MainActivity extends AppCompatActivity {
     private TextView texteTemps;
     private monTimer timer;
     private LinearLayout tableau;
-    private GestionDB instanceV; // Pour la validation du mot
+    private GestionDB instance; // Pour la validation du mot
+//    private ScoreDB instanceS;
     private int tempScore = 0;
     private int score = 0;
     private int valeur = 0;
@@ -65,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
 
         Ecouteur ec = new Ecouteur();
 
-        dureeTotale = 90000L; // tu peux mettre 30000L = 30s ou 60000L = 1min
+        dureeTotale = 10000L; // tu peux mettre 30000L = 30s ou 60000L = 1min
         seekBar.setMax((int) (dureeTotale / 1000)); // nombre de secondes totales
         seekBar.setProgress((int) (dureeTotale / 1000)); // commence pleine
 
@@ -105,8 +107,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        instanceV = GestionDB.getInstance(getApplicationContext());
-        instanceV.ouvrirConnectionDB();
+        instance = GestionDB.getInstance(getApplicationContext());
+        instance.ouvrirConnectionDB();
+
         }
 
     private static class ShadowInvisible extends View.DragShadowBuilder {
@@ -157,7 +160,7 @@ public class MainActivity extends AppCompatActivity {
                     if (motUtilise.contains(concat)){
                         texteMots.setBackgroundColor(Color.MAGENTA);
                     }
-                    else if (instanceV.verifMot(concat.toLowerCase(Locale.ROOT))) {
+                    else if (instance.verifMot(concat.toLowerCase(Locale.ROOT))) {
                         texteMots.setBackgroundColor(Color.GREEN);
                         motUtilise.add(concat);
                         if (motdouble) {
@@ -221,19 +224,18 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onFinish() {
             seekBar.setProgress(0);
+            Score scoreInstance = new Score(score);
+            instance.ajouterScore(scoreInstance);
+            Intent i2 = new Intent(MainActivity.this, FinActivity.class );
+            startActivity(i2);
         }
     }
 
-    @Override
-    protected void onStop() {
-        super.onStop();
-        instanceV.fermerConnectionDB();
-    }
-
-
-
-
-
+//    @Override
+//    protected void onStop() {
+//        super.onStop();
+//        instance.fermerConnectionDB();
+//    }
 
 
 }

@@ -31,10 +31,10 @@ public class ScoreDB extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("CREATE TABLE score (scoreRonde INTEGER, event_time TEXT)");
+        db.execSQL("CREATE TABLE score (scoreRonde INTEGER, temps TEXT)");
     }
 
-    public void ajouterScore(Score i, SQLiteDatabase db) {
+    public void ajouterScore(Score i) {
         ContentValues cv = new ContentValues();
         cv.put("scoreRonde", i.getScore());
 
@@ -47,11 +47,12 @@ public class ScoreDB extends SQLiteOpenHelper {
 
         cv.put("temps", currentTime);
 
-        db.insert("score", null, cv);
+        database.insert("score", null, cv);
     }
 
 
-    public String afficherScoreMax(SQLiteDatabase db) {
+    public String afficherScoreMax() {
+
         Cursor c = database.rawQuery("SELECT scoreRonde FROM score ORDER BY scoreRonde DESC LIMIT 1", null);
         if (c.moveToFirst()) {
             scoreMax = c.getString(0);
@@ -61,7 +62,7 @@ public class ScoreDB extends SQLiteOpenHelper {
         return scoreMax != null ? scoreMax : "Aucun score inscrit"; // operation ternaire pour indiq
     }
 
-    public String afficherScores(SQLiteDatabase db) {
+    public String afficherScores() {
         Cursor c = database.rawQuery("SELECT scoreRonde FROM score ORDER BY scoreRonde DESC", null);
         if (c.moveToFirst()) {
             scoreMax = c.getString(0);

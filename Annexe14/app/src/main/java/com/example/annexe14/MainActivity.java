@@ -52,8 +52,8 @@ public class MainActivity extends AppCompatActivity {
     private class Ecouteur implements View.OnTouchListener, View.OnDragListener {
         @Override
         public boolean onDrag(View source, DragEvent event) { // la source ce sont les linearLayout
-            Drawable normal = getResources().getDrawable(R.drawable.background_contenant);
-            Drawable select = getResources().getDrawable(R.drawable.background_contenant_selectionne);
+            Drawable normal = getDrawable(R.drawable.background_contenant);
+            Drawable select = getDrawable(R.drawable.background_contenant_selectionne);
             View jeton = null;
 
             switch (event.getAction()) {

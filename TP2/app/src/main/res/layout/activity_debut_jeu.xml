@@ -13,7 +13,7 @@
         android:layout_height="60dp" />
 
     <TextView
-        android:id="@+id/texteTitre2"
+        android:id="@+id/texteTitre"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center|top"
@@ -26,19 +26,19 @@
         android:layout_height="150dp" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/texteScore"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="TextView"
+        android:text="HIGH SCORE :  "
         android:textSize="24sp" />
 
     <Space
         android:layout_width="match_parent"
-        android:layout_height="300dp" />
+        android:layout_height="250dp" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/boutonJouer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
