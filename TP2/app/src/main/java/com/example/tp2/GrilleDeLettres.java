@@ -15,6 +15,9 @@ public class GrilleDeLettres {
     public GrilleDeLettres() {
         hashLettres = new HashMap<>();
 
+        // système de pointage du jeu Scrabble
+        // https://fr.wikipedia.org/wiki/Lettres_du_Scrabble#Fran%C3%A7ais
+
         hashLettres.put('A', new Lettre('A', 9, 1));
         hashLettres.put('B', new Lettre('B',2, 3));
         hashLettres.put('C', new Lettre('C',2, 3));
@@ -48,32 +51,34 @@ public class GrilleDeLettres {
 
         Random random = new Random();
 
-        ArrayList<Lettre> lettresTot = new ArrayList<>();
+        ArrayList<Lettre> lettresTot = new ArrayList<>(); // liste pour récupérer toute les lettres
 
-        for (Lettre val : hashLettres.values()) {
+        for (Lettre val : hashLettres.values()) { // Pour chaque lettre de la Hashmap
             for (int i = 0; i < val.getPoids(); i++) {
-                lettresTot.add(val);
+                lettresTot.add(val);    // On ajoute à la liste, les lettres selon leur poids (ex : La lettre E sera rajouté 15 fois)
             }
         }
 
-        lettreRand = lettresTot.get(random.nextInt(lettresTot.size()));
+        lettreRand = lettresTot.get(random.nextInt(lettresTot.size())); // On accède à une lettre aléatoire avec un index random
 
     }
 
     public ArrayList<Integer> genererMulti() {
-        ArrayList<Integer> multiScore = new ArrayList<>();
+        ArrayList<Integer> multiScore = new ArrayList<>(); // liste pour récupérer tous les mutliplicateurs
 
         for (int i = 0; i < 12; i++) {
-            multiScore.add(1);
+            multiScore.add(1); // il y aura 11 : 1x
         }
 
         for (int i = 0; i < 2; i++) {
-            multiScore.add(2);
+            multiScore.add(2); // il y aura 2 : 2x
         }
 
-        multiScore.add(4);
+        multiScore.add(3); // il y aura 1 : 3x
 
-        Collections.shuffle(multiScore);
+        multiScore.add(4); // fonctionne comme le double, qui sera afficher par un "D"
+
+        Collections.shuffle(multiScore); // on randomise
 
         return multiScore;
     }

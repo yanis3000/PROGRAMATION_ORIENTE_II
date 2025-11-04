@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Point;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.DragEvent;
@@ -26,25 +25,23 @@ import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
 
-    private TextView texteTitre; // time
-    private TextView texteMots; // random
-    private TextView textePoints; // resultat du mot
-    private TextView texteTemps;
+    private TextView texteMots; // Permet d'afficher la concaténation de lettre produit par l'utilisateur
+    private TextView textePoints; // Permet d'afficher le score
+    private TextView texteTemps; // Permet d'afficher le temps
     private monTimer timer;
-    private LinearLayout tableau;
-    private GestionDB instance; // Pour la validation du mot
-//    private ScoreDB instanceS;
-    private LinearLayout main;
-    private int tempScore = 0;
-    private int score = 0;
-    private int valeur = 0;
-    private int multi = 0;
-    private String concat = "";
+    private LinearLayout tableau; // LinearLayout qui englobe la grille de lettre
+    private GestionDB instance;
+    private LinearLayout main; // LinearLayout qui comporte tout, à remettre la couleur de base du background de texteMots
+    private int tempScore = 0; // score temporaire qui permet d'accumuler les points avant la validation
+    private int score = 0; // une fois valide, le score s'initialise
+    private int points = 0; // point de la lettre
+    private int multi = 0; // point du multiplicateur
+    private String concat = ""; // Permet de concaténer les lettres
     private boolean motdouble = false;
-    private ArrayList<View> lettreUtilise = new ArrayList<>();
-    private ArrayList<String> motUtilise = new ArrayList<>();
-    private SeekBar seekBar;
-    private long temps;
+    private ArrayList<View> lettreUtilise = new ArrayList<>(); // permet de ne pas réutiliser la même lettre pour la concaténatino
+    private ArrayList<String> motUtilise = new ArrayList<>(); // permet de ne pas réutiliser le même mots pour avoir des points infini
+    private SeekBar seekBar; // pour faire défiller le temps
+    private long temps; // pour faire montrer le temps
     private long dureeTotale;
 
     private Context context;
@@ -60,7 +57,6 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
 
-        texteTitre = findViewById(R.id.texteTitre);
         texteMots = findViewById(R.id.texteMots);
         textePoints = findViewById(R.id.textePoints);
         texteTemps =  findViewById(R.id.texteTemps);
@@ -70,41 +66,35 @@ public class MainActivity extends AppCompatActivity {
 
         Ecouteur ec = new Ecouteur();
 
-        dureeTotale = 90000L; // tu peux mettre 30000L = 30s ou 60000L = 1min
+        dureeTotale = 90000L; // Pour faire 1min30
         seekBar.setMax((int) (dureeTotale / 1000)); // nombre de secondes totales
         seekBar.setProgress((int) (dureeTotale / 1000)); // commence pleine
 
-        timer = new monTimer(dureeTotale, 1000L);
-        timer.start();
+        timer = new monTimer(dureeTotale, 1000L); // On instancie le timer
+        timer.start(); // on demarre le timer
 
         seekBar.setOnSeekBarChangeListener(ec);
 
-        GrilleDeLettres grille = new GrilleDeLettres();
+        GrilleDeLettres grille = new GrilleDeLettres(); // on instancie une instance grille
 
-        ArrayList<Integer> multiListe = grille.genererMulti();
-        int indexMulti = 0;
+        ArrayList<Integer> multiListe = grille.genererMulti(); // retourne la liste des multiscores générés
+        int indexMulti = 0; // pour parcourir la liste
 
         for (int i = 0; i < tableau.getChildCount(); i++) {
-            LinearLayout temp = (LinearLayout) tableau.getChildAt(i);
+            LinearLayout temp = (LinearLayout) tableau.getChildAt(i); // Selectionne les LinearLayouts horizontaux
             for (int j = 0; j < temp.getChildCount(); j++) {
-                Composant mot = (Composant) temp.getChildAt(j);
-                grille.genererLettres();
+                Composant mot = (Composant) temp.getChildAt(j); // Selectionne les 4 composants par LinearLayout
+                grille.genererLettres(); // générer la méthode pour pour sélectionner une lettre au hasard
                 mot.setTexteLettre(grille.lettreRand.getLettre());
                 mot.setTexteValeur(grille.lettreRand.getPoints());
                 if (indexMulti < multiListe.size()) {
-                    mot.setTexteMulti(multiListe.get(indexMulti));
+                    mot.setTexteMulti(multiListe.get(indexMulti)); // pour chaque lettre, on met un multiplicateur random
                     indexMulti++;
                 }
                 mot.setOnDragListener(ec);
                 mot.setOnTouchListener(ec);
             }
         }
-
-//        textView.setText(score); // Pour faire un random
-        // Pour parcourir une liste, on pourra utiliser shuffle : Atelier 1 - ameliore
-//        timer = new monTimer(10000L, 1000L);
-//        timer.start();
-
     }
 
     @Override
@@ -112,10 +102,10 @@ public class MainActivity extends AppCompatActivity {
         super.onStart();
         instance = GestionDB.getInstance(getApplicationContext());
         instance.ouvrirConnectionDB();
+        }     // Pas de onStop -- causait des problèmes, des crashs dans le onCreate du prochain activity
 
-        }
 
-    private static class ShadowInvisible extends View.DragShadowBuilder {
+    private static class ShadowInvisible extends View.DragShadowBuilder { // Vient du prof
 
         @Override
         public void onProvideShadowMetrics(Point outShadowSize, Point outShadowTouchPoint) {
@@ -146,21 +136,26 @@ public class MainActivity extends AppCompatActivity {
                         lettreUtilise.add(view);
                         concat += comp.getTexteLettre().getText().toString();
 
-                        valeur = Integer.parseInt(comp.getTexteValeur().getText().toString());
-                        multi = Integer.parseInt(comp.getTexteMulti().getText().toString());
+                        points = Integer.parseInt(comp.getTexteValeur().getText().toString());
+                        try {
+                            multi = Integer.parseInt(comp.getTexteMulti().getText().toString());
+                        }
+                        catch (Exception e) {
+                            multi = 4;
+                        }
 
                         if (multi == 4) {
                             motdouble = true;
-                            tempScore += valeur;;
+                            tempScore += points;;
                         }
                         else {
-                            tempScore += valeur * multi;
+                            tempScore += points * multi;
                         }
                         texteMots.setText(concat);
                     }
                     break;
 
-                case DragEvent.ACTION_DROP: // faudrait mettre cela dans drop selon le prof
+                case DragEvent.ACTION_DROP: // faudrait mettre DROP au lieu de EXITED dans drop selon le prof
                     texteMots.setText(concat);
                     if (motUtilise.contains(concat)){
                         texteMots.setBackgroundColor(Color.rgb(158, 7, 171));
@@ -180,11 +175,12 @@ public class MainActivity extends AppCompatActivity {
                         texteMots.setBackgroundColor(Color.rgb(171, 7, 34));
                     }
 
+                    // pour tout réinitialiser avant de vérifier la prochaine concaténation
                     concat = "";
                     tempScore = 0;
                     multi = 0;
-                    valeur = 0;
-                    lettreUtilise.clear(); // pour reinitialiser la liste
+                    points = 0;
+                    lettreUtilise.clear();
                     break;
             }
 
@@ -235,12 +231,6 @@ public class MainActivity extends AppCompatActivity {
             startActivity(i2);
         }
     }
-
-//    @Override
-//    protected void onStop() {
-//        super.onStop();
-//        instance.fermerConnectionDB();
-//    }
 
 
 }

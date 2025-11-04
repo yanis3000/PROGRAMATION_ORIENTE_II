@@ -15,8 +15,8 @@ import androidx.core.view.WindowInsetsCompat;
 
 public class DebutActivity extends AppCompatActivity {
 
-    private GestionDB instance;
-    private TextView texteTitre, texteScore;
+    private GestionDB instance; // singleton de la base de données
+    private TextView texteScore;
     private Button boutonJouer;
 
     @Override
@@ -30,7 +30,6 @@ public class DebutActivity extends AppCompatActivity {
             return insets;
         });
 
-        texteTitre = findViewById(R.id.texteTitre);
         texteScore = findViewById(R.id.texteScore);
         boutonJouer = findViewById(R.id.boutonJouer);
 
@@ -41,17 +40,19 @@ public class DebutActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onStart() {
+    protected void onStart() { // Démarre l'accès à la base de données
         super.onStart();
         instance = GestionDB.getInstance(getApplicationContext());
         instance.ouvrirConnectionDB();
 
-        texteScore.setText("HIGH SCORE : " + instance.afficherScoreMax());
+        texteScore.setText("HIGH SCORE : " + instance.afficherScoreMax()); // On affiche le meilleur score
     }
+
+    // Pas de onStop -- causait des problèmes, des crashs dans le onCreate
 
     private class Ecouteur implements View.OnClickListener {
 
-        Intent i1 = new Intent(DebutActivity.this, MainActivity.class );
+        Intent i1 = new Intent(DebutActivity.this, MainActivity.class ); // Pour aller dans le MainActivity
 
         @Override
         public void onClick(View source) {

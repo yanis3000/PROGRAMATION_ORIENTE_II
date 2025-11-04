@@ -5,7 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
-public class Lettre {
+public class Lettre { // Cette classe permet d'assigner des instances d'objets à la classe GrilleDeLettres
+                      // On passera les points, les poids et les lettres dans GrilleDeLettres
 
     private int poids, points;
     private char lettre;
@@ -28,15 +29,4 @@ public class Lettre {
         return poids;
     }
 
-    public void setPoints(int points) {
-        this.points = points;
-    }
-
-    public void setLettre(char lettre) {
-        this.lettre = lettre;
-    }
-
-    public void setPoids(int poids) {
-        this.poids = poids;
-    }
 }
