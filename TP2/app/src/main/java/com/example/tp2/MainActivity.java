@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Point;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.DragEvent;
@@ -33,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
     private LinearLayout tableau;
     private GestionDB instance; // Pour la validation du mot
 //    private ScoreDB instanceS;
+    private LinearLayout main;
     private int tempScore = 0;
     private int score = 0;
     private int valeur = 0;
@@ -43,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<String> motUtilise = new ArrayList<>();
     private SeekBar seekBar;
     private long temps;
-    private long dureeTotale = 10000L;
+    private long dureeTotale;
 
     private Context context;
 
@@ -64,10 +66,11 @@ public class MainActivity extends AppCompatActivity {
         texteTemps =  findViewById(R.id.texteTemps);
         tableau = findViewById(R.id.tableau);
         seekBar = findViewById(R.id.seekBar);
+        main = findViewById(R.id.main);
 
         Ecouteur ec = new Ecouteur();
 
-        dureeTotale = 10000L; // tu peux mettre 30000L = 30s ou 60000L = 1min
+        dureeTotale = 90000L; // tu peux mettre 30000L = 30s ou 60000L = 1min
         seekBar.setMax((int) (dureeTotale / 1000)); // nombre de secondes totales
         seekBar.setProgress((int) (dureeTotale / 1000)); // commence pleine
 
@@ -135,12 +138,14 @@ public class MainActivity extends AppCompatActivity {
 
             switch (dragEvent.getAction()) {
                 case DragEvent.ACTION_DRAG_ENTERED:
-                    texteMots.setBackgroundColor(Color.WHITE);
+                    texteMots.setBackgroundColor(main.getSolidColor());
                     if (view instanceof Composant && !lettreUtilise.contains(view)) {
                         Composant comp = (Composant) view;
-//                        comp.setBackgroundColor(Color.BLACK);
+                        comp.setBackgroundColor(Color.BLACK);
+
                         lettreUtilise.add(view);
                         concat += comp.getTexteLettre().getText().toString();
+
                         valeur = Integer.parseInt(comp.getTexteValeur().getText().toString());
                         multi = Integer.parseInt(comp.getTexteMulti().getText().toString());
 
@@ -158,10 +163,10 @@ public class MainActivity extends AppCompatActivity {
                 case DragEvent.ACTION_DROP: // faudrait mettre cela dans drop selon le prof
                     texteMots.setText(concat);
                     if (motUtilise.contains(concat)){
-                        texteMots.setBackgroundColor(Color.MAGENTA);
+                        texteMots.setBackgroundColor(Color.rgb(158, 7, 171));
                     }
                     else if (instance.verifMot(concat.toLowerCase(Locale.ROOT))) {
-                        texteMots.setBackgroundColor(Color.GREEN);
+                        texteMots.setBackgroundColor(Color.rgb(7, 171, 36));
                         motUtilise.add(concat);
                         if (motdouble) {
                             score += tempScore * 2;
@@ -172,7 +177,7 @@ public class MainActivity extends AppCompatActivity {
                         textePoints.setText("Nombres de points : " +  score);
                     }
                     else {
-                        texteMots.setBackgroundColor(Color.RED);
+                        texteMots.setBackgroundColor(Color.rgb(171, 7, 34));
                     }
 
                     concat = "";

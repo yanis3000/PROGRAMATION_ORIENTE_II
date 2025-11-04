@@ -20,7 +20,7 @@
         android:fontFamily="@font/aldrich"
         android:gravity="center"
         android:text="W0RD_BLITZ"
-        android:textSize="40sp" />
+        android:textSize="45sp" />
 
     <Space
         android:layout_width="match_parent"
@@ -30,9 +30,10 @@
         android:id="@+id/textView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:fontFamily="@font/archivo"
         android:gravity="center"
         android:text="HIGH SCORES"
-        android:textSize="24sp" />
+        android:textSize="30sp" />
 
     <Space
         android:layout_width="match_parent"
@@ -40,10 +41,14 @@
 
     <ListView
         android:id="@+id/listView"
+        style="@style/Widget.AppCompat.ListView.DropDown"
         android:layout_width="match_parent"
-        android:layout_height="264dp"
+        android:layout_height="150dp"
+        android:layout_gravity="center"
         android:layout_margin="10dp"
-        android:layout_weight="20" />
+        android:layout_weight="20"
+        android:background="#000000"
+        android:textAlignment="center" />
 
     <Space
         android:layout_width="match_parent"

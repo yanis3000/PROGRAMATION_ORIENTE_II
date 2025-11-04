@@ -19,7 +19,7 @@
         android:layout_gravity="center|top"
         android:fontFamily="@font/aldrich"
         android:text="W0RD_BLITZ"
-        android:textSize="40sp" />
+        android:textSize="45sp" />
 
     <Space
         android:layout_width="match_parent"
@@ -29,9 +29,10 @@
         android:id="@+id/texteScore"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:fontFamily="@font/archivo_medium"
         android:gravity="center"
         android:text="HIGH SCORE :  "
-        android:textSize="24sp" />
+        android:textSize="34sp" />
 
     <Space
         android:layout_width="match_parent"
@@ -42,6 +43,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:fontFamily="@font/archivo"
         android:text="Jouer"
-        android:textSize="24sp" />
+        android:textSize="35sp" />
 </LinearLayout>
