@@ -1,7 +1,10 @@
 package com.example.tp2;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 
 import androidx.activity.EdgeToEdge;
@@ -14,6 +17,7 @@ public class FinActivity extends AppCompatActivity {
 
     private ListView listView;
     private GestionDB instance;
+    private Button boutonRejouer;
 
 
     @Override
@@ -27,16 +31,22 @@ public class FinActivity extends AppCompatActivity {
             return insets;
         });
 
-        instance = GestionDB.getInstance(getApplicationContext());
+
+        instance = GestionDB.getInstance(getApplicationContext()); // NE FONCTIONNAIT PAS DANS LE ONSTART, LE ONCREATE s'affiche avant le ONSTART
         instance.ouvrirConnectionDB();
 
+
+        boutonRejouer = findViewById(R.id.boutonRejouer);
         listView = findViewById(R.id.listView);
 
 
-        ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, instance.afficherScores());
+        ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, instance.afficherScores()); // on fait la liste
 
         listView.setAdapter(adapter);
 
+        Ecouteur ec = new Ecouteur();
+
+        boutonRejouer.setOnClickListener(ec);
 
 
     }
@@ -54,4 +64,19 @@ public class FinActivity extends AppCompatActivity {
     }
 
 
+    private class Ecouteur implements View.OnClickListener {
+
+        Intent i1 = new Intent(FinActivity.this, MainActivity.class); // Pour rejouer
+
+        @Override
+        public void onClick(View source) {
+            if (source == boutonRejouer) {
+                startActivity(i1);
+            }
+        }
+    }
+
 }
+
+
+

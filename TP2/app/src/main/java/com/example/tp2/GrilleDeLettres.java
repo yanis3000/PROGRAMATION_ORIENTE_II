@@ -76,7 +76,7 @@ public class GrilleDeLettres {
 
         multiScore.add(3); // il y aura 1 : 3x
 
-        multiScore.add(4); // fonctionne comme le double, qui sera afficher par un "D"
+        multiScore.add(4); // fonctionne comme le double, qui sera afficher par un "D" dans le jeu
 
         Collections.shuffle(multiScore); // on randomise
 

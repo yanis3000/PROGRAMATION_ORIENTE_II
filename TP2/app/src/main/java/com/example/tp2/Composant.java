@@ -11,7 +11,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 
 public class Composant  extends ConstraintLayout {
 
-    private TextView texteLettre, texteValeur, texteMulti; // Paramètres des
+    private TextView texteLettre, texteValeur, texteMulti; // Paramètres des composants
 
     public Composant(@NonNull Context context) {
         super(context);

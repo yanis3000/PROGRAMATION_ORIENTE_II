@@ -128,41 +128,42 @@ public class MainActivity extends AppCompatActivity {
 
             switch (dragEvent.getAction()) {
                 case DragEvent.ACTION_DRAG_ENTERED:
-                    texteMots.setBackgroundColor(main.getSolidColor());
+                    texteMots.setBackgroundColor(main.getSolidColor()); // remettre la couleur de base du background de texteMots
                     if (view instanceof Composant && !lettreUtilise.contains(view)) {
                         Composant comp = (Composant) view;
-                        comp.setBackgroundColor(Color.BLACK);
+//                        comp.setBackgroundColor(Color.BLACK);
 
-                        lettreUtilise.add(view);
-                        concat += comp.getTexteLettre().getText().toString();
+                        lettreUtilise.add(view); // pour s'assurer qu'on ne remet pas la meme lettre
+                        concat += comp.getTexteLettre().getText().toString(); // mot qu'on forme
 
                         points = Integer.parseInt(comp.getTexteValeur().getText().toString());
                         try {
                             multi = Integer.parseInt(comp.getTexteMulti().getText().toString());
                         }
                         catch (Exception e) {
-                            multi = 4;
+                            multi = 4;  // Si multi = "D", on la converti à 4
                         }
 
-                        if (multi == 4) {
+
+                        if (multi == 4) { // Si multi c'est un mot double
                             motdouble = true;
                             tempScore += points;;
                         }
                         else {
                             tempScore += points * multi;
                         }
-                        texteMots.setText(concat);
+                        texteMots.setText(concat); // pour écrire la concaténation
                     }
                     break;
 
                 case DragEvent.ACTION_DROP: // faudrait mettre DROP au lieu de EXITED dans drop selon le prof
                     texteMots.setText(concat);
-                    if (motUtilise.contains(concat)){
+                    if (motUtilise.contains(concat)){ // Si le mot à déjà été utilisé, on l'affiche en bleu
                         texteMots.setBackgroundColor(Color.rgb(158, 7, 171));
                     }
-                    else if (instance.verifMot(concat.toLowerCase(Locale.ROOT))) {
-                        texteMots.setBackgroundColor(Color.rgb(7, 171, 36));
-                        motUtilise.add(concat);
+                    else if (instance.verifMot(concat.toLowerCase(Locale.ROOT))) { // verification avec la base de données, en minuscule pour que ca fonctionne
+                        texteMots.setBackgroundColor(Color.rgb(7, 171, 36)); // en vert
+                        motUtilise.add(concat); // on ajoute le mot à la liste
                         if (motdouble) {
                             score += tempScore * 2;
                         }
@@ -172,7 +173,7 @@ public class MainActivity extends AppCompatActivity {
                         textePoints.setText("Nombres de points : " +  score);
                     }
                     else {
-                        texteMots.setBackgroundColor(Color.rgb(171, 7, 34));
+                        texteMots.setBackgroundColor(Color.rgb(171, 7, 34)); // Si ça ne fonctionne pas
                     }
 
                     // pour tout réinitialiser avant de vérifier la prochaine concaténation
@@ -189,7 +190,7 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public boolean onTouch(View view, MotionEvent motionEvent) {
-            ShadowInvisible shadow = new ShadowInvisible();
+            ShadowInvisible shadow = new ShadowInvisible();  // vient du prof
             view.startDragAndDrop(null, shadow, view, 512);
             return true;
         }
@@ -216,19 +217,19 @@ public class MainActivity extends AppCompatActivity {
         }
 
         @Override
-        public void onTick(long millisUntilFinished) {
+        public void onTick(long millisUntilFinished) { // A chaque seconde qui s'ecoule
             temps = (millisUntilFinished / 1000);
-            texteTemps.setText(temps + " s");
-            seekBar.setProgress((int) temps);
+            texteTemps.setText(temps + " s"); // Pour montrer le temps sur le textView
+            seekBar.setProgress((int) temps); // sur le seekbar
         }
 
         @Override
         public void onFinish() {
             seekBar.setProgress(0);
-            Score scoreInstance = new Score(score);
-            instance.ajouterScore(scoreInstance);
+            Score scoreInstance = new Score(score); // on ajoute un nouvel objet Score
+            instance.ajouterScore(scoreInstance); // on la passe dans la base de données
             Intent i2 = new Intent(MainActivity.this, FinActivity.class );
-            startActivity(i2);
+            startActivity(i2); // on part a la fin de l'activite
         }
     }
 

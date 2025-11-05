@@ -20,14 +20,14 @@ public class GestionDB extends SQLiteOpenHelper {
     private static GestionDB instance;
     private SQLiteDatabase database;
     private Context context;
-    private String scoreMax;
+    private String scoreMax; //
 
 
     public static GestionDB getInstance(Context contexte) {
         if ( instance == null ) {
             instance = new GestionDB(contexte);
         }
-        return instance;
+        return instance; // pour le singleton
     }
     public GestionDB(@Nullable Context contexte) {
         super(contexte, "BD", null, 1);
@@ -35,7 +35,7 @@ public class GestionDB extends SQLiteOpenHelper {
     }
 
     @Override
-    public void onCreate(SQLiteDatabase db) {
+    public void onCreate(SQLiteDatabase db) { // deux tables, lexiques pour la verif et score pour stocker les scores
         db.execSQL("CREATE TABLE lexique (ortho varchar(80),`phon` varchar(80),`lemme` varchar(80),`cgram` " +
                 "varchar(80),`genre` varchar(1),`nombre` varchar(1),`freqlemfilms` float,`freqlemlivres` float," +
                 "`freqfilms` float,`freqlivres` float,`infover` varchar(80),`nbhomogr` int(11),`nbhomoph` int(11)," +
@@ -56,7 +56,7 @@ public class GestionDB extends SQLiteOpenHelper {
         LocalDateTime myDateObj = LocalDateTime.now();
         DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
 
-        String currentTime = myDateObj.format(myFormatObj);
+        String currentTime = myDateObj.format(myFormatObj); // Pour ajouter le temps
 
         cv.put("temps", currentTime);
 
@@ -72,7 +72,7 @@ public class GestionDB extends SQLiteOpenHelper {
         }
         c.close();
 
-        return scoreMax != null ? scoreMax : "Aucun score inscrit"; // operation ternaire pour indiq
+        return scoreMax != null ? scoreMax : "Aucun score inscrit"; // operation ternaire dans le cas au la bd est initialise
     }
 
     public ArrayList<String> afficherScores() {
@@ -83,7 +83,7 @@ public class GestionDB extends SQLiteOpenHelper {
         }
         c.close();
 
-        return liste; // operation ternaire pour indiq
+        return liste;
     }
 
     @Override
@@ -102,7 +102,7 @@ public class GestionDB extends SQLiteOpenHelper {
     }
 
 
-    public boolean verifMot (String ortho) {
+    public boolean verifMot (String ortho) { // on passe le mot puis en verifie
         String [] tab = {ortho};
         Cursor c = database.rawQuery("SELECT ortho FROM lexique WHERE ortho = ? ", tab);
         boolean rep = c.moveToFirst();
@@ -111,7 +111,7 @@ public class GestionDB extends SQLiteOpenHelper {
     }
 
 
-    public void convertStreamToString( SQLiteDatabase db) {
+    public void convertStreamToString( SQLiteDatabase db) { // pour acceder a data.sql
         InputStream is = context.getResources().openRawResource(R.raw.data);
         InputStreamReader isr = new InputStreamReader(is);
         BufferedReader br = new BufferedReader(isr);
