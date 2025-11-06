@@ -35,7 +35,7 @@ public class GestionDB extends SQLiteOpenHelper {
     }
 
     @Override
-    public void onCreate(SQLiteDatabase db) { // deux tables, lexiques pour la verif et score pour stocker les scores
+    public void onCreate(SQLiteDatabase db) { // deux tables, lexiques pour la verif et pour stocker les scores
         db.execSQL("CREATE TABLE lexique (ortho varchar(80),`phon` varchar(80),`lemme` varchar(80),`cgram` " +
                 "varchar(80),`genre` varchar(1),`nombre` varchar(1),`freqlemfilms` float,`freqlemlivres` float," +
                 "`freqfilms` float,`freqlivres` float,`infover` varchar(80),`nbhomogr` int(11),`nbhomoph` int(11)," +

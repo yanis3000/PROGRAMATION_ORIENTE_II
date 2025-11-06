@@ -1,5 +1,6 @@
 package com.example.tp2;
 
+import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Canvas;
@@ -66,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
 
         Ecouteur ec = new Ecouteur();
 
-        dureeTotale = 90000L; // Pour faire 1min30
+        dureeTotale = 75000L; // Pour faire 1min15
         seekBar.setMax((int) (dureeTotale / 1000)); // nombre de secondes totales
         seekBar.setProgress((int) (dureeTotale / 1000)); // commence pleine
 
@@ -128,6 +129,7 @@ public class MainActivity extends AppCompatActivity {
 
             switch (dragEvent.getAction()) {
                 case DragEvent.ACTION_DRAG_ENTERED:
+                    texteMots.setTextColor(Color.WHITE);
                     texteMots.setBackgroundColor(main.getSolidColor()); // remettre la couleur de base du background de texteMots
                     if (view instanceof Composant && !lettreUtilise.contains(view)) {
                         Composant comp = (Composant) view;
@@ -158,6 +160,7 @@ public class MainActivity extends AppCompatActivity {
 
                 case DragEvent.ACTION_DROP: // faudrait mettre DROP au lieu de EXITED dans drop selon le prof
                     texteMots.setText(concat);
+                    texteMots.setTextColor(Color.BLACK);
                     if (motUtilise.contains(concat)){ // Si le mot à déjà été utilisé, on l'affiche en bleu
                         texteMots.setBackgroundColor(Color.rgb(158, 7, 171));
                     }
@@ -230,6 +233,7 @@ public class MainActivity extends AppCompatActivity {
             instance.ajouterScore(scoreInstance); // on la passe dans la base de données
             Intent i2 = new Intent(MainActivity.this, FinActivity.class );
             startActivity(i2); // on part a la fin de l'activite
+            finish();
         }
     }
 

@@ -1,5 +1,6 @@
 package com.example.tp2;
 
+import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -54,13 +55,12 @@ public class FinActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        instance.fermerConnectionDB();
+//        instance.fermerConnectionDB(); // cause un crash lorsqu'on fait rejouer
     }
 
 
@@ -72,6 +72,7 @@ public class FinActivity extends AppCompatActivity {
         public void onClick(View source) {
             if (source == boutonRejouer) {
                 startActivity(i1);
+                finish();
             }
         }
     }

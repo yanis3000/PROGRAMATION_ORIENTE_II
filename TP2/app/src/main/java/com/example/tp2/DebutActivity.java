@@ -1,5 +1,6 @@
 package com.example.tp2;
 
+import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -46,9 +47,14 @@ public class DebutActivity extends AppCompatActivity {
         instance.ouvrirConnectionDB();
 
         texteScore.setText("HIGH SCORE : " + instance.afficherScoreMax()); // On affiche le meilleur score
+
+        ObjectAnimator oa = ObjectAnimator.ofFloat(boutonJouer, View.X, 0, 350); // pour mettre l'animation
+        oa.setDuration(1000);
+        oa.start();
+
     }
 
-    // Pas de onStop -- causait des problèmes, des crashs dans le onCreate
+    // Pas de onStop -- causait des problèmes, des crashs dans le onCreate suivant
 
     private class Ecouteur implements View.OnClickListener {
 
@@ -58,6 +64,7 @@ public class DebutActivity extends AppCompatActivity {
         public void onClick(View source) {
             if (source == boutonJouer) {
                 startActivity(i1);
+                finish(); // pour quitter l'application plus facilement
             }
         }
         }
